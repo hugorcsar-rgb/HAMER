@@ -1,6 +1,5 @@
 // src/pages/Founders.jsx
-// The Founders page — three cards, one founder each with full CV, expertise, philosophy.
-
+// The Founders page — three cards with bio, CV, expertise, philosophy, contact.
 import { founders } from '../data/founders.js';
 import { motion } from 'framer-motion';
 
@@ -13,11 +12,44 @@ const cvLabels = {
 };
 const cvOrder = ['education', 'athletics', 'honors', 'career', 'languages'];
 
-function FounderCard({ founder: n, delay = 0 }) {
-  const waLink = n.whatsapp
-    ? `https://wa.me/${n.whatsapp.replace(/\D/g, '')}`
-    : null;
+function FounderContact({ founder }) {
+  const { email, phones, whatsapp } = founder;
+  const waUrl = whatsapp ? `https://wa.me/${whatsapp.replace(/\D/g, '')}` : null;
+  const linkClasses =
+    'font-data text-[12px] tracking-[0.15em] uppercase text-foreground/80 hover:text-accent transition-colors';
 
+  return (
+    <div className="mt-10 pt-8 flex flex-wrap gap-6 items-center border-t border-foreground/10">
+      {email && (
+        <a href={`mailto:${email}`} className={linkClasses}>
+          {email}
+        </a>
+      )}
+      {phones && phones.map((phone, i) => {
+        if (waUrl) {
+          return (
+            
+              key={i}
+              href={waUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              className={linkClasses}
+            >
+              WhatsApp · {phone}
+            </a>
+          );
+        }
+        return (
+          <span key={i} className={linkClasses}>
+            {phone}
+          </span>
+        );
+      })}
+    </div>
+  );
+}
+
+function FounderCard({ founder: n, delay = 0 }) {
   const cvBlocks = n.cv
     ? cvOrder
         .filter((key) => Array.isArray(n.cv[key]) && n.cv[key].length > 0)
@@ -89,7 +121,10 @@ function FounderCard({ founder: n, delay = 0 }) {
             </p>
             <div className="flex flex-wrap gap-2">
               {n.expertise.map((e, i) => (
-                <span key={i} className="px-3 py-1.5 border border-foreground/20 font-data text-[11px] tracking-[0.1em] uppercase text-foreground/80">
+                <span
+                  key={i}
+                  className="px-3 py-1.5 border border-foreground/20 font-data text-[11px] tracking-[0.1em] uppercase text-foreground/80"
+                >
                   {e}
                 </span>
               ))}
@@ -108,31 +143,7 @@ function FounderCard({ founder: n, delay = 0 }) {
           </div>
         )}
 
-        <div className="mt-10 pt-8 flex flex-wrap gap-6 items-center border-t border-foreground/10">
-          
-            href={`mailto:${n.email}`}
-            className="font-data text-[12px] tracking-[0.15em] uppercase text-foreground/80 hover:text-accent transition-colors"
-          >
-            {n.email}
-          </a>
-          {n.phones && n.phones.map((phone, i) => (
-            waLink ? (
-              
-                key={i}
-                href={waLink}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="font-data text-[12px] tracking-[0.15em] uppercase text-foreground/80 hover:text-accent transition-colors"
-              >
-                WhatsApp · {phone}
-              </a>
-            ) : (
-              <span key={i} className="font-data text-[12px] tracking-[0.15em] uppercase text-foreground/80">
-                {phone}
-              </span>
-            )
-          ))}
-        </div>
+        <FounderContact founder={n} />
       </div>
     </motion.article>
   );
