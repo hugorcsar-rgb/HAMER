@@ -7,6 +7,8 @@ import Founders from './pages/Founders.jsx';
 import Recruit from './pages/Recruit.jsx';
 import Consult from './pages/Consult.jsx';
 import Camps from './pages/Camps.jsx';
+import Partners from './pages/Partners.jsx';
+import Inquire from './pages/Inquire.jsx';
 
 function ScrollToTop() {
   const { pathname } = useLocation();
@@ -27,9 +29,8 @@ export default function App() {
           <Route path="/recruit" element={<Recruit />} />
           <Route path="/consult" element={<Consult />} />
           <Route path="/camps" element={<Camps />} />
-          {/* Coming next: */}
-          {/* <Route path="/partners" element={<Partners />} /> */}
-          {/* <Route path="/inquire" element={<Inquire />} /> */}
+          <Route path="/partners" element={<Partners />} />
+          <Route path="/inquire" element={<Inquire />} />
         </Route>
       </Routes>
     </>
