@@ -1,0 +1,64 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+  }
+  body {
+    @apply bg-background text-foreground font-body overflow-x-hidden;
+    font-weight: 300;
+    font-size: clamp(1rem, 1.5vw, 1.125rem);
+    line-height: 1.6;
+    margin: 0;
+  }
+}
+
+@layer components {
+  .font-data {
+    font-family: Copperplate, "Courier Prime", monospace;
+    letter-spacing: 0.1em;
+  }
+  .font-heading {
+    font-family: Didot, "Playfair Display", serif;
+  }
+  .font-body {
+    font-family: "DM Sans", sans-serif;
+  }
+  .armani-glow {
+    background: radial-gradient(circle at center, transparent 0%, rgba(10, 31, 63, 0.8) 100%);
+  }
+  .premium-spacing {
+    padding: clamp(6rem, 12vw, 10rem);
+    margin-bottom: clamp(4rem, 8vw, 6rem);
+  }
+  .hero-image-desaturated {
+    filter: grayscale(15%) saturate(0.85) contrast(1.05);
+  }
+  .mahogany-transition {
+    transition: filter 0.8s ease, transform 1.2s ease;
+  }
+  .text-hero {
+    font-size: clamp(3rem, 4vw + 1rem, 3.5rem);
+  }
+  .text-section {
+    font-size: clamp(2.5rem, 3vw + 1rem, 3rem);
+  }
+  .text-sub {
+    font-size: clamp(1.5rem, 2vw + 1rem, 2rem);
+  }
+  .text-body {
+    font-size: clamp(1rem, 1.5vw, 1.125rem);
+  }
+  .text-data {
+    font-size: clamp(0.75rem, 0.8vw, 0.875rem);
+  }
+  .no-scrollbar {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+  .no-scrollbar::-webkit-scrollbar {
+    display: none;
+  }
+}
