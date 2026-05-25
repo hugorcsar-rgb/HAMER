@@ -1,4 +1,4 @@
-name: Build and Deploy
+name: Build and Deploy to Hostinger
 
 on:
   push:
@@ -8,9 +8,8 @@ on:
 jobs:
   build-and-deploy:
     runs-on: ubuntu-latest
-
     steps:
-      - name: Checkout repository
+      - name: Checkout repo
         uses: actions/checkout@v4
 
       - name: Setup Node.js
@@ -21,11 +20,8 @@ jobs:
       - name: Install dependencies
         run: npm install
 
-      - name: Build production bundle
+      - name: Build site
         run: npm run build
-
-      - name: Copy .htaccess into dist
-        run: cp .htaccess dist/.htaccess
 
       - name: Deploy to Hostinger via FTP
         uses: SamKirkland/FTP-Deploy-Action@v4.3.5
@@ -35,4 +31,3 @@ jobs:
           password: ${{ secrets.FTP_PASSWORD }}
           local-dir: ./dist/
           server-dir: /public_html/
-          dangerous-clean-slate: true
