@@ -9,6 +9,10 @@ import Consult from './pages/Consult.jsx';
 import Camps from './pages/Camps.jsx';
 import Partners from './pages/Partners.jsx';
 import Inquire from './pages/Inquire.jsx';
+import JoinNow from './pages/JoinNow.jsx';
+import ProgramPackages from './pages/ProgramPackages.jsx';
+import PackageDetails from './pages/PackageDetails.jsx';
+import Checkout from './pages/Checkout.jsx';
 
 function ScrollToTop() {
   const { pathname } = useLocation();
@@ -31,6 +35,11 @@ export default function App() {
           <Route path="/camps" element={<Camps />} />
           <Route path="/partners" element={<Partners />} />
           <Route path="/inquire" element={<Inquire />} />
+          <Route path="/join-now" element={<JoinNow />} />
+          <Route path="/join-now/:program" element={<ProgramPackages />} />
+          <Route path="/join-now/:program/:packageId" element={<PackageDetails />} />
+          <Route path="/checkout/:program/:packageId" element={<Checkout />} />
+          {/* Terms & Privacy come in Fase 2 */}
         </Route>
       </Routes>
     </>
