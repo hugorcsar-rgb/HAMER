@@ -1,25 +1,54 @@
 // src/pages/Checkout.jsx
-// Final step — Stripe Payment Link redirect with T&Cs acceptance gate.
-// Stripe is OFF by default. Enable by:
-//   1. Pasting payment link URLs into src/data/packages.js
-//   2. Setting VITE_STRIPE_ENABLED=true in .env.production
+// Renders Stripe Buy Button after user accepts T&Cs.
+// For subscription packages (Consult), user picks billing first.
 import { Link, useParams, Navigate } from 'react-router-dom';
 import { useState } from 'react';
-import { getPackage, programs } from '../data/packages.js';
+import { getPackage, programs, STRIPE_PUBLISHABLE_KEY } from '../data/packages.js';
 
-const STRIPE_ENABLED = import.meta.env.VITE_STRIPE_ENABLED === 'true';
+// Custom element wrapper so React doesn't complain about kebab-case attributes
+function StripeBuyButton({ buyButtonId }) {
+  return (
+    <div className="flex justify-center my-2">
+      {/* eslint-disable-next-line react/no-unknown-property */}
+      <stripe-buy-button
+        buy-button-id={buyButtonId}
+        publishable-key={STRIPE_PUBLISHABLE_KEY}
+      ></stripe-buy-button>
+    </div>
+  );
+}
+
+const billingOptions = [
+  { key: 'monthly', label: 'Monthly' },
+  { key: 'quarterly', label: 'Quarterly' },
+  { key: 'annual', label: 'Annual' },
+];
 
 export default function Checkout() {
   const { program, packageId } = useParams();
   const pkg = getPackage(program, packageId);
   const p = programs[program];
   const [accepted, setAccepted] = useState(false);
+  const [billing, setBilling] = useState('monthly');
 
   if (!pkg || !p) return <Navigate to="/join-now" replace />;
 
-  const paymentLink = pkg.paymentLink || pkg.paymentLinks?.monthly;
-  const hasLink = !!paymentLink;
-  const canCheckout = STRIPE_ENABLED && hasLink && accepted;
+  // Determine which buy button ID to use
+  const isSubscription = !!pkg.stripeBuyButtonIds;
+  const buyButtonId = isSubscription
+    ? pkg.stripeBuyButtonIds[billing]
+    : pkg.stripeBuyButtonId;
+  const hasButton = !!buyButtonId;
+
+  // Determine total price display
+  let totalDisplay;
+  if (pkg.price) {
+    totalDisplay = pkg.price;
+  } else if (pkg.prices) {
+    totalDisplay = `$${pkg.prices[billing]} (${billing})`;
+  } else {
+    totalDisplay = '—';
+  }
 
   return (
     <section className="px-[24px] md:px-[89px] pt-32 md:pt-40 pb-24 max-w-[1200px] mx-auto">
@@ -36,6 +65,28 @@ export default function Checkout() {
 
       <div className="grid lg:grid-cols-12 gap-10 mt-16">
         <div className="lg:col-span-7 space-y-6">
+          {/* Billing selector (subscription only) */}
+          {isSubscription && (
+            <div className="p-8 border border-foreground/15">
+              <p className="font-data text-data tracking-[0.3em] text-foreground/40 uppercase mb-4">Billing</p>
+              <div className="flex flex-wrap gap-2">
+                {billingOptions.map((o) => (
+                  <button
+                    key={o.key}
+                    onClick={() => setBilling(o.key)}
+                    className={`px-5 py-2.5 font-data text-[11px] font-bold tracking-[0.2em] uppercase border transition-colors ${
+                      billing === o.key
+                        ? 'bg-accent text-accent-foreground border-accent'
+                        : 'bg-transparent text-foreground/70 border-foreground/30 hover:border-accent hover:text-accent'
+                    }`}
+                  >
+                    {o.label}
+                  </button>
+                ))}
+              </div>
+            </div>
+          )}
+
           {/* Order summary */}
           <div className="p-8 border border-foreground/15">
             <p className="font-data text-data tracking-[0.3em] text-foreground/40 uppercase mb-4">Summary</p>
@@ -45,7 +96,7 @@ export default function Checkout() {
               {pkg.duration && <li className="flex justify-between"><span>Duration</span><span>{pkg.duration}</span></li>}
               <li className="flex justify-between pt-3 border-t border-foreground/10">
                 <span className="font-medium">Total</span>
-                <span className="text-accent font-medium">{pkg.price || `from $${pkg.prices?.monthly}/mo`}</span>
+                <span className="text-accent font-medium">{totalDisplay}</span>
               </li>
             </ul>
           </div>
@@ -81,17 +132,17 @@ export default function Checkout() {
           <div className="p-8 border border-foreground/15">
             <p className="font-data text-data tracking-[0.3em] text-foreground/40 uppercase mb-4">Payment</p>
 
-            {(!STRIPE_ENABLED || !hasLink) && (
+            {!hasButton && (
               <div>
                 <p className="font-body text-foreground/85 leading-relaxed">
-                  Payment is not yet wired up for this package.
+                  Payment is not yet wired up for this package
+                  {isSubscription && ` (${billing})`}.
                 </p>
                 <div className="mt-5 p-4 border border-accent/40 bg-accent/5 font-body text-[14px] text-foreground/80 leading-relaxed">
-                  <p className="font-data text-[11px] tracking-[0.2em] text-accent uppercase mb-2">Setup required (one-time)</p>
+                  <p className="font-data text-[11px] tracking-[0.2em] text-accent uppercase mb-2">Setup (one-time)</p>
                   <ol className="list-decimal list-inside space-y-1">
-                    <li>Create a Stripe Payment Link in your dashboard.</li>
-                    <li>Paste the URL into <code className="text-accent">src/data/packages.js</code> → <code className="text-accent">{program}.{pkg.id}.paymentLink</code>.</li>
-                    <li>Set <code className="text-accent">VITE_STRIPE_ENABLED=true</code> in <code className="text-accent">.env.production</code>.</li>
+                    <li>Create a Buy Button in Stripe Dashboard.</li>
+                    <li>Paste <code className="text-accent">buy_btn_...</code> into <code className="text-accent">packages.js</code>.</li>
                   </ol>
                 </div>
                 <Link
@@ -103,25 +154,19 @@ export default function Checkout() {
               </div>
             )}
 
-            {STRIPE_ENABLED && hasLink && (
+            {hasButton && !accepted && (
+              <div className="p-6 border border-foreground/15 bg-foreground/5 text-center font-body text-foreground/60">
+                Accept the terms above to see the payment button.
+              </div>
+            )}
+
+            {hasButton && accepted && (
               <div>
-                <p className="font-body text-foreground/85 leading-relaxed">
-                  You'll be redirected to Stripe to complete payment securely.
-                  HAMER never sees or stores your card details.
+                <p className="font-body text-foreground/85 leading-relaxed mb-6">
+                  Secure payment processed by Stripe. HAMER never sees or stores
+                  your card details.
                 </p>
-                
-                  href={canCheckout ? paymentLink : '#'}
-                  onClick={(e) => { if (!canCheckout) e.preventDefault(); }}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className={`block w-full text-center mt-8 px-6 py-4 font-data text-[12px] font-bold tracking-[0.2em] uppercase border transition-colors duration-300 ${
-                    canCheckout
-                      ? 'bg-accent text-accent-foreground border-accent hover:bg-transparent hover:text-accent cursor-pointer'
-                      : 'bg-foreground/10 text-foreground/40 border-foreground/20 cursor-not-allowed'
-                  }`}
-                >
-                  {canCheckout ? 'Continue to Stripe →' : 'Accept terms to continue'}
-                </a>
+                <StripeBuyButton buyButtonId={buyButtonId} />
               </div>
             )}
           </div>
