@@ -1,6 +1,13 @@
 // src/data/packages.js
-// Programs and packages — verbatim from your original site.
-// All "BEST VALUE" badges removed per your request.
+// Programs, packages, and Stripe Buy Button wiring.
+// To connect a package to Stripe:
+//   1. Create a Buy Button in Stripe Dashboard → Payment Links → Buy Buttons
+//   2. Copy the buy-button-id (starts with `buy_btn_...`)
+//   3. Paste it into the matching package's `stripeBuyButtonId` (one-time)
+//      or `stripeBuyButtonIds.{monthly|quarterly|annual}` (subscription)
+
+export const STRIPE_PUBLISHABLE_KEY =
+  'pk_live_51TXOZACrKKNvP7Gpw9Reb6wjFVKjDWJRfKIvyKaky5bhyWY4B31oyikCnByLkChuzs3YVkqfbPmcUt1fJgeJXDd4008Mq3t2Wx';
 
 // ─── RECRUIT ────────────────────────────────────────────────────────────────
 export const recruitPackages = [
@@ -11,7 +18,7 @@ export const recruitPackages = [
     priceAmount: 1000,
     period: 'one-time',
     duration: '3 months of support',
-    paymentLink: null,
+    stripeBuyButtonId: 'buy_btn_1TaxGGCrKKNvP7GpLH5R7BBs', // ✅ wired
     services: [
       { name: 'Athlete Profile Creation', desc: 'Your golf résumé — credentials, academics, stats, history, and personal story, in the format coaches expect.' },
       { name: 'Coach Email Templates', desc: 'Outreach templates you can adapt, structured to start real conversations.' },
@@ -30,7 +37,7 @@ export const recruitPackages = [
     priceAmount: 2000,
     period: 'one-time',
     duration: '6 months of support',
-    paymentLink: null,
+    stripeBuyButtonId: null, // TODO: paste buy_btn_... for Recruit Pro
     services: [
       { name: 'Everything in Starter' },
       { name: 'We write & send coach outreach', desc: 'We compose and send personalized messages on your behalf — every email tailored to the specific coach.' },
@@ -49,7 +56,7 @@ export const recruitPackages = [
     priceAmount: 3000,
     period: 'one-time',
     duration: '12 months of support',
-    paymentLink: null,
+    stripeBuyButtonId: null, // TODO: paste buy_btn_... for Recruit Elite
     services: [
       { name: 'Everything in Pro' },
       { name: 'Full concierge outreach', desc: 'We run the entire recruiting campaign end-to-end. You focus on the scorecard.' },
@@ -63,13 +70,17 @@ export const recruitPackages = [
   },
 ];
 
-// ─── CONSULT ─────────────────────────────────────────────────────────────────
+// ─── CONSULT (subscription — needs 3 button IDs per tier) ──────────────────
 export const consultPackages = [
   {
     id: 'par',
     tier: 'PAR',
     prices: { monthly: 99, quarterly: 269, annual: 948 },
-    paymentLinks: { monthly: null, quarterly: null, annual: null },
+    stripeBuyButtonIds: {
+      monthly: null,   // TODO: paste buy_btn_... for PAR monthly
+      quarterly: null, // TODO: paste buy_btn_... for PAR quarterly
+      annual: null,    // TODO: paste buy_btn_... for PAR annual
+    },
     services: [
       { name: 'Tournament Recommendations', desc: 'Tournaments selected against your handicap, ranking, and goals — chosen for what they add to your development, not their prestige.' },
       { name: 'Biweekly Practice Plan', desc: 'A structured practice schedule built around your weaknesses, with priorities for every session.' },
@@ -85,7 +96,11 @@ export const consultPackages = [
     id: 'birdie',
     tier: 'BIRDIE',
     prices: { monthly: 121, quarterly: 329, annual: 1199 },
-    paymentLinks: { monthly: null, quarterly: null, annual: null },
+    stripeBuyButtonIds: {
+      monthly: null,
+      quarterly: null,
+      annual: null,
+    },
     services: [
       { name: 'Everything in PAR' },
       { name: '1 video call per month', desc: 'A monthly 1-on-1 session to review progress, debrief tournaments, and set the next 30 days.' },
@@ -102,7 +117,11 @@ export const consultPackages = [
     id: 'eagle',
     tier: 'EAGLE',
     prices: { monthly: 145, quarterly: 389, annual: 1399 },
-    paymentLinks: { monthly: null, quarterly: null, annual: null },
+    stripeBuyButtonIds: {
+      monthly: null,
+      quarterly: null,
+      annual: null,
+    },
     services: [
       { name: 'Everything in BIRDIE' },
       { name: 'Biweekly video call (2x/month)', desc: 'Two video sessions per month — tight feedback loops on practice, tournaments, and decision-making.' },
@@ -125,7 +144,7 @@ export const campsPackages = [
     price: '$750',
     priceAmount: 750,
     period: 'one-time',
-    paymentLink: null,
+    stripeBuyButtonId: null, // TODO
     services: [
       { name: 'On-site or remote program review', desc: 'End-to-end assessment of your current program — structure, content, staff, equipment, parent communication.' },
       { name: 'Full written audit report', desc: "A detailed document with findings — what works, what doesn't, and why." },
@@ -143,7 +162,7 @@ export const campsPackages = [
     price: '$4,500',
     priceAmount: 4500,
     period: 'one-time',
-    paymentLink: null,
+    stripeBuyButtonId: null, // TODO
     services: [
       { name: 'Everything in Camp Audit' },
       { name: 'Complete program from scratch', desc: 'Golf program designed ground-up — daily structure, skill progression by age and level, activity flow.' },
@@ -162,7 +181,7 @@ export const campsPackages = [
     price: '$500',
     priceAmount: 500,
     period: 'per month',
-    paymentLink: null,
+    stripeBuyButtonId: null, // TODO
     services: [
       { name: 'Ongoing program management', desc: "HAMER stays engaged season after season — your golf program isn't a one-off project." },
       { name: 'Seasonal curriculum refreshes', desc: 'New drills, adjusted progressions, and fresh content so the program never goes stale.' },
@@ -177,7 +196,7 @@ export const campsPackages = [
   },
 ];
 
-// Trusted programs (used on Home TrustedSection)
+// Trusted programs (used on Home + Partners)
 export const trustedPrograms = [
   'Hacienda San Gaspar Golf',
   'Tres Vidas Golf Club',
@@ -188,7 +207,7 @@ export const trustedPrograms = [
   'La Pradera Golf',
 ];
 
-// Quick lookup helper
+// Quick lookup
 export function getPackage(programId, packageId) {
   const map = { recruit: recruitPackages, consult: consultPackages, camps: campsPackages };
   return (map[programId] || []).find((p) => p.id === packageId);
