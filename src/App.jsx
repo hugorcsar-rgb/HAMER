@@ -1,5 +1,6 @@
 import { Routes, Route, useLocation } from 'react-router-dom'
 import { useEffect } from 'react'
+import Layout from './components/Layout.jsx'
 import Home from './pages/Home/index.jsx'
 
 // Scrolls to top of page when navigating between routes
@@ -14,15 +15,17 @@ export default function App() {
     <>
       <ScrollToTop />
       <Routes>
-        <Route path="/" element={<Home />} />
-        {/* Add more routes here as we build each page:
-            <Route path="/founders" element={<Founders />} />
-            <Route path="/recruit"  element={<Recruit />} />
-            <Route path="/consult"  element={<Consult />} />
-            <Route path="/camps"    element={<Camps />} />
-            <Route path="/partners" element={<Partners />} />
-            <Route path="/inquire"  element={<Inquire />} />
-        */}
+        <Route element={<Layout />}>
+          <Route path="/" element={<Home />} />
+          {/* Add more routes here as we build each page:
+              <Route path="/founders" element={<Founders />} />
+              <Route path="/recruit"  element={<Recruit />} />
+              <Route path="/consult"  element={<Consult />} />
+              <Route path="/camps"    element={<Camps />} />
+              <Route path="/partners" element={<Partners />} />
+              <Route path="/inquire"  element={<Inquire />} />
+          */}
+        </Route>
       </Routes>
     </>
   )
