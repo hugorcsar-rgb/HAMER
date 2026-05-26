@@ -8,9 +8,9 @@ import { Link } from 'react-router-dom'
 
 // ─── TEXT — edit these freely ──────────────────────────────────────────────
 const NUMBER     = "02"
-const HEADING    = "[Type the section heading — e.g. THE FOUNDERS]"
-const PULL_QUOTE = "[Type a short, memorable line about who built HAMER]"
-const BODY       = "[Type a short paragraph introducing the three founders — their athletic background, the gap they saw, why they built HAMER]"
+const HEADING    = "THE FOUNDERS"
+const PULL_QUOTE = "Three Division I golfers. Three operators. One firm."
+const BODY       = "Javier, Hugo and Diego played NCAA Division I golf. After college they moved into consulting, operations and sports industry roles — and saw the same gap from every angle: ambitious junior golfers navigating recruiting and development with templates from the internet, and camps building programs without a real framework. HAMER is the firm they wish their families had hired when they were sixteen."
 
 const CTA = { label: "Meet the founders", href: "/founders" }
 
