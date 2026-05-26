@@ -77,9 +77,9 @@ export const consultPackages = [
     tier: 'PAR',
     prices: { monthly: 99, quarterly: 269, annual: 948 },
     stripeBuyButtonIds: {
-      monthly: null,   // TODO: paste buy_btn_... for PAR monthly
-      quarterly: null, // TODO: paste buy_btn_... for PAR quarterly
-      annual: null,    // TODO: paste buy_btn_... for PAR annual
+      monthly:   'buy_btn_1Tb1BdCrKKNvP7GpMg9JlbKo', // ✅ wired — PAR monthly $99
+      quarterly: 'buy_btn_1TbIvLCrKKNvP7Gpgr1aVMy6', // ✅ wired — PAR quarterly $269
+      annual:    'buy_btn_1TbIuACrKKNvP7GpgPnm6t7x', // ✅ wired — PAR annual $948
     },
     services: [
       { name: 'Tournament Recommendations', desc: 'Tournaments selected against your handicap, ranking, and goals — chosen for what they add to your development, not their prestige.' },
@@ -97,9 +97,9 @@ export const consultPackages = [
     tier: 'BIRDIE',
     prices: { monthly: 121, quarterly: 329, annual: 1199 },
     stripeBuyButtonIds: {
-      monthly: null,
-      quarterly: null,
-      annual: null,
+      monthly:   'buy_btn_1Tb1AbCrKKNvP7GpZtNYLMjg', // ✅ wired — BIRDIE monthly $121
+      quarterly: 'buy_btn_1TbIybCrKKNvP7GpRassu3dV', // ✅ wired — BIRDIE quarterly $329
+      annual:    'buy_btn_1TbIzfCrKKNvP7Gp33V8fNJT', // ✅ wired — BIRDIE annual $1199
     },
     services: [
       { name: 'Everything in PAR' },
@@ -118,9 +118,9 @@ export const consultPackages = [
     tier: 'EAGLE',
     prices: { monthly: 145, quarterly: 389, annual: 1399 },
     stripeBuyButtonIds: {
-      monthly: null,
-      quarterly: null,
-      annual: null,
+      monthly:   'buy_btn_1Tb1C9CrKKNvP7GpMs0K5DG6', // ✅ wired — EAGLE monthly $145
+      quarterly: 'buy_btn_1TbJ2xCrKKNvP7GpHqlJtLC6', // ✅ wired — EAGLE quarterly $389
+      annual:    'buy_btn_1TbJAACrKKNvP7GpDfqtMJnC', // ✅ wired — EAGLE annual $1399
     },
     services: [
       { name: 'Everything in BIRDIE' },
