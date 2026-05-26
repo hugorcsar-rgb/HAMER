@@ -7,9 +7,9 @@
 import { Link } from 'react-router-dom'
 
 // ─── TEXT — edit these freely ──────────────────────────────────────────────
-const EYEBROW = "[Type the small uppercase label — e.g. INQUIRE NOW]"
-const HEADING = "[Type the closing headline — short, inviting]"
-const BODY    = "[Type a short 1–2 sentence paragraph that nudges visitors to act]"
+const EYEBROW = "FIRST CONVERSATION"
+const HEADING = "Tell us where you are."
+const BODY    = "Send a short note about your level, your goals and your timeline. We'll respond within 48 hours with whether HAMER is the right fit and how we'd start. No forms with twenty fields."
 
 const PRIMARY_CTA   = { label: "Inquire →", href: "/inquire"  }
 const SECONDARY_CTA = { label: "Join Now",  href: "/join-now" }
