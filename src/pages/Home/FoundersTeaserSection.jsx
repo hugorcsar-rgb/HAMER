@@ -9,9 +9,9 @@ import { Link } from 'react-router-dom'
 
 // ─── TEXT — edit these freely ──────────────────────────────────────────────
 const NUMBER     = "01"
-const HEADING    = "[Type the section heading — short, uppercase reads best]"
-const SUBHEADING = "[Type a one-line subheading that frames the three programs]"
-const BODY       = "[Type a short paragraph explaining how your three programs work together]"
+const HEADING    = "THREE PROGRAMS"
+const SUBHEADING = "Recruit. Consult. Camps."
+const BODY       = "Junior golfers and the camps that develop them face the same three problems at different stages. We address each as a discrete practice — Recruit for collegiate placement, Consult for year-round development, Camps for program architecture. Most families hire one. Sometimes the path forward requires two."
 
 // ─── TILES — the 3 program links on the right side ─────────────────────────
 const TILES = [
