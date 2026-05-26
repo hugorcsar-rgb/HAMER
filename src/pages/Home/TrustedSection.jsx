@@ -6,17 +6,19 @@
 // =============================================================================
 
 // ─── TEXT — edit these freely ──────────────────────────────────────────────
-const HEADING = "[Type the section heading — e.g. Trusted Programs]"
-const CAPTION = "[Type a short caption underneath the list — e.g. Trusted by camps across the U.S. and Mexico]"
+const HEADING = "TRUSTED PROGRAMS"
+const CAPTION = "Camps, academies and national teams across Spain, Mexico, the United States and Serbia."
 
 // ─── PROGRAMS — add, remove, or rename freely ──────────────────────────────
 // Each item becomes one line in the list. Keep the quotes and the commas.
 const PROGRAMS = [
-  "[Program 1]",
-  "[Program 2]",
-  "[Program 3]",
-  "[Program 4]",
-  "[Program 5]",
+  "Hacienda San Gaspar Golf",
+  "Tres Vidas Golf Club",
+  "AGVM Mexico National Team",
+  "Camp Belgrade",
+  "Camp Concord",
+  "Utah County Golf Academies",
+  "La Pradera Golf",
 ]
 
 // ─── LAYOUT — only edit if you know React ──────────────────────────────────
