@@ -38,7 +38,6 @@ export default function Checkout() {
   const buyButtonId = isSubscription
     ? pkg.stripeBuyButtonIds[billing]
     : pkg.stripeBuyButtonId;
-  const hasButton = !!buyButtonId;
 
   // Determine total price display
   let totalDisplay;
@@ -64,6 +63,7 @@ export default function Checkout() {
       </h1>
 
       <div className="grid lg:grid-cols-12 gap-10 mt-16">
+        {/* LEFT — Billing selector + Summary */}
         <div className="lg:col-span-7 space-y-6">
           {/* Billing selector (subscription only) */}
           {isSubscription && (
@@ -100,18 +100,22 @@ export default function Checkout() {
               </li>
             </ul>
           </div>
+        </div>
 
-          {/* T&C acceptance */}
-          <div className="p-8 border border-foreground/15">
-            <p className="font-data text-data tracking-[0.3em] text-foreground/40 uppercase mb-4">Before you pay</p>
-            <label className="flex items-start gap-3 cursor-pointer">
+        {/* RIGHT — Payment aside with T&C + button together */}
+        <aside className="lg:col-span-5">
+          <div className="lg:sticky lg:top-32 p-8 border border-foreground/15">
+            <p className="font-data text-data tracking-[0.3em] text-foreground/40 uppercase mb-6">Payment</p>
+
+            {/* T&C acceptance — RIGHT next to the button so it can't be missed */}
+            <label className="flex items-start gap-3 cursor-pointer mb-6">
               <input
                 type="checkbox"
                 checked={accepted}
                 onChange={(e) => setAccepted(e.target.checked)}
-                className="mt-1.5 w-4 h-4 accent-accent"
+                className="mt-1.5 w-4 h-4 accent-accent flex-shrink-0"
               />
-              <span className="font-body text-foreground/85 leading-relaxed">
+              <span className="font-body text-[14px] text-foreground/85 leading-relaxed">
                 I have read and agree to the{' '}
                 <Link to={p.termsRoute} className="text-accent hover:text-foreground underline-offset-4 hover:underline">
                   {p.name} Terms and Conditions
@@ -124,49 +128,17 @@ export default function Checkout() {
                 legal guardian and am contracting on the minor's behalf.
               </span>
             </label>
-          </div>
-        </div>
 
-        {/* Payment aside */}
-        <aside className="lg:col-span-5">
-          <div className="p-8 border border-foreground/15">
-            <p className="font-data text-data tracking-[0.3em] text-foreground/40 uppercase mb-4">Payment</p>
-
-            {!hasButton && (
+            {accepted ? (
               <div>
-                <p className="font-body text-foreground/85 leading-relaxed">
-                  Payment is not yet wired up for this package
-                  {isSubscription && ` (${billing})`}.
-                </p>
-                <div className="mt-5 p-4 border border-accent/40 bg-accent/5 font-body text-[14px] text-foreground/80 leading-relaxed">
-                  <p className="font-data text-[11px] tracking-[0.2em] text-accent uppercase mb-2">Setup (one-time)</p>
-                  <ol className="list-decimal list-inside space-y-1">
-                    <li>Create a Buy Button in Stripe Dashboard.</li>
-                    <li>Paste <code className="text-accent">buy_btn_...</code> into <code className="text-accent">packages.js</code>.</li>
-                  </ol>
-                </div>
-                <Link
-                  to="/inquire"
-                  className="inline-flex items-center mt-6 px-6 py-3 bg-transparent text-foreground font-data text-[12px] font-bold tracking-[0.2em] uppercase border border-foreground/40 hover:border-accent hover:text-accent transition-colors duration-300"
-                >
-                  Contact us to arrange payment
-                </Link>
-              </div>
-            )}
-
-            {hasButton && !accepted && (
-              <div className="p-6 border border-foreground/15 bg-foreground/5 text-center font-body text-foreground/60">
-                Accept the terms above to see the payment button.
-              </div>
-            )}
-
-            {hasButton && accepted && (
-              <div>
-                <p className="font-body text-foreground/85 leading-relaxed mb-6">
-                  Secure payment processed by Stripe. HAMER never sees or stores
-                  your card details.
+                <p className="font-body text-[14px] text-foreground/75 leading-relaxed mb-5">
+                  Secure payment processed by Stripe. HAMER never sees or stores your card details.
                 </p>
                 <StripeBuyButton buyButtonId={buyButtonId} />
+              </div>
+            ) : (
+              <div className="p-5 border border-foreground/20 bg-foreground/5 text-center font-body text-[14px] text-foreground/65 leading-relaxed">
+                Tick the box above to enable the payment button.
               </div>
             )}
           </div>
