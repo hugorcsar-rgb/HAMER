@@ -37,7 +37,7 @@ export const recruitPackages = [
     priceAmount: 2000,
     period: 'one-time',
     duration: '6 months of support',
-    stripeBuyButtonId: null, // TODO: paste buy_btn_... for Recruit Pro
+    stripeBuyButtonId: 'buy_btn_1Tb19KCrKKNvP7GpY3F0REvf', // ✅ wired
     services: [
       { name: 'Everything in Starter' },
       { name: 'We write & send coach outreach', desc: 'We compose and send personalized messages on your behalf — every email tailored to the specific coach.' },
@@ -56,7 +56,7 @@ export const recruitPackages = [
     priceAmount: 3000,
     period: 'one-time',
     duration: '12 months of support',
-    stripeBuyButtonId: null, // TODO: paste buy_btn_... for Recruit Elite
+    stripeBuyButtonId: 'buy_btn_1Tb0huCrKKNvP7GpkbIzhP0q', // ✅ wired
     services: [
       { name: 'Everything in Pro' },
       { name: 'Full concierge outreach', desc: 'We run the entire recruiting campaign end-to-end. You focus on the scorecard.' },
@@ -144,7 +144,7 @@ export const campsPackages = [
     price: '$750',
     priceAmount: 750,
     period: 'one-time',
-    stripeBuyButtonId: null, // TODO
+    stripeBuyButtonId: 'buy_btn_1Tb1CxCrKKNvP7GpBkBWBR1M', // ✅ wired
     services: [
       { name: 'On-site or remote program review', desc: 'End-to-end assessment of your current program — structure, content, staff, equipment, parent communication.' },
       { name: 'Full written audit report', desc: "A detailed document with findings — what works, what doesn't, and why." },
@@ -162,7 +162,7 @@ export const campsPackages = [
     price: '$4,500',
     priceAmount: 4500,
     period: 'one-time',
-    stripeBuyButtonId: null, // TODO
+   stripeBuyButtonId: 'buy_btn_1Tb1DjCrKKNvP7GpYlY2cIQJ', // ✅ wired
     services: [
       { name: 'Everything in Camp Audit' },
       { name: 'Complete program from scratch', desc: 'Golf program designed ground-up — daily structure, skill progression by age and level, activity flow.' },
@@ -181,7 +181,7 @@ export const campsPackages = [
     price: '$500',
     priceAmount: 500,
     period: 'per month',
-    stripeBuyButtonId: null, // TODO
+    stripeBuyButtonId: 'buy_btn_1Tb13hCrKKNvP7GpeYgH35Fe', // ✅ wired
     services: [
       { name: 'Ongoing program management', desc: "HAMER stays engaged season after season — your golf program isn't a one-off project." },
       { name: 'Seasonal curriculum refreshes', desc: 'New drills, adjusted progressions, and fresh content so the program never goes stale.' },
