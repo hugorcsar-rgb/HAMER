@@ -10,9 +10,12 @@ import { Link } from 'react-router-dom'
 import { motion } from 'framer-motion'
 
 // ─── TEXT — edit these freely ──────────────────────────────────────────────
-const EYEBROW  = "[Type the small uppercase line that sits above HAMER]"
+const EYEBROW  = "GOLF CONSULTING GROUP"
 const WORDMARK = "HAMER"
-const SUBTITLE = "[Type your hero paragraph — the one or two sentences that explain what HAMER is, shown below the big wordmark]"
+const SUBTITLE = "We place serious junior golfers in NCAA programs, structure their year-round development, and architect the camps where the next generation is built. Three Division I players. One operational standard."
+
+const PRIMARY_CTA   = { label: "Join Now",   href: "/join-now" }
+const SECONDARY_CTA = { label: "Inquire →",  href: "/inquire"  }
 
 const PRIMARY_CTA   = { label: "Join Now",   href: "/join-now" }
 const SECONDARY_CTA = { label: "Inquire →",  href: "/inquire"  }
