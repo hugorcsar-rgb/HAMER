@@ -12,6 +12,7 @@
 import HeroSection          from './HeroSection.jsx'
 import ThreeProgramsSection from './FoundersTeaserSection.jsx' // "01 — Three Programs"
 import FoundersSection      from './StandardSection.jsx'        // "02 — The Founders"
+import ProofSection         from './ProofSection.jsx'           // "03 — How it works + Results"
 import TrustedSection       from './TrustedSection.jsx'
 import CTASection           from './CTASection.jsx'
 
@@ -21,6 +22,7 @@ export default function Home() {
       <HeroSection />
       <ThreeProgramsSection />
       <FoundersSection />
+      <ProofSection />
       <TrustedSection />
       <CTASection />
     </>
