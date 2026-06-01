@@ -1,28 +1,26 @@
 // =============================================================================
 // HOME PAGE — composer
 // =============================================================================
-// This file does ONE THING: it lists the sections that appear on the home page,
-// in the order they appear.
+// Lists the sections of the home page, in the order they appear.
 //
-//   - To REORDER sections, change the order of the lines inside <Home />.
-//   - To REMOVE a section, delete its <SectionName /> line AND its import line.
-//   - To ADD a new section, create the file, add an import, add it inside <Home />.
-//
-// To edit the TEXT inside any section, open that section's own file in this folder.
+// Note on naming: in the original project the files got cross-named, so the
+// "01 — Three Programs" section actually lives in FoundersTeaserSection.jsx,
+// and the "02 — The Founders" section lives in StandardSection.jsx. The aliases
+// below make the render order read correctly without renaming the files.
 // =============================================================================
 
-import HeroSection           from './HeroSection.jsx'
-import StandardSection       from './StandardSection.jsx'
-import FoundersTeaserSection from './FoundersTeaserSection.jsx'
-import TrustedSection        from './TrustedSection.jsx'
-import CTASection            from './CTASection.jsx'
+import HeroSection          from './HeroSection.jsx'
+import ThreeProgramsSection from './FoundersTeaserSection.jsx' // "01 — Three Programs"
+import FoundersSection      from './StandardSection.jsx'        // "02 — The Founders"
+import TrustedSection       from './TrustedSection.jsx'
+import CTASection           from './CTASection.jsx'
 
 export default function Home() {
   return (
     <>
       <HeroSection />
-      <StandardSection />
-      <FoundersTeaserSection />
+      <ThreeProgramsSection />
+      <FoundersSection />
       <TrustedSection />
       <CTASection />
     </>
