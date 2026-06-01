@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" width="64" height="64">
+  <!-- Fondo navy de la casa -->
+  <rect width="64" height="64" fill="#0A1628"/>
+  <!-- Marco hairline greige -->
+  <rect x="3.5" y="3.5" width="57" height="57" fill="none" stroke="#B6AC97" stroke-opacity="0.55" stroke-width="1"/>
+  <!-- Monograma H con remates tipo serif, en marfil -->
+  <g fill="#FBF9F3">
+    <!-- Asta izquierda -->
+    <rect x="19" y="16" width="6" height="32"/>
+    <!-- Asta derecha -->
+    <rect x="39" y="16" width="6" height="32"/>
+    <!-- Travesaño -->
+    <rect x="19" y="29" width="26" height="6"/>
+    <!-- Remates superiores -->
+    <rect x="16" y="16" width="12" height="2.4"/>
+    <rect x="36" y="16" width="12" height="2.4"/>
+    <!-- Remates inferiores -->
+    <rect x="16" y="45.6" width="12" height="2.4"/>
+    <rect x="36" y="45.6" width="12" height="2.4"/>
+  </g>
+</svg>
