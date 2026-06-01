@@ -1,0 +1,22 @@
+{
+  "_client-BWIccRRs.js": {
+    "file": "assets/client-BWIccRRs.js",
+    "name": "client",
+    "isDynamicEntry": true,
+    "imports": [
+      "index.html"
+    ]
+  },
+  "index.html": {
+    "file": "assets/app-CoUNcacJ.js",
+    "name": "app",
+    "src": "index.html",
+    "isEntry": true,
+    "dynamicImports": [
+      "_client-BWIccRRs.js"
+    ],
+    "css": [
+      "assets/app-7TTJRzFt.css"
+    ]
+  }
+}
