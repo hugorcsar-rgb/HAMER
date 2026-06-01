@@ -1,6 +1,5 @@
-// src/App.jsx
-import { Routes, Route, useLocation } from 'react-router-dom';
-import { useEffect } from 'react';
+// src/App.jsx — route definitions for vite-react-ssg (data-router format)
+// The `handle.title` on each route drives the per-page <title> (see Layout).
 import Layout from './components/Layout.jsx';
 import Home from './pages/Home/index.jsx';
 import Founders from './pages/Founders.jsx';
@@ -18,41 +17,26 @@ import TermsConsult from './pages/terms/TermsConsult.jsx';
 import TermsCamps from './pages/terms/TermsCamps.jsx';
 import Privacy from './pages/Privacy.jsx';
 
-function ScrollToTop() {
-  const { pathname, hash } = useLocation();
-  useEffect(() => {
-    // If the URL has a hash, let the browser handle scrolling to that element.
-    // Otherwise, scroll to top on route change.
-    if (!hash) {
-      window.scrollTo(0, 0);
-    }
-  }, [pathname, hash]);
-  return null;
-}
-
-export default function App() {
-  return (
-    <>
-      <ScrollToTop />
-      <Routes>
-        <Route element={<Layout />}>
-          <Route path="/" element={<Home />} />
-          <Route path="/founders" element={<Founders />} />
-          <Route path="/recruit" element={<Recruit />} />
-          <Route path="/consult" element={<Consult />} />
-          <Route path="/camps" element={<Camps />} />
-          <Route path="/partners" element={<Partners />} />
-          <Route path="/inquire" element={<Inquire />} />
-          <Route path="/join-now" element={<JoinNow />} />
-          <Route path="/join-now/:program" element={<ProgramPackages />} />
-          <Route path="/join-now/:program/:packageId" element={<PackageDetails />} />
-          <Route path="/checkout/:program/:packageId" element={<Checkout />} />
-          <Route path="/terms/recruit" element={<TermsRecruit />} />
-          <Route path="/terms/consult" element={<TermsConsult />} />
-          <Route path="/terms/camps" element={<TermsCamps />} />
-          <Route path="/privacy" element={<Privacy />} />
-        </Route>
-      </Routes>
-    </>
-  );
-}
+export const routes = [
+  {
+    path: '/',
+    element: <Layout />,
+    children: [
+      { index: true, element: <Home />, handle: { title: 'HAMER — Golf Consulting · NCAA Recruiting, Development & Camps' } },
+      { path: 'founders', element: <Founders />, handle: { title: 'The Founders — HAMER Golf Consulting' } },
+      { path: 'recruit', element: <Recruit />, handle: { title: 'Recruit — NCAA Collegiate Golf Placement · HAMER' } },
+      { path: 'consult', element: <Consult />, handle: { title: 'Consult — Year-Round Junior Golf Development · HAMER' } },
+      { path: 'camps', element: <Camps />, handle: { title: 'Camps — Junior Golf Program Architecture · HAMER' } },
+      { path: 'partners', element: <Partners />, handle: { title: 'Partners — HAMER Golf Consulting' } },
+      { path: 'inquire', element: <Inquire />, handle: { title: 'Inquire — HAMER Golf Consulting' } },
+      { path: 'join-now', element: <JoinNow />, handle: { title: 'Join Now — HAMER Golf Consulting' } },
+      { path: 'join-now/:program', element: <ProgramPackages /> },
+      { path: 'join-now/:program/:packageId', element: <PackageDetails /> },
+      { path: 'checkout/:program/:packageId', element: <Checkout /> },
+      { path: 'terms/recruit', element: <TermsRecruit />, handle: { title: 'Recruit Terms — HAMER Golf Consulting' } },
+      { path: 'terms/consult', element: <TermsConsult />, handle: { title: 'Consult Terms — HAMER Golf Consulting' } },
+      { path: 'terms/camps', element: <TermsCamps />, handle: { title: 'Camps Terms — HAMER Golf Consulting' } },
+      { path: 'privacy', element: <Privacy />, handle: { title: 'Privacy Notice — HAMER Golf Consulting' } },
+    ],
+  },
+];
