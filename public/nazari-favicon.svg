@@ -1,0 +1,22 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="220" height="220" viewBox="0 0 220 220">
+  <defs>
+    <!-- Estrella de ocho puntas (dos cuadrados girados 45°) -->
+    <g id="khatam">
+      <rect x="-26" y="-26" width="52" height="52" fill="none"
+            stroke="#B89A5E" stroke-opacity="0.05" stroke-width="1"/>
+      <rect x="-26" y="-26" width="52" height="52" fill="none"
+            stroke="#B89A5E" stroke-opacity="0.05" stroke-width="1"
+            transform="rotate(45)"/>
+    </g>
+  </defs>
+  <rect width="220" height="220" fill="none"/>
+  <!-- Centro y esquinas para que el patrón tesele sin costuras -->
+  <use href="#khatam" x="110" y="110"/>
+  <use href="#khatam" x="0"   y="0"/>
+  <use href="#khatam" x="220" y="0"/>
+  <use href="#khatam" x="0"   y="220"/>
+  <use href="#khatam" x="220" y="220"/>
+  <!-- Retícula de unión muy tenue -->
+  <path d="M110 0 V220 M0 110 H220" stroke="#B89A5E" stroke-opacity="0.025" stroke-width="1"/>
+  <path d="M0 0 L220 220 M220 0 L0 220" stroke="#B89A5E" stroke-opacity="0.018" stroke-width="1"/>
+</svg>
