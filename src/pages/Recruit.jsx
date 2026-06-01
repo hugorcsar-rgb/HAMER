@@ -25,7 +25,7 @@ const PACKAGES_HEADING  = "Three tiers, three levels of involvement.";
 const PACKAGES_CAPTION  = "Each tier is a complete program — not a feature list. Choose how involved you want the HAMER team to be.";
 
 // TODO: Replace with a real photo. Drop a file into /public and use e.g. "/recruit-hero.jpg"
-const RECRUIT_HERO = 'https://images.unsplash.com/photo-1592919505780-303950717480?auto=format&fit=crop&w=2400&q=80';
+const RECRUIT_HERO = '/images/hero-recruit.jpg';
 
 // ─── LAYOUT — only edit if you know React ──────────────────────────────────
 export default function Recruit() {

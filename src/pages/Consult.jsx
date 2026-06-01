@@ -26,7 +26,7 @@ const PACKAGES_HEADING = "Three tiers, three levels of involvement.";
 const PACKAGES_CAPTION = "All tiers include direct WhatsApp and email access. Pay monthly, quarterly (≈10% off), or annually (≈20% off).";
 
 // TODO: Replace with a real photo. Drop a file into /public and use e.g. "/consult-hero.jpg"
-const CONSULT_HERO = 'https://images.unsplash.com/photo-1587174486073-ae5e5cff23aa?auto=format&fit=crop&w=2400&q=80';
+const CONSULT_HERO = '/images/hero-consult.jpg';
 
 const billingOptions = [
   { key: 'monthly', label: 'Monthly' },

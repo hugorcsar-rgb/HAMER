@@ -24,7 +24,7 @@ const PACKAGES_EYEBROW = "Packages";
 const PACKAGES_HEADING = "Audit. Build. Retain.";
 
 // TODO: Replace with a real photo. Drop a file into /public and use e.g. "/camps-hero.jpg"
-const CAMPS_HERO = 'https://images.unsplash.com/photo-1535132011086-b8818f016104?auto=format&fit=crop&w=2400&q=80';
+const CAMPS_HERO = '/images/hero-camps.jpg';
 
 // ─── LAYOUT — only edit if you know React ──────────────────────────────────
 export default function Camps() {
