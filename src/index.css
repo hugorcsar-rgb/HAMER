@@ -9,56 +9,112 @@
   body {
     @apply bg-background text-foreground font-body overflow-x-hidden;
     font-weight: 300;
-    font-size: clamp(1rem, 1.5vw, 1.125rem);
-    line-height: 1.6;
+    font-size: clamp(1rem, 1.4vw, 1.125rem);
+    line-height: 1.8;
     margin: 0;
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+  }
+  ::selection {
+    background: hsl(39 35% 55% / 0.85); /* oro */
+    color: #0A1628;
   }
 }
 
 @layer components {
+  /* ── Tipografía ───────────────────────────────────────────────────────── */
   .font-data {
-    font-family: Copperplate, "Courier Prime", monospace;
-    letter-spacing: 0.1em;
+    font-family: "Cormorant Garamond", Georgia, serif;
+    font-weight: 500;
+    letter-spacing: 0.28em;
+    text-transform: uppercase;
   }
   .font-heading {
-    font-family: Didot, "Playfair Display", serif;
+    font-family: "Cormorant Garamond", Georgia, serif;
+    font-weight: 300;
   }
   .font-body {
-    font-family: "DM Sans", sans-serif;
+    font-family: "DM Sans", system-ui, sans-serif;
   }
+
+  /* ── Atmósfera ────────────────────────────────────────────────────────── */
   .armani-glow {
-    background: radial-gradient(circle at center, transparent 0%, rgba(10, 31, 63, 0.8) 100%);
+    background:
+      radial-gradient(120% 90% at 50% 0%, transparent 0%, rgba(10, 22, 40, 0.55) 60%, rgba(10, 22, 40, 0.92) 100%);
   }
   .premium-spacing {
-    padding: clamp(6rem, 12vw, 10rem);
-    margin-bottom: clamp(4rem, 8vw, 6rem);
+    padding-block: clamp(5rem, 11vw, 9rem);
+    padding-inline: clamp(1.5rem, 12vw, 12rem);
   }
+  /* Kodak Portra 400 subexpuesto — desaturado cálido, hora dorada */
   .hero-image-desaturated {
-    filter: grayscale(15%) saturate(0.85) contrast(1.05);
+    filter: grayscale(22%) saturate(0.82) contrast(1.06) brightness(0.9) sepia(0.08);
   }
   .mahogany-transition {
     transition: filter 0.8s ease, transform 1.2s ease;
   }
-  .text-hero {
-    font-size: clamp(3rem, 4vw + 1rem, 3.5rem);
+
+  /* ── Geometría nazarí ─────────────────────────────────────────────────── */
+  /* Textura de fondo muy sutil (la opacidad va dentro del SVG, ~4%) */
+  .nazari-texture {
+    background-image: url('/nazari.svg');
+    background-repeat: repeat;
+    background-size: 220px 220px;
   }
-  .text-section {
-    font-size: clamp(2.5rem, 3vw + 1rem, 3rem);
+  /* Hairline de oro entre secciones */
+  .gold-rule {
+    height: 1px;
+    background: linear-gradient(90deg, transparent, hsl(39 35% 55% / 0.6), transparent);
+    border: 0;
   }
-  .text-sub {
-    font-size: clamp(1.5rem, 2vw + 1rem, 2rem);
+
+  /* ── Escala tipográfica de utilidad ──────────────────────────────────── */
+  .text-hero    { font-size: clamp(3.5rem, 9vw + 1rem, 9rem); }
+  .text-section { font-size: clamp(2.25rem, 3.2vw + 1rem, 3.25rem); }
+  .text-sub     { font-size: clamp(1.5rem, 2vw + 1rem, 2rem); }
+  .text-body    { font-size: clamp(1rem, 1.4vw, 1.125rem); }
+  .text-data    { font-size: clamp(0.72rem, 0.8vw, 0.82rem); }
+
+  /* ── Indicador de scroll del hero ─────────────────────────────────────── */
+  .scroll-line {
+    width: 1px;
+    height: 44px;
+    background: hsl(39 35% 55%);
+    transform-origin: top;
+    animation: scrollPulse 2.4s ease-in-out infinite;
   }
-  .text-body {
-    font-size: clamp(1rem, 1.5vw, 1.125rem);
+  @keyframes scrollPulse {
+    0%, 100% { transform: scaleY(0.35); opacity: 0.35; }
+    50%      { transform: scaleY(1);    opacity: 1; }
   }
-  .text-data {
-    font-size: clamp(0.75rem, 0.8vw, 0.875rem);
+
+  /* ── Cursor personalizado (solo punteros finos) ──────────────────────── */
+  .hamer-cursor {
+    position: fixed;
+    top: 0; left: 0;
+    width: 10px; height: 10px;
+    margin: -5px 0 0 -5px;
+    border: 1px solid hsl(39 35% 55%);
+    border-radius: 9999px;
+    pointer-events: none;
+    z-index: 9999;
+    transition: width 0.25s ease, height 0.25s ease, margin 0.25s ease, background-color 0.25s ease;
+    will-change: transform;
+    mix-blend-mode: difference;
   }
-  .no-scrollbar {
-    -ms-overflow-style: none;
-    scrollbar-width: none;
+  .hamer-cursor.is-hovering {
+    width: 26px; height: 26px;
+    margin: -13px 0 0 -13px;
+    background-color: hsl(39 35% 55% / 0.08);
   }
-  .no-scrollbar::-webkit-scrollbar {
-    display: none;
+
+  .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+  .no-scrollbar::-webkit-scrollbar { display: none; }
+}
+
+@media (pointer: fine) {
+  /* Ocultar cursor nativo solo en escritorio con ratón */
+  body.hamer-has-cursor, body.hamer-has-cursor a, body.hamer-has-cursor button {
+    cursor: none;
   }
 }
