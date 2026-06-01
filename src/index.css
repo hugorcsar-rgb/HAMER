@@ -16,7 +16,7 @@
     text-rendering: optimizeLegibility;
   }
   ::selection {
-    background: hsl(39 35% 55% / 0.85); /* oro */
+    background: rgb(182 172 151 / 0.85); /* greige */
     color: #0A1628;
   }
 }
@@ -24,13 +24,13 @@
 @layer components {
   /* ── Tipografía ───────────────────────────────────────────────────────── */
   .font-data {
-    font-family: "Cormorant Garamond", Georgia, serif;
+    font-family: "DM Sans", system-ui, sans-serif;
     font-weight: 500;
-    letter-spacing: 0.28em;
+    letter-spacing: 0.22em;
     text-transform: uppercase;
   }
   .font-heading {
-    font-family: "Cormorant Garamond", Georgia, serif;
+    font-family: "Fraunces", Georgia, serif;
     font-weight: 300;
   }
   .font-body {
@@ -54,17 +54,10 @@
     transition: filter 0.8s ease, transform 1.2s ease;
   }
 
-  /* ── Geometría nazarí ─────────────────────────────────────────────────── */
-  /* Textura de fondo muy sutil (la opacidad va dentro del SVG, ~4%) */
-  .nazari-texture {
-    background-image: url('/nazari.svg');
-    background-repeat: repeat;
-    background-size: 220px 220px;
-  }
-  /* Hairline de oro entre secciones */
+  /* Hairline greige entre secciones */
   .gold-rule {
     height: 1px;
-    background: linear-gradient(90deg, transparent, hsl(39 35% 55% / 0.6), transparent);
+    background: linear-gradient(90deg, transparent, rgb(182 172 151 / 0.6), transparent);
     border: 0;
   }
 
@@ -79,7 +72,7 @@
   .scroll-line {
     width: 1px;
     height: 44px;
-    background: hsl(39 35% 55%);
+    background: #B6AC97;
     transform-origin: top;
     animation: scrollPulse 2.4s ease-in-out infinite;
   }
@@ -88,33 +81,6 @@
     50%      { transform: scaleY(1);    opacity: 1; }
   }
 
-  /* ── Cursor personalizado (solo punteros finos) ──────────────────────── */
-  .hamer-cursor {
-    position: fixed;
-    top: 0; left: 0;
-    width: 10px; height: 10px;
-    margin: -5px 0 0 -5px;
-    border: 1px solid hsl(39 35% 55%);
-    border-radius: 9999px;
-    pointer-events: none;
-    z-index: 9999;
-    transition: width 0.25s ease, height 0.25s ease, margin 0.25s ease, background-color 0.25s ease;
-    will-change: transform;
-    mix-blend-mode: difference;
-  }
-  .hamer-cursor.is-hovering {
-    width: 26px; height: 26px;
-    margin: -13px 0 0 -13px;
-    background-color: hsl(39 35% 55% / 0.08);
-  }
-
   .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
   .no-scrollbar::-webkit-scrollbar { display: none; }
-}
-
-@media (pointer: fine) {
-  /* Ocultar cursor nativo solo en escritorio con ratón */
-  body.hamer-has-cursor, body.hamer-has-cursor a, body.hamer-has-cursor button {
-    cursor: none;
-  }
 }
