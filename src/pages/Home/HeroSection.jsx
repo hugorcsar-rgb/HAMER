@@ -1,17 +1,14 @@
 // =============================================================================
 // HOME — Hero section
 // =============================================================================
-// To change the text, edit the strings below between the quotes. Keep the
-// quotes. The layout (JSX) is below the text constants — only touch it if
-// you know React.
-// =============================================================================
 
 import { Link } from 'react-router-dom'
 import { motion } from 'framer-motion'
 
 // ─── TEXT — edit these freely ──────────────────────────────────────────────
-const EYEBROW  = "GOLF CONSULTING GROUP"
+const EYEBROW  = "GOLF CONSULTING · MADRID · GLOBAL"
 const WORDMARK = "HAMER"
+const TAGLINE  = "Built for the next generation."
 const SUBTITLE = "We place serious junior golfers in NCAA programs, structure their year-round development, and architect the camps where the next generation is built. Three Division I players. One operational standard."
 
 const PRIMARY_CTA   = { label: "Join Now",   href: "/join-now" }
@@ -44,11 +41,15 @@ export default function HeroSection() {
         </p>
 
         <h1
-          className="font-heading font-light tracking-[0.04em] leading-none"
+          className="font-heading font-light tracking-wordmark leading-none"
           style={{ fontSize: 'clamp(5rem, 14vw, 14rem)' }}
         >
           {WORDMARK}
         </h1>
+
+        <p className="font-heading italic text-foreground/60 -mt-4" style={{ fontSize: 'clamp(1.25rem, 2vw, 1.65rem)' }}>
+          {TAGLINE}
+        </p>
 
         <p
           className="font-heading text-foreground/85 leading-[1.55] max-w-[760px]"
@@ -60,18 +61,24 @@ export default function HeroSection() {
         <div className="flex flex-wrap gap-4 mt-6">
           <Link
             to={PRIMARY_CTA.href}
-            className="inline-flex items-center px-8 py-4 bg-accent text-accent-foreground font-data text-[12px] font-bold tracking-[0.2em] uppercase border border-accent hover:bg-transparent hover:text-accent transition-colors duration-300"
+            className="inline-flex items-center px-8 py-4 bg-accent text-accent-foreground font-data text-[12px] font-medium tracking-[0.22em] uppercase border border-accent hover:bg-transparent hover:text-accent transition-colors duration-300"
           >
             {PRIMARY_CTA.label}
           </Link>
           <Link
             to={SECONDARY_CTA.href}
-            className="inline-flex items-center px-8 py-4 bg-transparent text-foreground font-data text-[12px] font-bold tracking-[0.2em] uppercase border border-foreground/40 hover:border-accent hover:text-accent transition-colors duration-300"
+            className="inline-flex items-center px-8 py-4 bg-transparent text-foreground font-data text-[12px] font-medium tracking-[0.22em] uppercase border border-foreground/40 hover:border-accent hover:text-accent transition-colors duration-300"
           >
             {SECONDARY_CTA.label}
           </Link>
         </div>
       </motion.div>
+
+      {/* Scroll indicator — línea vertical de oro con pulso suave */}
+      <div className="absolute bottom-10 left-1/2 -translate-x-1/2 z-10 flex flex-col items-center gap-3">
+        <div className="scroll-line" />
+        <span className="font-data text-[10px] tracking-[0.4em] text-stone/60 uppercase">Scroll</span>
+      </div>
     </section>
   )
 }
