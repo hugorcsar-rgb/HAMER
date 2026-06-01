@@ -18,7 +18,7 @@ const LINKS = [
   { to: '/inquire',  label: 'Inquire'  },
 ]
 
-// ─── CTA — the mahogany button on the far right ───────────────────────────
+// ─── CTA — the gold button on the far right ───────────────────────────────
 const CTA = { to: '/join-now', label: 'Join Now' }
 
 // ─── LAYOUT — only edit if you know React ──────────────────────────────────
@@ -41,9 +41,9 @@ export default function Nav() {
     >
       <div className="flex items-center justify-between px-[24px] md:px-[55px] py-5">
         {/* Brand */}
-        <Link to="/" className="font-heading text-2xl md:text-3xl tracking-[0.04em] text-foreground">
+        <Link to="/" className="font-heading text-2xl md:text-3xl tracking-wordmark text-foreground">
           {BRAND.wordmark}
-          <span className="ml-2 font-data text-[10px] text-foreground/50 tracking-widest uppercase align-middle">
+          <span className="ml-3 font-data text-[10px] text-stone/70 tracking-[0.3em] uppercase align-middle">
             {BRAND.subtitle}
           </span>
         </Link>
@@ -56,8 +56,8 @@ export default function Nav() {
               to={to}
               end={to === '/'}
               className={({ isActive }) =>
-                `px-4 py-2 font-data text-[13px] font-bold tracking-[0.15em] uppercase transition-colors ${
-                  isActive ? 'text-accent' : 'text-foreground hover:text-accent'
+                `relative px-4 py-2 font-data text-[13px] tracking-[0.3em] uppercase transition-colors duration-300 after:absolute after:left-4 after:right-4 after:-bottom-0.5 after:h-px after:origin-left after:bg-accent after:transition-transform after:duration-300 hover:after:scale-x-100 ${
+                  isActive ? 'text-foreground after:scale-x-100' : 'text-accent/85 hover:text-foreground after:scale-x-0'
                 }`
               }
             >
@@ -66,7 +66,7 @@ export default function Nav() {
           ))}
           <Link
             to={CTA.to}
-            className="ml-3 inline-flex items-center px-5 py-2.5 bg-accent text-accent-foreground font-data text-[12px] font-bold tracking-[0.18em] uppercase border border-accent hover:bg-transparent hover:text-accent transition-colors duration-300"
+            className="ml-3 inline-flex items-center px-5 py-2.5 bg-accent text-accent-foreground font-data text-[12px] font-medium tracking-[0.22em] uppercase border border-accent hover:bg-transparent hover:text-accent transition-colors duration-300"
           >
             {CTA.label}
           </Link>
@@ -105,7 +105,7 @@ export default function Nav() {
                 end={to === '/'}
                 onClick={() => setOpen(false)}
                 className={({ isActive }) =>
-                  `py-3 font-data text-[13px] font-bold tracking-[0.15em] uppercase ${
+                  `py-3 font-data text-[13px] font-medium tracking-[0.3em] uppercase ${
                     isActive ? 'text-accent' : 'text-foreground'
                   }`
                 }
@@ -116,7 +116,7 @@ export default function Nav() {
             <Link
               to={CTA.to}
               onClick={() => setOpen(false)}
-              className="mt-3 inline-flex items-center justify-center px-5 py-3 bg-accent text-accent-foreground font-data text-[12px] font-bold tracking-[0.18em] uppercase"
+              className="mt-3 inline-flex items-center justify-center px-5 py-3 bg-accent text-accent-foreground font-data text-[12px] font-medium tracking-[0.22em] uppercase"
             >
               {CTA.label}
             </Link>
