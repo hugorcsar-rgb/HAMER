@@ -1,6 +1,6 @@
 {
-  "_client-CJuUnPIh.js": {
-    "file": "assets/client-CJuUnPIh.js",
+  "_client-D6UiTKau.js": {
+    "file": "assets/client-D6UiTKau.js",
     "name": "client",
     "isDynamicEntry": true,
     "imports": [
@@ -8,12 +8,12 @@
     ]
   },
   "index.html": {
-    "file": "assets/app-gkHEksiV.js",
+    "file": "assets/app-DdOI1_nN.js",
     "name": "app",
     "src": "index.html",
     "isEntry": true,
     "dynamicImports": [
-      "_client-CJuUnPIh.js"
+      "_client-D6UiTKau.js"
     ],
     "css": [
       "assets/app-CiM-m_PF.css"
