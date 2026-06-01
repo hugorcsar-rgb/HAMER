@@ -3,8 +3,8 @@ import { motion } from 'framer-motion';
 import { trustedPrograms } from '../data/packages.js';
 
 const PARTNERS_HERO = 'https://images.unsplash.com/photo-1587381420270-3e1a5b9e6904?auto=format&fit=crop&w=2400&q=80';
-const PRIMARY_BTN = 'inline-flex items-center px-8 py-4 bg-accent text-accent-foreground font-data text-[12px] font-bold tracking-[0.2em] uppercase border border-accent hover:bg-transparent hover:text-accent transition-colors duration-300';
-const SECONDARY_BTN = 'inline-flex items-center px-8 py-4 bg-transparent text-foreground font-data text-[12px] font-bold tracking-[0.2em] uppercase border border-foreground/40 hover:border-accent hover:text-accent transition-colors duration-300';
+const PRIMARY_BTN = 'inline-flex items-center px-8 py-4 bg-accent text-accent-foreground font-data text-[12px] font-medium tracking-[0.2em] uppercase border border-accent hover:bg-transparent hover:text-accent transition-colors duration-300';
+const SECONDARY_BTN = 'inline-flex items-center px-8 py-4 bg-transparent text-foreground font-data text-[12px] font-medium tracking-[0.2em] uppercase border border-foreground/40 hover:border-accent hover:text-accent transition-colors duration-300';
 
 export default function Partners() {
   return (
@@ -24,10 +24,10 @@ export default function Partners() {
       </section>
 
       {/* WHO WE ARE */}
-      <section className="w-full premium-spacing border-t border-foreground/10">
+      <section className="w-full premium-spacing border-t border-accent/15">
         <div className="max-w-[1200px] mx-auto grid md:grid-cols-12 gap-12">
           <div className="md:col-span-4">
-            <p className="font-data text-data tracking-[0.3em] text-foreground/40 uppercase mb-4">Who we are</p>
+            <p className="font-data text-data tracking-[0.3em] text-stone/50 uppercase mb-4"><span className="text-accent mr-3">01</span>Who we are</p>
           </div>
           <div className="md:col-span-8 font-heading text-foreground/90 leading-[1.45] space-y-6" style={{ fontSize: 'clamp(1.25rem, 1.8vw, 1.625rem)' }}>
             <p>We are former international students who played junior and elite amateur golf at the highest level our age and access allowed. We crossed borders for this sport before it crossed continents for us.</p>
@@ -38,10 +38,10 @@ export default function Partners() {
       </section>
 
       {/* ABOUT THE COMPANY */}
-      <section className="w-full premium-spacing border-t border-foreground/10">
+      <section className="w-full premium-spacing border-t border-accent/15">
         <div className="max-w-[1200px] mx-auto grid md:grid-cols-12 gap-12">
           <div className="md:col-span-4">
-            <p className="font-data text-data tracking-[0.3em] text-foreground/40 uppercase mb-4">About the company</p>
+            <p className="font-data text-data tracking-[0.3em] text-stone/50 uppercase mb-4"><span className="text-accent mr-3">02</span>About the company</p>
             <h2 className="font-heading text-section leading-tight">An institutional <span className="italic text-accent">house of standards</span>.</h2>
           </div>
           <div className="md:col-span-8 font-body text-body text-foreground/85 leading-relaxed space-y-5">
@@ -52,9 +52,9 @@ export default function Partners() {
       </section>
 
       {/* TRUSTED PROGRAMS */}
-      <section className="w-full premium-spacing border-t border-foreground/10">
+      <section className="w-full premium-spacing border-t border-accent/15">
         <div className="max-w-[1200px] mx-auto text-center flex flex-col items-center gap-12">
-          <h2 className="font-data text-data tracking-[0.3em] text-foreground/40 uppercase">Trusted Programs</h2>
+          <h2 className="font-data text-data tracking-[0.3em] text-stone/50 uppercase"><span className="text-accent mr-3">03</span>Trusted Programs</h2>
           <div className="flex flex-wrap justify-center gap-8 md:gap-16">
             {trustedPrograms.map((name, i) => <p key={i} className="font-heading text-xl md:text-2xl text-foreground/80">{name}</p>)}
           </div>
@@ -62,9 +62,9 @@ export default function Partners() {
       </section>
 
       {/* BECOME A PARTNER */}
-      <section id="become-a-partner" className="w-full premium-spacing border-t border-foreground/10">
+      <section id="become-a-partner" className="w-full premium-spacing border-t border-accent/15">
         <div className="max-w-[1200px] mx-auto">
-          <p className="font-data text-data tracking-[0.3em] text-foreground/40 uppercase mb-6">Become a partner</p>
+          <p className="font-data text-data tracking-[0.3em] text-stone/50 uppercase mb-6"><span className="text-accent mr-3">04</span>Become a partner</p>
           <h2 className="font-heading text-section leading-tight mb-8 max-w-4xl">
             For coaches, academies, camps, and tournaments —<br />
             <span className="italic text-accent">we are open to the right relationships</span>.
