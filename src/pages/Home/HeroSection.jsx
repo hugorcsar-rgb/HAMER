@@ -36,7 +36,8 @@ export default function HeroSection() {
         transition={{ duration: 1.5 }}
         className="relative z-10 flex flex-col gap-10 max-w-[1000px] mt-20"
       >
-        <p className="font-data text-data tracking-[0.3em] text-foreground/60 uppercase">
+        <p className="font-data text-data tracking-[0.3em] text-foreground/60 uppercase flex items-center gap-3">
+          <span className="inline-block w-[7px] h-[7px] bg-golf" />
           {EYEBROW}
         </p>
 
@@ -52,8 +53,8 @@ export default function HeroSection() {
         </p>
 
         <p
-          className="font-heading text-foreground/85 leading-[1.55] max-w-[760px]"
-          style={{ fontSize: 'clamp(1.125rem, 1.7vw, 1.5rem)' }}
+          className="font-body font-light text-foreground/80 leading-relaxed max-w-[680px]"
+          style={{ fontSize: 'clamp(1.05rem, 1.4vw, 1.25rem)' }}
         >
           {SUBTITLE}
         </p>
@@ -74,7 +75,7 @@ export default function HeroSection() {
         </div>
       </motion.div>
 
-      {/* Scroll indicator — línea vertical de oro con pulso suave */}
+      {/* Scroll indicator */}
       <div className="absolute bottom-10 left-1/2 -translate-x-1/2 z-10 flex flex-col items-center gap-3">
         <div className="scroll-line" />
         <span className="font-data text-[10px] tracking-[0.4em] text-stone/60 uppercase">Scroll</span>
