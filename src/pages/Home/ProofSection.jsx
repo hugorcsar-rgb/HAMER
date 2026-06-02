@@ -11,4 +11,8 @@ const TESTIMONIALS = [
     quote: "As a mother, their mentorship gave me real peace of mind — knowing we were talking with people who have lived the entire experience themselves.",
     author: "— Maite Sánchez Aedo · Parent Spain",
   },
+  {
+    quote: "WRITE PABLO'S ACTUAL WORDS HERE — what has HAMER helped him with?",   // ← fill this in
+    author: "— Pablo Giménez · Barranquilla, Colombia",
+  },
 ];
