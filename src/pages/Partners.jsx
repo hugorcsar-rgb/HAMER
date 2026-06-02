@@ -2,7 +2,7 @@ import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { trustedPrograms } from '../data/packages.js';
 
-const PARTNERS_HERO = '/images/hero-partners.jpg';
+const PARTNERS_HERO = '/images/hero-partners-v2.jpg';
 const PRIMARY_BTN = 'inline-flex items-center px-8 py-4 bg-accent text-accent-foreground font-data text-[12px] font-medium tracking-[0.2em] uppercase border border-accent hover:bg-transparent hover:text-accent transition-colors duration-300';
 const SECONDARY_BTN = 'inline-flex items-center px-8 py-4 bg-transparent text-foreground font-data text-[12px] font-medium tracking-[0.2em] uppercase border border-foreground/40 hover:border-accent hover:text-accent transition-colors duration-300';
 
@@ -12,7 +12,7 @@ export default function Partners() {
       {/* HERO */}
       <section className="relative min-h-[70vh] flex flex-col justify-end px-[24px] md:px-[89px] overflow-hidden pb-16">
         <div className="absolute inset-0 z-0">
-          <img src={PARTNERS_HERO} alt="" className="w-full h-full object-cover hero-image-desaturated" style={{ objectPosition: 'center 75%' }} />
+          <img src={PARTNERS_HERO} alt="" className="w-full h-full object-cover hero-image-desaturated" style={{ objectPosition: 'center 45%' }} />
           <div className="absolute inset-0 armani-glow mix-blend-multiply" />
         </div>
         <motion.div initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 1 }} className="relative z-10 max-w-[1200px]">
