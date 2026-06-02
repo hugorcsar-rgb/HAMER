@@ -1,6 +1,6 @@
 {
-  "_client-Db777KZY.js": {
-    "file": "assets/client-Db777KZY.js",
+  "_client-CBJ_tBgM.js": {
+    "file": "assets/client-CBJ_tBgM.js",
     "name": "client",
     "isDynamicEntry": true,
     "imports": [
@@ -8,12 +8,12 @@
     ]
   },
   "index.html": {
-    "file": "assets/app-BZdWF06_.js",
+    "file": "assets/app-B8a0SRmt.js",
     "name": "app",
     "src": "index.html",
     "isEntry": true,
     "dynamicImports": [
-      "_client-Db777KZY.js"
+      "_client-CBJ_tBgM.js"
     ],
     "css": [
       "assets/app-CiM-m_PF.css"
