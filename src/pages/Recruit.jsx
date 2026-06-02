@@ -24,7 +24,7 @@ const PACKAGES_EYEBROW  = "Packages";
 const PACKAGES_HEADING  = "Three tiers, three levels of involvement.";
 const PACKAGES_CAPTION  = "Each tier is a complete program — not a feature list. Choose how involved you want the HAMER team to be.";
 
-const RECRUIT_HERO = '/images/hero-recruit-v2.jpg';
+const RECRUIT_HERO = '/images/hero-recruit-v3.jpg';
 
 // ─── LAYOUT — only edit if you know React ──────────────────────────────────
 export default function Recruit() {
