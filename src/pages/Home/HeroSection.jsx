@@ -15,7 +15,7 @@ const PRIMARY_CTA   = { label: "Join Now",   href: "/join-now" }
 const SECONDARY_CTA = { label: "Inquire →",  href: "/inquire"  }
 
 // TODO: replace with your own image. Drop a file into /public and use e.g. "/hero.jpg"
-const BACKGROUND_IMAGE = "/images/hero-home.jpg"
+const BACKGROUND_IMAGE = "/images/hero-home-v2.jpg"
 
 // ─── LAYOUT — only edit if you know React ──────────────────────────────────
 export default function HeroSection() {
