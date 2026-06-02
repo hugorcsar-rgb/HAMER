@@ -1,6 +1,6 @@
 {
-  "_client-DdQz_bec.js": {
-    "file": "assets/client-DdQz_bec.js",
+  "_client-uBpRoRV3.js": {
+    "file": "assets/client-uBpRoRV3.js",
     "name": "client",
     "isDynamicEntry": true,
     "imports": [
@@ -8,12 +8,12 @@
     ]
   },
   "index.html": {
-    "file": "assets/app-B2ri2K9t.js",
+    "file": "assets/app-BPNneQey.js",
     "name": "app",
     "src": "index.html",
     "isEntry": true,
     "dynamicImports": [
-      "_client-DdQz_bec.js"
+      "_client-uBpRoRV3.js"
     ],
     "css": [
       "assets/app-CiM-m_PF.css"
