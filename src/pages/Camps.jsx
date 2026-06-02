@@ -23,8 +23,7 @@ const WORK_BODY_2   = "Build: design and rollout of a new program from blank pag
 const PACKAGES_EYEBROW = "Packages";
 const PACKAGES_HEADING = "Audit. Build. Retain.";
 
-// TODO: Replace with a real photo. Drop a file into /public and use e.g. "/camps-hero.jpg"
-const CAMPS_HERO = '/images/hero-camps.jpg';
+const CAMPS_HERO = '/images/hero-camps-v2.jpg';
 
 // ─── LAYOUT — only edit if you know React ──────────────────────────────────
 export default function Camps() {
