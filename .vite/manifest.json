@@ -1,6 +1,6 @@
 {
-  "_client-CBJ_tBgM.js": {
-    "file": "assets/client-CBJ_tBgM.js",
+  "_client-DdQz_bec.js": {
+    "file": "assets/client-DdQz_bec.js",
     "name": "client",
     "isDynamicEntry": true,
     "imports": [
@@ -8,12 +8,12 @@
     ]
   },
   "index.html": {
-    "file": "assets/app-B8a0SRmt.js",
+    "file": "assets/app-B2ri2K9t.js",
     "name": "app",
     "src": "index.html",
     "isEntry": true,
     "dynamicImports": [
-      "_client-CBJ_tBgM.js"
+      "_client-DdQz_bec.js"
     ],
     "css": [
       "assets/app-CiM-m_PF.css"
