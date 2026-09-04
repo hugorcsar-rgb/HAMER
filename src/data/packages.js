@@ -141,8 +141,8 @@ export const campsPackages = [
   {
     id: 'audit',
     tier: 'Camp Audit',
-    price: '$750',
-    priceAmount: 750,
+    price: '$1,000',
+    priceAmount: 1000,
     period: 'one-time',
     stripeBuyButtonId: 'buy_btn_1Tb1CxCrKKNvP7GpBkBWBR1M', // ✅ wired
     services: [
@@ -159,8 +159,8 @@ export const campsPackages = [
   {
     id: 'build',
     tier: 'Camp Build',
-    price: '$4,500',
-    priceAmount: 4500,
+    price: '$6,000',
+    priceAmount: 6000,
     period: 'one-time',
    stripeBuyButtonId: 'buy_btn_1Tb1DjCrKKNvP7GpYlY2cIQJ', // ✅ wired
     services: [
@@ -178,8 +178,8 @@ export const campsPackages = [
   {
     id: 'retainer',
     tier: 'Camp Retainer',
-    price: '$500',
-    priceAmount: 500,
+    price: '$750',
+    priceAmount: 750,
     period: 'per month',
     stripeBuyButtonId: 'buy_btn_1Tb13hCrKKNvP7GpeYgH35Fe', // ✅ wired
     services: [
@@ -191,7 +191,7 @@ export const campsPackages = [
     ],
     details: {
       tagline: 'For camps that want HAMER as a permanent part of the team.',
-      description: 'Retainer is the ongoing relationship — refreshes, parent communications, dedicated contact, quarterly reviews. $500 per month.',
+      description: 'Retainer is the ongoing relationship — refreshes, parent communications, dedicated contact, quarterly reviews. $750 per month.',
     },
   },
 ];
