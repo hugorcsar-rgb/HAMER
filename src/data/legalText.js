@@ -421,7 +421,7 @@ export const campsPackagesLegal = [
   {
     id: 'audit',
     name: 'HAMER Camps — Camp Audit',
-    price: '$750',
+    price: '$1,000',
     billingNote: 'One-Time Payment',
     serviceDescription: {
       heading: 'Service Description',
@@ -466,7 +466,7 @@ export const campsPackagesLegal = [
   {
     id: 'build',
     name: 'HAMER Camps — Camp Build',
-    price: '$4,500',
+    price: '$6,000',
     billingNote: 'One-Time Payment',
     serviceDescription: {
       heading: 'Service Description',
@@ -512,7 +512,7 @@ export const campsPackagesLegal = [
   {
     id: 'retainer',
     name: 'HAMER Camps — Camp Retainer',
-    price: '$500 / month',
+    price: '$750 / month',
     billingNote: 'Recurring Subscription · 3-Month Minimum Commitment',
     serviceDescription: {
       heading: 'Service Description',
