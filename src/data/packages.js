@@ -144,7 +144,7 @@ export const campsPackages = [
     price: '$1,000',
     priceAmount: 1000,
     period: 'one-time',
-    stripeBuyButtonId: 'buy_btn_1Tb1CxCrKKNvP7GpBkBWBR1M', // ✅ wired
+    stripeBuyButtonId: 'buy_btn_1UCztnCrKKNvP7GpLkgPktwA', // ✅ wired
     services: [
       { name: 'On-site or remote program review', desc: 'End-to-end assessment of your current program — structure, content, staff, equipment, parent communication.' },
       { name: 'Full written audit report', desc: "A detailed document with findings — what works, what doesn't, and why." },
@@ -162,7 +162,7 @@ export const campsPackages = [
     price: '$6,000',
     priceAmount: 6000,
     period: 'one-time',
-   stripeBuyButtonId: 'buy_btn_1Tb1DjCrKKNvP7GpYlY2cIQJ', // ✅ wired
+   stripeBuyButtonId: 'buy_btn_1UCzugCrKKNvP7GpD1nU7MOn', // ✅ wired
     services: [
       { name: 'Everything in Camp Audit' },
       { name: 'Complete program from scratch', desc: 'Golf program designed ground-up — daily structure, skill progression by age and level, activity flow.' },
@@ -181,7 +181,7 @@ export const campsPackages = [
     price: '$750',
     priceAmount: 750,
     period: 'per month',
-    stripeBuyButtonId: 'buy_btn_1Tb13hCrKKNvP7GpeYgH35Fe', // ✅ wired
+    stripeBuyButtonId: 'buy_btn_1UCzv3CrKKNvP7GpfSrs7LPJ', // ✅ wired
     services: [
       { name: 'Ongoing program management', desc: "HAMER stays engaged season after season — your golf program isn't a one-off project." },
       { name: 'Seasonal curriculum refreshes', desc: 'New drills, adjusted progressions, and fresh content so the program never goes stale.' },
