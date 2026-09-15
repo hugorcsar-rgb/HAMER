@@ -1,6 +1,6 @@
 {
-  "_client-DAKS4faB.js": {
-    "file": "assets/client-DAKS4faB.js",
+  "_client-HuofCpSB.js": {
+    "file": "assets/client-HuofCpSB.js",
     "name": "client",
     "isDynamicEntry": true,
     "imports": [
@@ -8,13 +8,13 @@
     ]
   },
   "index.html": {
-    "file": "assets/app-DKlCeX7L.js",
+    "file": "assets/app-qtnLTOYG.js",
     "name": "app",
     "src": "index.html",
     "isEntry": true,
     "dynamicImports": [
-      "_client-DAKS4faB.js",
-      "_client-DAKS4faB.js"
+      "_client-HuofCpSB.js",
+      "_client-HuofCpSB.js"
     ],
     "css": [
       "assets/app-CiM-m_PF.css"
