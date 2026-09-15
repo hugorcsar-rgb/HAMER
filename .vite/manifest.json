@@ -1,6 +1,6 @@
 {
-  "_client-HuofCpSB.js": {
-    "file": "assets/client-HuofCpSB.js",
+  "_client-D-h8VRxD.js": {
+    "file": "assets/client-D-h8VRxD.js",
     "name": "client",
     "isDynamicEntry": true,
     "imports": [
@@ -8,13 +8,13 @@
     ]
   },
   "index.html": {
-    "file": "assets/app-qtnLTOYG.js",
+    "file": "assets/app-Db__WI5W.js",
     "name": "app",
     "src": "index.html",
     "isEntry": true,
     "dynamicImports": [
-      "_client-HuofCpSB.js",
-      "_client-HuofCpSB.js"
+      "_client-D-h8VRxD.js",
+      "_client-D-h8VRxD.js"
     ],
     "css": [
       "assets/app-CiM-m_PF.css"
