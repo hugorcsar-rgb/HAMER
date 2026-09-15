@@ -14,6 +14,7 @@ const LINKS = [
   { to: '/recruit',  label: 'Recruit'  },
   { to: '/consult',  label: 'Consult'  },
   { to: '/camps',    label: 'Camps'    },
+  { to: '/boarding-schools', label: 'Boarding Schools' },
   { to: '/partners', label: 'Partners' },
   { to: '/inquire',  label: 'Inquire'  },
 ]
