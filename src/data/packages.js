@@ -269,7 +269,7 @@ export const trustedPrograms = [
 
 // Quick lookup
 export function getPackage(programId, packageId) {
-  const map = { recruit: recruitPackages, consult: consultPackages, camps: campsPackages, boardingSchools: boardingSchoolsPackages };
+  const map = { recruit: recruitPackages, consult: consultPackages, camps: campsPackages, 'boarding-schools': boardingSchoolsPackages };
   return (map[programId] || []).find((p) => p.id === packageId);
 }
 
@@ -302,8 +302,8 @@ export const programs = {
     packages: campsPackages,
     termsRoute: '/terms/camps',
   },
-  boardingSchools: {
-    id: 'boardingSchools',
+  'boarding-schools': {
+    id: 'boarding-schools',
     name: 'Boarding Schools',
     label: 'BOARDING SCHOOLS — PROGRAM ARCHITECTURE',
     tagline: 'Audit, build, and operate golf programs to the standard boarding schools expect, term after term.',
