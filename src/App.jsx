@@ -6,6 +6,7 @@ import Founders from './pages/Founders.jsx';
 import Recruit from './pages/Recruit.jsx';
 import Consult from './pages/Consult.jsx';
 import Camps from './pages/Camps.jsx';
+import BoardingSchools from './pages/BoardingSchools.jsx';
 import Partners from './pages/Partners.jsx';
 import Inquire from './pages/Inquire.jsx';
 import JoinNow from './pages/JoinNow.jsx';
@@ -27,6 +28,7 @@ export const routes = [
       { path: 'recruit', element: <Recruit />, handle: { title: 'Recruit — NCAA Collegiate Golf Placement · HAMER' } },
       { path: 'consult', element: <Consult />, handle: { title: 'Consult — Year-Round Junior Golf Development · HAMER' } },
       { path: 'camps', element: <Camps />, handle: { title: 'Camps — Junior Golf Program Architecture · HAMER' } },
+      { path: 'boarding-schools', element: <BoardingSchools />, handle: { title: 'Boarding Schools — Program Architecture · HAMER' } },
       { path: 'partners', element: <Partners />, handle: { title: 'Partners — HAMER Golf Consulting' } },
       { path: 'inquire', element: <Inquire />, handle: { title: 'Inquire — HAMER Golf Consulting' } },
       { path: 'join-now', element: <JoinNow />, handle: { title: 'Join Now — HAMER Golf Consulting' } },
