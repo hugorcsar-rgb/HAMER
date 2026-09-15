@@ -1,0 +1,1360 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>HAMER Brain</title>
+<!-- Permite instalarla desde Safari en iPhone: Compartir → Agregar a inicio -->
+<link rel="manifest" href="manifest.json">
+<meta name="theme-color" content="#0B1B29">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="HAMER Brain">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&family=Montserrat:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{--navy:#0B1B29;--navy-2:#112838;--navy-3:#193C55;--teal:#3FB6A8;--teal-dim:#2A8478;
+--cream:#F2EDE1;--cream-dim:#B9B3A6;--sand:#847D71;--alert:#E08B4C;--good:#5FCF8E;--line:rgba(242,237,225,.13)}
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:var(--navy);color:var(--cream);font-family:'Montserrat',system-ui,sans-serif;font-weight:300;line-height:1.55;-webkit-font-smoothing:antialiased}
+h1,h2,h3{font-family:'Cormorant Garamond',Georgia,serif;font-weight:600;line-height:1.08}
+.app{display:flex;min-height:100vh}
+.rail{width:228px;flex:0 0 228px;border-right:1px solid var(--line);padding:24px 0 18px;position:sticky;top:0;height:100vh;display:flex;flex-direction:column;background:var(--navy)}
+.brand{padding:0 22px 20px;border-bottom:1px solid var(--line);margin-bottom:12px}
+.brand .mark{font-family:'Cormorant Garamond',serif;font-weight:700;font-size:26px;letter-spacing:.15em}
+.brand .sub{font-size:10px;letter-spacing:.26em;color:var(--teal);margin-top:4px;font-weight:600}
+.navbtn{display:flex;align-items:center;gap:11px;width:100%;background:none;border:0;color:var(--cream-dim);font-family:inherit;font-size:13.5px;font-weight:400;padding:10px 22px;cursor:pointer;text-align:left;border-left:2px solid transparent}
+.navbtn:hover{color:var(--cream)}
+.navbtn.on{color:var(--cream);border-left-color:var(--teal);background:rgba(63,182,168,.08)}
+.navbtn .ico{width:16px;text-align:center;font-size:14px;opacity:.85}
+.railfoot{margin-top:auto;padding:14px 22px 0;border-top:1px solid var(--line)}
+.langsw{display:flex;border:1px solid var(--line);border-radius:2px;overflow:hidden;width:fit-content}
+.langsw button{background:none;border:0;color:var(--cream-dim);font-family:inherit;font-size:11px;font-weight:600;letter-spacing:.06em;padding:6px 12px;cursor:pointer}
+.langsw button.on{background:var(--teal);color:#08161F}
+main{flex:1;min-width:0;padding:36px 44px 110px;max-width:1020px}
+.view{display:none}.view.on{display:block;animation:in .25s ease both}
+@keyframes in{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+@media(prefers-reduced-motion:reduce){.view.on{animation:none}}
+.vhead{margin-bottom:24px}.vhead h1{font-size:40px}
+.vhead p{color:var(--cream-dim);font-size:14.5px;margin-top:7px;max-width:62ch}
+.panel{background:var(--navy-2);border:1px solid var(--line);border-radius:3px;padding:22px 24px;margin-bottom:16px}
+.panel.cream{background:var(--cream);color:#112838;border-color:transparent}
+.panel.cream .muted{color:#5C6874}
+.panel h2{font-size:23px;margin-bottom:4px}.panel h3{font-size:18px;margin-bottom:10px}
+.muted{color:var(--cream-dim);font-size:13.5px}
+.row{display:flex;gap:16px;flex-wrap:wrap}.row>*{flex:1;min-width:260px}
+.hr{height:1px;background:var(--line);margin:18px 0}
+.btn{font-family:inherit;font-size:13.5px;font-weight:500;background:var(--teal);color:#08161F;border:0;border-radius:2px;padding:11px 20px;cursor:pointer}
+.btn:hover{background:#4FC9BA}.btn:disabled{opacity:.5;cursor:default}
+.btn.ghost{background:transparent;color:var(--cream);border:1px solid var(--line)}
+.btn.ghost:hover{background:rgba(242,237,225,.06)}
+.btn.sm{padding:7px 13px;font-size:12.5px}
+.btn:focus-visible,.chip:focus-visible,.navbtn:focus-visible,input:focus-visible,a:focus-visible{outline:2px solid var(--teal);outline-offset:2px}
+.chip{font-family:inherit;font-size:12.5px;background:transparent;color:var(--cream-dim);border:1px solid var(--line);border-radius:2px;padding:8px 14px;cursor:pointer}
+.chip:hover{border-color:var(--teal-dim);color:var(--cream)}
+.chip.on{background:var(--teal);border-color:var(--teal);color:#08161F;font-weight:500}
+.chips{display:flex;gap:8px;flex-wrap:wrap}
+label.f{display:block;font-size:11px;letter-spacing:.1em;color:var(--sand);margin-bottom:5px;font-weight:600}
+input{font-family:inherit;font-size:14px;font-weight:400;width:100%;background:var(--navy);color:var(--cream);border:1px solid var(--line);border-radius:2px;padding:10px 12px}
+.grid4{display:grid;grid-template-columns:repeat(4,1fr);gap:12px}
+.grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+.hero{display:flex;align-items:baseline;gap:14px;flex-wrap:wrap}
+.hero .n{font-family:'Cormorant Garamond',serif;font-size:64px;line-height:.9;color:var(--alert)}
+.hero .n.good{color:var(--good)}
+.hero .u{font-size:14px;color:#5C6874;max-width:34ch}
+.sg{margin-bottom:12px}
+.sg .l{display:flex;justify-content:space-between;align-items:baseline;font-size:13.5px;margin-bottom:5px}
+.sg .v{font-family:'Cormorant Garamond',serif;font-size:19px;color:var(--alert)}
+.sg .v.good{color:var(--good)}
+.track{height:6px;background:rgba(242,237,225,.08);border-radius:3px;position:relative;overflow:hidden}
+.track .mid{position:absolute;left:50%;top:0;bottom:0;width:1px;background:rgba(242,237,225,.28)}
+.track i{position:absolute;top:0;bottom:0;background:var(--alert);border-radius:2px;transition:all .5s}
+.track i.good{background:var(--good)}
+.legend{font-size:11px;color:var(--sand);display:flex;justify-content:space-between;margin-top:8px}
+.drill{border:1px solid var(--line);border-radius:2px;padding:14px 16px;margin-bottom:10px;background:var(--navy)}
+.drill.inc{border-color:var(--teal-dim);background:rgba(63,182,168,.05)}
+.drill .dh{display:flex;justify-content:space-between;gap:14px;align-items:flex-start}
+.drill .nm{font-size:15px;font-weight:500}
+.drill .meta{font-size:12px;color:var(--sand);margin-top:3px}
+.drill p{font-size:13px;color:var(--cream-dim);margin-top:9px}
+.tag{display:inline-block;font-size:10px;letter-spacing:.07em;color:var(--teal);border:1px solid var(--teal-dim);border-radius:2px;padding:2px 7px;margin:4px 5px 0 0}
+.tag.slot{color:var(--sand);border-color:var(--line)}
+.tag.pro{color:#0B1B29;background:var(--cream-dim);border-color:var(--cream-dim);font-weight:600}
+.tag.short{color:#0B1B29;background:var(--alert);border-color:var(--alert);font-weight:600}
+a.vid{display:inline-block;font-size:10px;letter-spacing:.07em;color:#08161F;background:var(--teal);border-radius:2px;padding:3px 8px;margin:4px 5px 0 0;text-decoration:none;font-weight:600}
+a.vid:hover{background:#4FC9BA}
+.vcard{background:var(--navy);border:1px solid var(--line);border-radius:2px;padding:0;overflow:hidden;display:flex;flex-direction:column}
+.vcard .thumb{aspect-ratio:16/9;background:#000 center/cover no-repeat;display:block;position:relative}
+.vcard .thumb:after{content:'▶';position:absolute;inset:0;display:flex;align-items:center;justify-content:center;color:#fff;font-size:26px;text-shadow:0 2px 12px rgba(0,0,0,.7);opacity:.9}
+.vcard .vb{padding:12px 14px}
+.vcard .vt{font-size:13.5px;font-weight:500;line-height:1.35}
+.vcard .vm{font-size:11px;color:var(--sand);margin-top:5px}
+.cart{position:fixed;left:228px;right:0;bottom:0;background:var(--navy-3);border-top:1px solid var(--teal-dim);padding:12px 44px;display:flex;align-items:center;gap:18px;flex-wrap:wrap;z-index:30}
+.cart .c1{font-size:14px;font-weight:500}.cart .c2{font-size:12.5px;color:var(--cream-dim)}
+.cart .sp{margin-left:auto;display:flex;gap:8px}.cart.hide{display:none}
+.big{font-family:'Cormorant Garamond',serif;font-size:30px;line-height:1.15;margin-bottom:8px}
+.toast{position:fixed;left:50%;bottom:82px;transform:translateX(-50%);background:var(--teal);color:#08161F;font-size:13.5px;font-weight:500;padding:13px 22px;border-radius:2px;z-index:50;box-shadow:0 8px 30px rgba(0,0,0,.4);opacity:0;pointer-events:none;transition:.25s}
+.toast.show{opacity:1;transform:translateX(-50%) translateY(-6px)}
+.feed li{list-style:none;font-size:13.5px;color:var(--cream-dim);padding:9px 0;border-bottom:1px solid var(--line);display:flex;gap:11px}
+.feed li:last-child{border:0}
+.feed .when{color:var(--sand);font-size:12px;flex:0 0 60px}
+.chat{max-height:46vh;min-height:240px;overflow-y:auto;padding-right:6px}
+.msg{margin-bottom:14px;max-width:84%}
+.msg .who{font-size:10.5px;letter-spacing:.1em;color:var(--sand);margin-bottom:4px}
+.msg .bub{padding:13px 16px;border-radius:3px;font-size:14px;line-height:1.65}
+.msg.you{margin-left:auto}.msg.you .bub{background:var(--navy-3)}.msg.you .who{text-align:right}
+.msg.bot .bub{background:var(--cream);color:#112838}
+.msg.bot .bub strong{font-weight:600}
+.msg.bot .bub a{color:var(--teal-dim);cursor:pointer;font-weight:500;text-decoration:underline}
+.dots span{display:inline-block;width:5px;height:5px;border-radius:50%;background:#5C6874;margin-right:4px;animation:b 1.2s infinite}
+.dots span:nth-child(2){animation-delay:.2s}.dots span:nth-child(3){animation-delay:.4s}
+@keyframes b{0%,60%,100%{opacity:.25}30%{opacity:1}}
+.tipcard{background:var(--navy);border:1px solid var(--line);border-radius:2px;padding:15px;cursor:pointer}
+.tipcard:hover{border-color:var(--teal-dim)}
+.tipcard .t{font-size:14px;font-weight:500}
+.tipcard .c{font-size:11px;color:var(--sand);margin-top:3px}
+.tiplist{counter-reset:t}
+.tiplist li{list-style:none;margin-bottom:14px;padding-left:32px;position:relative;font-size:14px;color:var(--cream-dim)}
+.tiplist li:before{counter-increment:t;content:counter(t);position:absolute;left:0;top:0;font-family:'Cormorant Garamond',serif;font-size:19px;color:var(--teal)}
+.tiplist strong{color:var(--cream);font-weight:500}
+.note{font-size:12.5px;color:var(--sand);border-left:1px solid var(--line);padding-left:13px;margin-top:14px}
+table.cmp{width:100%;border-collapse:collapse;font-size:13.5px;margin-top:6px}
+table.cmp td,table.cmp th{padding:8px 6px;border-bottom:1px solid var(--line);text-align:right}
+table.cmp th{color:var(--sand);font-weight:600;font-size:11px;letter-spacing:.07em}
+table.cmp td:first-child,table.cmp th:first-child{text-align:left;color:var(--cream)}
+@media(max-width:860px){
+ .app{flex-direction:column}
+ .rail{width:100%;flex:none;height:auto;position:sticky;top:0;z-index:40;flex-direction:row;align-items:center;overflow-x:auto;padding:10px 12px;border-right:0;border-bottom:1px solid var(--line)}
+ .brand{display:none}
+ .railfoot{margin:0 0 0 auto;padding:0 4px 0 12px;border:0;flex:0 0 auto}
+ .navbtn{width:auto;white-space:nowrap;border-left:0;border-bottom:2px solid transparent;padding:8px 10px}
+ .navbtn.on{border-left:0;border-bottom-color:var(--teal);background:none}
+ main{padding:24px 18px 120px}
+ .vhead h1{font-size:31px}
+ .grid4,.grid3{grid-template-columns:1fr 1fr}
+ .cart{left:0;padding:12px 18px}
+ .hero .n{font-size:48px}
+}
+</style>
+</head>
+<body>
+<div id="gate" style="position:fixed;inset:0;z-index:200;background:var(--navy);display:flex;align-items:center;justify-content:center;padding:24px">
+ <div style="width:100%;max-width:400px">
+  <div style="text-align:center;margin-bottom:28px">
+   <div style="font-family:'Cormorant Garamond',serif;font-weight:700;font-size:32px;letter-spacing:.15em">HAMER</div>
+   <div style="font-size:10px;letter-spacing:.26em;color:var(--teal);margin-top:5px;font-weight:600">BRAIN</div>
+  </div>
+  <div class="panel" style="margin:0">
+   <div class="chips" style="margin-bottom:20px" id="gate-tabs"></div>
+   <div id="gate-body"></div>
+  </div>
+  <div class="muted" style="text-align:center;font-size:11.5px;margin-top:16px" id="gate-foot"></div>
+ </div>
+</div>
+<div class="app">
+<nav class="rail">
+ <div class="brand"><div class="mark">HAMER</div><div class="sub">BRAIN</div></div>
+ <button class="navbtn on" data-go="today"><span class="ico">◈</span><span data-t="nav.today"></span></button>
+ <button class="navbtn" data-go="brain"><span class="ico">✻</span><span data-t="nav.brain"></span></button>
+ <button class="navbtn" data-go="game"><span class="ico">◉</span><span data-t="nav.game"></span></button>
+ <button class="navbtn" data-go="diag"><span class="ico">◇</span><span data-t="nav.diag"></span></button>
+ <button class="navbtn" data-go="practice"><span class="ico">▤</span><span data-t="nav.practice"></span></button>
+ <button class="navbtn" data-go="videos"><span class="ico">▶</span><span data-t="nav.videos"></span></button>
+ <button class="navbtn" data-go="tips"><span class="ico">✦</span><span data-t="nav.tips"></span></button>
+ <button class="navbtn" data-go="guide"><span class="ico">?</span><span data-t="nav.guide"></span></button>
+ <div class="railfoot">
+  <button class="navbtn" id="nav-logout" style="display:none"><span class="ico">⏻</span><span data-t="nav.logout"></span></button>
+  <div class="langsw"><button data-lang="es" class="on">ES</button><button data-lang="en">EN</button></div>
+ </div>
+</nav>
+<main>
+
+<section class="view on" id="v-today">
+ <div class="vhead"><h1 data-t="today.h"></h1><p data-t="today.p"></p></div>
+ <div class="panel cream">
+  <div class="muted" style="font-size:11px;letter-spacing:.1em" id="hero-label"></div>
+  <div class="hero"><div class="n" id="hero-n"></div><div class="u" id="hero-u"></div></div>
+ </div>
+ <div class="row">
+  <div class="panel" style="border-color:var(--teal-dim)">
+   <h3 data-t="q.h"></h3>
+   <div class="muted" style="margin-bottom:14px" data-t="q.p"></div>
+   <div style="display:flex;gap:10px;align-items:flex-end;flex-wrap:wrap">
+    <div style="flex:1;min-width:110px"><label class="f" data-t="g.score"></label><input id="q-score" placeholder="78" inputmode="numeric"></div>
+    <div style="flex:1;min-width:110px"><label class="f" data-t="g.putts"></label><input id="q-putts" placeholder="32" inputmode="numeric"></div>
+    <button class="btn" id="q-save" data-t="q.save"></button>
+   </div>
+   <div class="note" data-t="q.note"></div>
+  </div>
+  <div class="panel">
+   <h3 data-t="st.h"></h3>
+   <div class="hero" style="margin:6px 0 4px"><div class="n good" id="streak-n" style="font-size:52px"></div><div class="u" id="streak-u" style="color:var(--cream-dim)"></div></div>
+   <div id="weeks" style="display:flex;gap:5px;margin-top:12px"></div>
+   <div class="muted" style="font-size:11.5px;margin-top:8px" data-t="st.p"></div>
+  </div>
+ </div>
+ <div class="panel cream" id="mom"></div>
+ <div class="row">
+  <div class="panel">
+   <h3 data-t="today.where"></h3>
+   <div class="muted" style="margin-bottom:16px" id="sg-sub"></div>
+   <div id="sgbars"></div>
+   <div class="legend"><span data-t="sg.gain"></span><span data-t="sg.lose"></span></div>
+  </div>
+  <div class="panel">
+   <h3 data-t="today.trend"></h3>
+   <div class="muted" style="margin-bottom:10px" id="trend-sub"></div>
+   <div id="trend"></div>
+  </div>
+ </div>
+ <div class="row">
+  <div class="panel cream">
+   <h3 data-t="today.prio"></h3>
+   <p id="priority" style="font-size:14.5px;line-height:1.6"></p>
+   <div class="hr" style="background:rgba(17,40,56,.12)"></div>
+   <div class="muted" style="font-size:12.5px" id="priority-why"></div>
+   <div style="margin-top:16px">
+    <button class="btn sm" data-go="practice" data-t="today.build"></button>
+    <button class="btn sm" data-go="brain" style="margin-left:8px;background:#112838;color:#F2EDE1" data-t="today.askbrain"></button>
+   </div>
+  </div>
+  <div class="panel">
+   <h3 data-t="today.vday"></h3>
+   <div class="muted" style="margin-bottom:12px" data-t="today.vdayp"></div>
+   <div id="vday"></div>
+  </div>
+ </div>
+ <div class="panel"><h3 data-t="today.changed"></h3><ul class="feed" id="feed"></ul></div>
+</section>
+
+<section class="view" id="v-brain">
+ <div class="vhead"><h1 data-t="brain.h"></h1><p data-t="brain.p"></p></div>
+ <div class="panel">
+  <div class="chat" id="chat"></div>
+  <div class="hr"></div>
+  <div style="display:flex;gap:10px">
+   <input id="ask-in" data-ph="brain.ph" style="flex:1">
+   <button class="btn" id="ask-send" data-t="brain.send"></button>
+  </div>
+  <div class="chips" style="margin-top:14px" id="sugs"></div>
+  <div class="note" data-t="brain.freep"></div>
+ </div>
+</section>
+
+<section class="view" id="v-guide">
+ <div class="vhead"><h1 data-t="gd.h"></h1><p data-t="gd.p"></p></div>
+ <div class="panel cream">
+  <div class="muted" style="font-size:11px;letter-spacing:.1em" data-t="gd.plan"></div>
+  <div class="hero" style="margin:6px 0 10px"><div class="n good" style="font-size:52px">$25</div><div class="u" data-t="gd.planp"></div></div>
+  <div class="hr" style="background:rgba(17,40,56,.12)"></div>
+  <div class="grid3" id="gd-incl"></div>
+ </div>
+ <div class="panel"><h3 data-t="gd.start"></h3><div id="gd-steps"></div></div>
+ <div class="row">
+  <div class="panel"><h3 data-t="gd.week"></h3><div id="gd-week"></div></div>
+  <div class="panel"><h3 data-t="gd.faq"></h3><div id="gd-faq"></div></div>
+ </div>
+</section>
+
+<section class="view" id="v-game">
+ <div class="vhead"><h1 data-t="game.h"></h1><p data-t="game.p"></p></div>
+ <div class="panel">
+  <h3 data-t="game.profile"></h3>
+  <div class="grid4">
+   <div><label class="f" data-t="game.hcp"></label><input id="p-hcp" value="8.4"></div>
+   <div><label class="f" data-t="game.age"></label><input id="p-age" value="16"></div>
+   <div><label class="f" data-t="game.zone"></label><input id="p-zone" value="Madrid"></div>
+   <div><label class="f" data-t="game.goal"></label><input id="p-goal" value="2.0"></div>
+  </div>
+  <div class="note" data-t="game.goalnote"></div>
+  <div class="hr"></div>
+  <h3 data-t="game.dist"></h3>
+  <div class="muted" style="margin-bottom:12px" data-t="game.distp"></div>
+  <div class="grid4" id="clubs"></div>
+  <div style="margin-top:16px"><button class="btn ghost sm" id="save-prof" data-t="game.saveprof"></button></div>
+ </div>
+ <div class="panel">
+  <h3 data-t="game.feed"></h3>
+  <div class="chips" style="margin:12px 0 20px">
+   <button class="chip on" data-input="round" data-t="game.mround"></button>
+   <button class="chip" data-input="self" data-t="game.mself"></button>
+  </div>
+  <div id="in-round">
+   <div class="grid4">
+    <div><label class="f" data-t="g.score"></label><input id="r-score" placeholder="78"></div>
+    <div><label class="f" data-t="g.fw"></label><input id="r-fw" placeholder="7"></div>
+    <div><label class="f" data-t="g.gir"></label><input id="r-gir" placeholder="8"></div>
+    <div><label class="f" data-t="g.putts"></label><input id="r-putts" placeholder="33"></div>
+   </div>
+   <div class="grid4" style="margin-top:12px">
+    <div><label class="f" data-t="g.ud"></label><input id="r-ud" placeholder="3"></div>
+    <div><label class="f" data-t="g.uda"></label><input id="r-uda" placeholder="8"></div>
+    <div><label class="f" data-t="g.bk"></label><input id="r-bk" placeholder="1"></div>
+    <div><label class="f" data-t="g.bka"></label><input id="r-bka" placeholder="3"></div>
+   </div>
+   <div class="grid4" style="margin-top:12px">
+    <div><label class="f" data-t="g.pen"></label><input id="r-pen" placeholder="2"></div>
+    <div><label class="f" data-t="g.w"></label><input id="r-w" placeholder="2"></div>
+    <div><label class="f" data-t="g.wa"></label><input id="r-wa" placeholder="6"></div>
+   </div>
+   <div style="margin-top:18px"><button class="btn" id="save-round" data-t="g.save"></button></div>
+   <div class="note" data-t="g.note"></div>
+  </div>
+  <div id="in-self" style="display:none">
+   <div class="muted" style="margin-bottom:14px" data-t="game.selfp"></div>
+   <div class="chips" id="selfchips"></div>
+   <div style="margin-top:18px"><button class="btn" id="save-self" data-t="g.save2"></button></div>
+  </div>
+ </div>
+ <div class="panel"><h3 data-t="game.hist"></h3><table class="cmp" id="hist"></table></div>
+</section>
+
+<section class="view" id="v-diag">
+ <div class="vhead"><h1 data-t="diag.h"></h1><p data-t="diag.p"></p></div>
+ <div class="panel">
+  <div style="margin-bottom:22px"><label class="f" data-t="diag.q1"></label><div class="chips" data-q="club"></div></div>
+  <div style="margin-bottom:22px"><label class="f" data-t="diag.q2"></label><div class="chips" data-q="start"></div></div>
+  <div style="margin-bottom:22px"><label class="f" data-t="diag.q3"></label><div class="chips" data-q="curve"></div></div>
+  <div><label class="f" data-t="diag.q4"></label><div class="chips" data-q="contact"></div></div>
+  <div style="margin-top:24px"><button class="btn" id="run-diag" data-t="diag.run"></button></div>
+ </div>
+ <div id="diag-out"></div>
+</section>
+
+<section class="view" id="v-practice">
+ <div class="vhead"><h1 data-t="pr.h"></h1><p data-t="pr.p"></p></div>
+ <div class="panel">
+  <label class="f" data-t="pr.time"></label><div class="chips" id="dur"></div>
+  <div class="hr"></div>
+  <div class="muted" style="margin-bottom:10px" data-t="pr.sugp"></div>
+  <button class="btn" id="build" data-t="pr.build"></button>
+ </div>
+ <div class="panel">
+  <h3 data-t="pr.lib"></h3>
+  <div class="muted" style="margin-bottom:14px" data-t="pr.libp"></div>
+  <div class="chips" id="libfilter" style="margin-bottom:16px"></div>
+  <div id="library"></div>
+ </div>
+</section>
+
+<section class="view" id="v-videos">
+ <div class="vhead"><h1 data-t="vid.h"></h1><p data-t="vid.p"></p></div>
+ <div class="panel">
+  <h3 data-t="vid.explore"></h3>
+  <div class="muted" style="margin-bottom:14px" id="vtcount"></div>
+  <div class="chips" id="vfilter" style="margin-bottom:16px"></div>
+  <div id="vtopics"></div>
+  <div class="note" data-t="vid.topicsnote"></div>
+ </div>
+ <div class="panel">
+  <h3 data-t="vid.picks"></h3>
+  <div class="muted" style="margin-bottom:14px" data-t="vid.picksp"></div>
+  <div class="chips" id="vlen" style="margin-bottom:18px"></div>
+  <div class="grid3" id="vgrid"></div>
+ </div>
+ <div class="panel">
+  <h3 data-t="vid.channels"></h3>
+  <div class="muted" style="margin-bottom:8px" data-t="vid.channelsp"></div>
+  <div id="vchan"></div>
+ </div>
+</section>
+
+<section class="view" id="v-tips">
+ <div class="vhead"><h1 data-t="tips.h"></h1><p data-t="tips.p"></p></div>
+ <div class="panel"><div class="chips" id="tipcat" style="margin-bottom:18px"></div><div class="grid3" id="tipgrid"></div></div>
+ <div id="tipout"></div>
+</section>
+</main>
+</div>
+
+<div class="cart hide" id="cart">
+ <div><div class="c1" id="cart1"></div><div class="c2" id="cart2"></div></div>
+ <div class="sp"><button class="btn ghost sm" id="cart-clear" data-t="cart.clear"></button><button class="btn sm" id="cart-start" data-t="cart.start"></button></div>
+</div>
+<div class="toast" id="toast"></div>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script>
+let L='es';
+const T={
+'nav.today':['Hoy','Today'],'nav.brain':['Brain','Brain'],'nav.game':['Mi juego','My game'],
+'nav.diag':['Diagnóstico','Diagnosis'],'nav.practice':['Práctica','Practice'],'nav.videos':['Videos','Videos'],'nav.tips':['Tips','Tips'],
+'today.h':['Buenos días, Javier','Good morning, Javier'],
+'today.p':['Todo sale de las rondas que registras. Los números son golpes por vuelta, no puntos.','Everything comes from the rounds you log. The numbers are strokes per round, not points.'],
+'today.where':['Dónde pierdes golpes','Where you lose strokes'],
+'today.trend':['Seguimiento','Tracking'],
+'today.prio':['Prioridad','Priority'],'today.build':['Ir a práctica','Go to practice'],
+'today.askbrain':['Preguntarle a Brain','Ask Brain'],
+'today.changed':['Historial','History'],
+'today.vday':['Tu video de hoy','Your video today'],
+'today.vdayp':['Cambia todos los días y se elige según dónde estás perdiendo golpes.','Changes daily and is picked from where you are losing strokes.'],
+'sg.gain':['Ganas golpes','Strokes gained'],'sg.lose':['Pierdes golpes','Strokes lost'],
+'hero.lost':['GOLPES PERDIDOS POR VUELTA','STROKES LOST PER ROUND'],
+'hero.u':['contra un jugador de hándicap {g}. Ahí está tu margen real.','against a {g}-handicap player. That is your real margin.'],
+'hero.ug':['Estás por debajo de tu objetivo de hándicap {g}. Sube la exigencia.','You are beating your {g}-handicap target. Raise the bar.'],
+'brain.h':['Brain','Brain'],
+'brain.p':['Conoce tu hándicap, tus distancias, tu desglose de golpes y toda la biblioteca. Pregúntale lo que sea.','It knows your handicap, your distances, your strokes breakdown and the whole library. Ask it anything.'],
+'brain.send':['Enviar','Send'],
+'brain.ph':['Pregúntale lo que quieras sobre tu juego…','Ask anything about your game…'],
+'brain.note':['Brain responde con tus datos reales delante. No es un chat genérico.','Brain answers with your real numbers in front of it. It is not a generic chatbot.'],
+'brain.hi':['Soy Brain. Tengo delante tu hándicap, tus distancias por palo y el desglose de golpes de tu última ronda.\n\nPregúntame lo que quieras: por qué pierdes golpes, qué practicar el jueves, qué palo pegar desde 143 yardas, cómo arreglar un patrón, o qué esperar de tu juego en tres meses.','I am Brain. I have your handicap, your club distances and your last round breakdown in front of me.\n\nAsk me anything: why you lose strokes, what to practise Thursday, what club from 143 yards, how to fix a pattern, or what to expect from your game in three months.'],
+'brain.err':['No pude conectar en este momento. Vuelve a intentar en unos segundos.','I could not connect just now. Try again in a few seconds.'],
+'game.h':['Mi juego','My game'],
+'game.p':['Todo lo que Brain sabe de ti.','Everything Brain knows about you.'],
+'game.profile':['Perfil','Profile'],'game.hcp':['HÁNDICAP ACTUAL','CURRENT HANDICAP'],'game.age':['EDAD','AGE'],'game.zone':['ZONA','REGION'],
+'game.goal':['HÁNDICAP OBJETIVO','TARGET HANDICAP'],
+'game.goalnote':['Todo se mide contra tu objetivo. Ponlo en 0 y las metas de los ejercicios se vuelven de nivel scratch.','Everything is measured against your target. Set it to 0 and the drill targets become scratch level.'],
+'game.saveprof':['Aplicar','Apply'],
+'game.dist':['Mis distancias (yardas)','My distances (yards)'],
+'game.distp':['Distancia de vuelo con la que cuentas, no tu mejor golpe.','The carry you can count on, not your best ever.'],
+'game.feed':['Registrar','Log'],
+'game.mround':['Una ronda','A round'],'game.mself':['Solo cómo juego','Just how I play'],
+'game.selfp':['Marca lo que te describa.','Tap what describes you.'],
+'game.hist':['Rondas registradas','Rounds logged'],
+'g.score':['SCORE','SCORE'],'g.fw':['CALLES /14','FAIRWAYS /14'],'g.gir':['GREENS /18','GREENS /18'],'g.putts':['PUTTS','PUTTS'],
+'g.ud':['UP&DOWN LOGRADOS','UP&DOWNS MADE'],'g.uda':['INTENTOS','ATTEMPTS'],
+'g.bk':['BUNKERS SALVADOS','SAND SAVES'],'g.bka':['INTENTOS','ATTEMPTS'],
+'g.pen':['PENALIDADES','PENALTIES'],'g.w':['WEDGES A <20 PIES','WEDGES INSIDE 20 FT'],'g.wa':['TIROS DE WEDGE','WEDGE SHOTS'],
+'g.save':['Calcular ronda','Calculate round'],'g.save2':['Guardar','Save'],
+'g.note':['Score y putts bastan. Entre más campos llenes, más preciso el desglose.','Score and putts are enough. The more fields you fill, the sharper the breakdown.'],
+'diag.h':['Diagnóstico','Diagnosis'],
+'diag.p':['Contesta lo que ves. La forma de vuelo dice exactamente qué hizo la cara y qué hizo el camino.','Answer what you see. Ball flight tells you exactly what the face did and what the path did.'],
+'diag.q1':['1 · ¿CON QUÉ PALO?','1 · WHICH CLUB?'],'diag.q2':['2 · ¿HACIA DÓNDE ARRANCA?','2 · WHERE DOES IT START?'],
+'diag.q3':['3 · ¿PARA DÓNDE SE VA?','3 · WHERE DOES IT GO?'],'diag.q4':['4 · ¿CÓMO ES EL CONTACTO?','4 · HOW IS THE CONTACT?'],
+'diag.run':['Diagnosticar','Diagnose'],'diag.now':['Qué hacer ahora mismo','What to do right now'],
+'diag.dr':['Ejercicios para corregirlo','Drills to fix it'],
+'diag.path':['Camino','Path'],'diag.face':['Cara','Face'],'diag.ask':['Preguntarle a Brain sobre esto','Ask Brain about this'],
+'pr.h':['Práctica','Practice'],
+'pr.p':['Elige ejercicios y se van sumando abajo. Las metas ya están ajustadas a tu hándicap.','Pick drills and they add up at the bottom. Targets are already scaled to your handicap.'],
+'pr.time':['TIEMPO QUE TIENES','TIME YOU HAVE'],
+'pr.sugp':['O deja que Brain elija según dónde estás perdiendo golpes.','Or let Brain choose based on where you are losing strokes.'],
+'pr.build':['Que elija Brain','Let Brain choose'],
+'pr.lib':['Biblioteca','Library'],
+'pr.libp':['Ordenada por dónde más golpes estás perdiendo.','Sorted by where you lose the most strokes.'],
+'pr.min':['min','min'],'pr.balls':['bolas','balls'],'pr.goal':['Tu meta','Your target'],
+'pr.add':['Agregar','Add'],'pr.rm':['Quitar','Remove'],
+'pr.video':['Ver video','Watch'],'pr.slot':['Video pendiente','Video pending'],
+'cart.clear':['Vaciar','Clear'],'cart.start':['Registrar resultados','Log results'],
+'cart.n':['{n} ejercicios · {m} min','{n} drills · {m} min'],
+'cart.fit':['Cabe en tus {d} min','Fits your {d} min'],
+'cart.over':['Te pasas {x} min de los {d} que tienes','{x} min over your {d}'],
+'vid.h':['Videos','Videos'],
+
+'q.h':['Registro rápido','Quick log'],
+'q.p':['Dos números y listo. Todo lo demás lo estima el sistema con tu hándicap.','Two numbers and you are done. The system estimates the rest from your handicap.'],
+'q.save':['Registrar','Log it'],
+'q.note':['¿Tienes la tarjeta completa? Mi juego tiene el registro detallado.','Have the full card? My game has the detailed log.'],
+'st.h':['Racha','Streak'],
+'st.p':['Cada semana con al menos una ronda o una sesión registrada.','Every week with at least one round or session logged.'],
+'st.w':['semanas seguidas','weeks in a row'],
+'st.w1':['semana','week'],
+'st.none':['Registra algo esta semana para empezar tu racha.','Log something this week to start your streak.'],
+'mom.h':['Últimos 30 días contra los 30 anteriores','Last 30 days against the 30 before'],
+'mom.rounds':['rondas','rounds'],'mom.avg':['Score promedio','Average score'],
+'mom.lost':['Golpes perdidos','Strokes lost'],
+'mom.better':['Vas mejorando. Bajaste {s} golpes de promedio y {l} golpes perdidos por vuelta.','You are improving. Your average dropped {s} strokes and {l} strokes lost per round.'],
+'mom.worse':['Vas para atrás: {s} golpes más de promedio. Revisa qué área se movió.','You have slipped: {s} strokes worse on average. Check which area moved.'],
+'mom.same':['Estás plano. Sin cambio significativo entre periodos.','You are flat. No significant change between periods.'],
+'mom.need':['Necesitas rondas en los dos periodos para comparar.','You need rounds in both periods to compare.'],
+'mom.report':['Reporte del mes','Month report'],
+'vid.short2':['CORTO','SHORT'],
+'nav.guide':['Guía','Guide'],'nav.logout':['Salir','Log out'],
+'gd.h':['Cómo usar Brain','How to use Brain'],
+'gd.p':['Cinco minutos de lectura y ya le sacas todo. Abajo están las preguntas que más nos hacen.','Five minutes of reading and you have it. The most common questions are at the bottom.'],
+'gd.plan':['MEMBRESÍA HAMER BRAIN','HAMER BRAIN MEMBERSHIP'],
+'gd.planp':['al mes, cancelas cuando quieras. Acceso completo a todo lo de abajo.','per month, cancel any time. Full access to everything below.'],
+'gd.start':['Cómo empezar','Getting started'],
+'gd.week':['Tu semana con Brain','Your week with Brain'],
+'gd.faq':['Preguntas frecuentes','Frequently asked'],
+'vid.explore':['Explorar por tema','Browse by topic'],
+'vid.picks':['Selección HAMER','HAMER picks'],
+'vid.picksp':['Videos que revisamos uno por uno. Se quedan fijos como referencia.','Videos we reviewed one by one. They stay put as a reference.'],
+'vid.p':['Toca cualquier tema y se abre la búsqueda de ese canal, ordenada por lo más reciente. La combinación rota cada semana.','Tap any topic and it opens that channel\'s search, sorted by newest. The pairing rotates weekly.'],
+'vid.new':['NUEVO','NEW'],
+'vid.markseen':['Ya lo vi','Mark as seen'],
+'vid.unseen':['Volver a mostrar','Show again'],
+'vid.hideseen':['Ocultar vistos','Hide seen'],
+'vid.empty':['Ya viste todos los de este filtro. Cambia de área o espera la rotación del lunes.','You have seen everything in this filter. Switch area or wait for Monday\'s rotation.'],
+'vid.topics':['Temas en rotación','Topics in rotation'],
+'vid.topicsnote':['En producción cada tema consulta YouTube en vivo (cuota gratuita) y trae los mejores videos recientes de los canales aprobados. El catálogo nunca se queda quieto.','In production each topic queries YouTube live (free quota) and pulls the best recent videos from approved channels. The catalogue never goes stale.'],
+'vid.channels':['Canales aprobados','Approved channels'],
+'vid.channelsp':['Solo sale contenido de estos canales. Ustedes deciden la lista una vez.','Only these channels can surface. You set the list once.'],
+'brain.free':['MODO GRATIS','FREE MODE'],
+'brain.freep':['Brain corre dentro de la app, sin servicios externos y sin costo por pregunta. Conoce tu hándicap, tus distancias y tu desglose de golpes.','Brain runs inside the app, no external services and no cost per question. It knows your handicap, your distances and your strokes breakdown.'],
+'brain.ai':['Modo IA','AI mode'],
+'tips.h':['Tips rápidos','Quick tips'],
+'tips.p':['Para el campo, entre golpe y golpe. Tres arreglos por problema.','For the course, between shots. Three fixes per problem.'],
+'tips.three':['3 arreglos','3 fixes'],'tips.deep':['Diagnosticar','Diagnose'],'tips.ex':['Ejercicios','Drills'],
+'t.putt':['Putt','Putting'],'t.chipping':['Juego corto','Short game'],'t.bunker':['Bunker','Bunker'],
+'t.wedges':['Wedges','Wedges'],'t.hierros':['Hierros','Irons'],'t.driver':['Driver','Driver'],
+'ok.add':['Agregado','Added'],'ok.saved':['Ronda calculada','Round calculated'],
+'col.you':['Tú','You'],'col.d':['Δ golpes','Δ strokes'],
+'row.fw':['Calles','Fairways'],'row.gir':['Greens','Greens'],'row.putts':['Putts','Putts'],
+'noround':['Registra una ronda para ver tu desglose real.','Log a round to see your real breakdown.'],
+'trend.need':['Registra dos rondas para ver tu tendencia.','Log two rounds to see your trend.'],
+'trend.sub':['Golpes perdidos por vuelta, ronda a ronda.','Strokes lost per round, round by round.'],
+'q1':['¿Dónde estoy perdiendo más golpes y por qué?','Where am I losing the most strokes and why?'],
+'q2':['Tengo 45 minutos hoy, ¿qué practico?','I have 45 minutes today, what do I practise?'],
+'q3':['Me quedan 143 yardas cuesta arriba, ¿qué palo?','143 yards uphill, what club?'],
+'q4':['¿Qué puedo esperar de mi juego en 3 meses?','What can I expect from my game in 3 months?']
+};
+const t=k=>{const v=T[k];return v?v[L==='es'?0:1]:k};
+const AREAS=['driver','hierros','wedges','chipping','bunker','putt'];
+const an=k=>t('t.'+k);
+const P=a=>a[L==='es'?0:1];
+
+/* ============ VIDEOS VERIFICADOS ============ */
+const VIDEOS=[
+{id:'N6X8bgHziLs',a:'driver',s:0,ti:['Arreglar el slice — camino y cara','Fix your slice — path and face']},
+{id:'ziKwS6Dve0M',a:'driver',s:0,pro:'Hank Haney',ti:['El drill del círculo para el slice','The circle drill for a slice']},
+{id:'xG66WXfnCTg',a:'driver',s:0,pro:'Rick Shiels',ti:['Cómo dejar de pegar slice','How to stop slicing']},
+{id:'_nM4Q7s2RQc',a:'driver',s:0,ti:['Cinco causas del slice','Five causes of a slice']},
+{id:'MducFYxKUmQ',a:'putt',s:0,pro:'Dave Pelz',ti:['Control de distancia y zona segura','Distance control and the safe zone']},
+{id:'PgHFOE3vuMU',a:'putt',s:0,pro:'Dave Pelz',ti:['Lag putting — la regla del círculo','Lag putting — the circle rule']},
+{id:'1Va-ENuYQQQ',a:'putt',s:0,ti:['Módulo completo de lag putting','Full lag putting module']},
+{id:'r2-oDCbnIpE',a:'putt',s:0,ti:['Mejora tu stroke con un solo drill','Improve your stroke with one drill']},
+{id:'BOKnL5zos74',a:'putt',s:0,ti:['Diez minutos de putt corto','Ten minutes of short putting']},
+{id:'BvIQKOxvK3s',a:'putt',s:1,pro:'Todd Kolb',ti:['El stroke no es recto','Your stroke is not straight']},
+{id:'75BzaJkGjSI',a:'putt',s:0,ti:['Técnica del stroke perfecto','Perfect putting stroke technique']},
+{id:'eCPndwLPSug',a:'bunker',s:0,pro:'Danny Maude',ti:['Técnica de bunker de green','Greenside bunker technique']},
+{id:'0nf2-iL89ok',a:'bunker',s:1,ti:['Bunker simple en tres pasos','Simple bunker in three steps']},
+{id:'QxDKLWUGYeE',a:'hierros',s:0,pro:'Rob Cheney',ti:['Dejar de pegar gordo — punto bajo','Stop hitting it fat — low point']},
+{id:'6fM6BLLjXJs',a:'chipping',s:0,ti:['Deja de chulear los chips','Stop chunking your chips']},
+{id:'TFfwPqZrpKU',a:'chipping',s:0,ti:['Sistema de cuatro golpes alrededor del green','Four-shot system around the green']},
+{id:'2SOAHQY-Fr0',a:'chipping',s:0,ti:['Chips más fáciles con esta técnica','Easier chips with this technique']},
+{id:'_KXfki-tvkU',a:'chipping',s:1,ti:['Chips cortos sobre el rough','Short chips over rough']},
+{id:'twKks_sYyic',a:'chipping',s:0,ti:['Chipping en tres pasos simples','Chipping in three simple steps']},
+{id:'bA1U-HRHt1M',a:'chipping',s:0,ti:['Usa el rebote para todos los chips','Use the bounce on every chip']},
+{id:'BDBuY8gPNms',a:'chipping',s:1,short:1,ti:['Drill rápido de juego corto','Quick short game drill']},
+{id:'uq9YjxVBnZk',a:'wedges',s:1,ti:['Control de wedge a 20-40-60-80-100','Wedge control at 20-40-60-80-100']},
+{id:'jpN1VuiAwPc',a:'wedges',s:0,pro:'Rob Cheney',ti:['Tres drills de distancia con wedge','Three wedge distance drills']},
+{id:'DBR3ZPNiYoE',a:'wedges',s:0,ti:['Wedges de 50 a 120 yardas','Wedges from 50 to 120 yards']},
+{id:'MqhSP_4gfyU',a:'hierros',s:0,ti:['Compresión de hierros y punto bajo','Iron compression and low point']},
+{id:'Cc8DuJXcO1Q',a:'driver',s:0,pro:'Danny Maude',ti:['Pega driver más lejos con swing más corto','Hit driver longer with a shorter swing']}
+];
+
+/* ===== LISTA BLANCA DE CANALES =====
+   En producción, la app consulta la API de YouTube (cuota GRATIS) restringida
+   a estos canales. Eso da cientos de videos siempre frescos sin curar a mano. */
+const CHANNELS=[
+ {n:'Rick Shiels Golf',d:['Canal de golf más grande de YouTube · PGA','Largest golf channel on YouTube · PGA']},
+ {n:'Danny Maude',d:['Enseñanza simple y muy clara','Simple, very clear teaching']},
+ {n:'Me and My Golf',d:['Dos PGA, drills estructurados','Two PGA pros, structured drills']},
+ {n:'Scratch Golf Academy',d:['Adam Bazalgette, ex Leadbetter','Adam Bazalgette, ex-Leadbetter']},
+ {n:'Golf Digest',d:['Top 100 teachers y tour pros','Top 100 teachers and tour pros']},
+ {n:'Athletic Motion Golf',d:['Biomecánica y datos','Biomechanics and data']},
+ {n:'Rob Cheney',d:['Contacto y compresión','Strike and compression']},
+ {n:'Padraig Harrington',d:['Major champion, canal propio','Major champion, own channel']},
+ {n:'GOLF.com',d:['Instrucción de Top 100 teachers','Top 100 teacher instruction']},
+ {n:'Chris Ryan Golf',d:['PGA, técnica fundamental','PGA, fundamentals']}
+];
+/* Temas que alimentan las consultas. Cada uno devuelve resultados nuevos cada semana. */
+const TOPICS={
+ driver:['slice','hook','distancia','ángulo de ataque','centro de la cara','tee alto','velocidad de swing','alineación','push','ritmo','driver de calle','dispersión'],
+ hierros:['contacto gordo','filazo','shank','compresión','punto bajo','shaft lean','control de distancia','divot','hierros largos','trayectoria','híbridos','desde rough'],
+ wedges:['distancias parciales','sistema de reloj','giro','lie apretado','60 yardas','bandera trasera','trayectoria baja','bounce','contacto de wedge','wedge desde rough'],
+ chipping:['chuleo','punto de caída','bump and run','flop','lie apretado','desde rough','cuesta abajo','elección de palo','bounce','chip con hierro'],
+ bunker:['salida básica','bola enterrada','bunker de calle','arena dura','arena suave','bunker largo','labio alto','cuesta arriba en arena'],
+ putt:['putts cortos','lag','lectura de green','velocidad','alineación de ojos','stroke','tres putts','grip de putt','rutina','presión','greens rápidos','cuesta abajo']
+};
+const vurl=v=>v.short?`https://www.youtube.com/shorts/${v.id}`:`https://www.youtube.com/watch?v=${v.id}`;
+const vthumb=v=>`https://img.youtube.com/vi/${v.id}/hqdefault.jpg`;
+const vFor=a=>VIDEOS.filter(v=>v.a===a);
+const vOne=(a,seed)=>{const l=vFor(a);return l.length?l[seed%l.length]:null};
+
+/* ============ MODELO ============ */
+function expect(h){h=Math.max(0,Math.min(25,h));const k=h/20;
+ return {score:72+h,fw:9.0-3.6*k,gir:11.6-7.4*k,putts:29.6+5.6*k,ud:.55-.29*k,sand:.48-.30*k,wedge:.55-.33*k,pen:.4+2.4*k}}
+const DAY=864e5,NOW=Date.now();
+const ago=n=>new Date(NOW-n*DAY).toISOString().slice(0,10);
+const S={hcp:8.4,goal:2.0,age:16,zone:'Madrid',
+ clubs:{'Driver':250,'3W':225,'4H':205,'5i':190,'6i':180,'7i':168,'8i':156,'9i':143,'PW':130,'GW':115,'SW':98,'LW':80},
+ dur:90,cart:[],
+ rounds:[
+  {dt:ago(3),score:78,fw:8,gir:9,putts:32,total:7.4},
+  {dt:ago(9),score:79,fw:7,gir:8,putts:33,total:7.9},
+  {dt:ago(16),score:81,fw:6,gir:8,putts:34,total:8.4},
+  {dt:ago(24),score:83,fw:6,gir:7,putts:34,total:8.9},
+  {dt:ago(33),score:85,fw:5,gir:6,putts:35,total:9.6},
+  {dt:ago(41),score:84,fw:6,gir:6,putts:35,total:9.3},
+  {dt:ago(52),score:86,fw:4,gir:5,putts:36,total:10.2}
+ ],
+ acts:[ago(1),ago(3),ago(5),ago(8),ago(9),ago(12),ago(16),ago(19),ago(23),ago(24),ago(30),ago(33)],
+ sg:{driver:.9,hierros:1.4,wedges:.8,chipping:1.5,bunker:.7,putt:2.1},
+ seen:[],
+ last:null,feed:[]};
+S.last=S.rounds[0];
+function computeRound(r){const e=expect(S.goal);const g={};
+ g.putt=+((r.putts-e.putts)).toFixed(2);
+ g.hierros=+((e.gir-r.gir)*.46).toFixed(2);
+ g.driver=+((e.fw-r.fw)*.26+Math.max(0,r.pen-e.pen)*.9).toFixed(2);
+ g.chipping=r.uda>0?+(((e.ud*r.uda)-r.ud)*.82).toFixed(2):S.sg.chipping;
+ g.bunker=r.bka>0?+(((e.sand*r.bka)-r.bk)*.82).toFixed(2):S.sg.bunker;
+ g.wedges=r.wa>0?+(((e.wedge*r.wa)-r.w)*.55).toFixed(2):S.sg.wedges;
+ return g}
+const totalSG=()=>+Object.values(S.sg).reduce((a,b)=>a+b,0).toFixed(1);
+const worst=()=>AREAS.slice().sort((a,b)=>S.sg[b]-S.sg[a])[0];
+function target(d){const k=Math.max(0,Math.min(20,S.goal))/20;return Math.round(d.tg[0]-(d.tg[0]-d.tg[1])*k)}
+
+/* ============ EJERCICIOS ============ */
+const DRILLS=[
+{id:'p1',a:'putt',min:15,b:24,tg:[16,23],u:['de 24','of 24'],vid:'BOKnL5zos74',
+ nm:['Reloj de 3 pies','3-foot clock'],
+ d:['Seis bolas en círculo a 3 pies. Da la vuelta completa. Si fallas, el círculo empieza de nuevo.','Six balls in a circle at 3 feet. Complete the loop. Miss one and it restarts.']},
+{id:'p2',a:'putt',min:20,b:30,tg:[10,16],u:['de 18 en zona','of 18 in the zone'],vid:'MducFYxKUmQ',pro:['Dave Pelz','Dave Pelz'],
+ nm:['Lag con zona segura','Safe-zone lag'],
+ d:['Tres bolas desde 40, 50 y 60 pies. No buscas meterla: la quieres dentro de un círculo del largo de un putter. Pelz llama a eso la zona segura y es lo que mata los tres-putts.','Three balls from 40, 50 and 60 feet. Not trying to hole it — you want it inside a putter-length circle. Pelz calls this the safe zone and it kills three-putts.']},
+{id:'p3',a:'putt',min:15,b:20,tg:[12,18],u:['de 20 sin tocar','of 20 without touching'],vid:'r2-oDCbnIpE',
+ nm:['Puerta de tees','Tee gate'],
+ d:['Dos tees apenas más anchos que la cabeza del putter, seis pulgadas delante. Tocar un tee significa que la cara no llegó cuadrada.','Two tees barely wider than the putter head, six inches ahead. Touching one means the face was not square.']},
+{id:'p4',a:'putt',min:25,b:9,tg:[3,7],u:['de 9 metidos','of 9 holed'],vid:'1Va-ENuYQQQ',
+ nm:['Nueve hoyos en el green','Nine holes on the green'],
+ d:['Nueve putts distintos entre 10 y 40 pies, un intento cada uno, como si contaran de verdad.','Nine different putts from 10 to 40 feet, one attempt each, as if they counted.']},
+{id:'c1',a:'chipping',min:15,b:20,tg:[10,17],u:['de 20 en la toalla','of 20 on the towel'],vid:'bA1U-HRHt1M',
+ nm:['Aterrizaje en la toalla','Towel landing'],
+ d:['Toalla a 2 yardas dentro del green. Olvídate del hoyo: quieres que bote en la toalla. Controlar el punto de caída es todo el juego corto.','Towel 2 yards onto the green. Forget the hole — you want it to land on the towel. The landing spot is the whole short game.']},
+{id:'c2',a:'chipping',min:20,b:21,tg:[11,18],u:['de 21 sin soltar la muñeca','of 21 without flipping'],vid:'6fM6BLLjXJs',pro:['Phil Mickelson','Phil Mickelson'],
+ nm:['Bisagra y sostener','Hinge and hold'],
+ d:['Muñecas bisagradas atrás y sostenidas en el impacto, sin soltar la cabeza. Es el método que Mickelson publicó para chips suaves y con giro.','Wrists hinged back and held through impact, never flipping. The method Mickelson published for soft, spinning chips.']},
+{id:'c3',a:'chipping',min:25,b:9,tg:[3,6],u:['de 9 salvados','of 9 saved'],vid:'TFfwPqZrpKU',
+ nm:['Up-and-down x9','Up-and-down x9'],
+ d:['Nueve lies distintos alrededor del green: rough, calle, subida, bajada. Chip y putt. Cuentas los que salvas.','Nine different lies around the green. Chip and putt. Count the saves.']},
+{id:'b1',a:'bunker',min:15,b:20,tg:[6,9],u:['de 10 delante de la línea','of 10 ahead of the line'],vid:'eCPndwLPSug',pro:['Danny Maude','Danny Maude'],
+ nm:['Línea en la arena','Line in the sand'],
+ d:['Dibuja una línea y golpea la arena justo delante, sin bola, diez veces. Después pon la bola sobre la línea y repite el mismo golpe.','Draw a line and strike the sand just ahead of it, no ball, ten times. Then put the ball on the line and repeat.']},
+{id:'b2',a:'bunker',min:20,b:18,tg:[8,14],u:['de 18 en green','of 18 on the green'],vid:'0nf2-iL89ok',
+ nm:['Tres banderas desde arena','Three flags from sand'],
+ d:['Seis bolas a bandera corta, seis a media, seis a larga. Mismo swing: solo cambia cuánto abres la cara.','Six near, six middle, six long. Same swing — only the face opening changes.']},
+{id:'w1',a:'wedges',min:25,b:30,tg:[6,9],u:['de 9 distancias fijadas','of 9 yardages locked'],vid:'jpN1VuiAwPc',pro:['Dave Pelz','Dave Pelz'],
+ nm:['Reloj de wedge','Wedge clock'],
+ d:['Tres largos de swing (cadera, pecho, hombro) con SW, GW y PW. Anota las yardas de cada combinación. Terminas con nueve distancias que repites bajo presión.','Three swing lengths (hip, chest, shoulder) with SW, GW and PW. Write down each yardage. You finish owning nine numbers.']},
+{id:'w2',a:'wedges',min:20,b:20,tg:[9,15],u:['de 20 dentro de 20 pies','of 20 inside 20 feet'],vid:'uq9YjxVBnZk',
+ nm:['Escalera de distancia','Distance ladder'],
+ d:['Objetivos a 40, 65, 90 y 110 yardas. Cinco bolas a cada uno.','Targets at 40, 65, 90 and 110 yards. Five balls each.']},
+{id:'w3',a:'wedges',min:25,b:18,tg:[7,13],u:['de 18 dentro de 20 pies','of 18 inside 20 feet'],vid:'DBR3ZPNiYoE',
+ nm:['Distancias aleatorias','Random yardages'],
+ d:['Distancias al azar entre 50 y 120 yardas, sin repetir. Nunca pegas el mismo golpe dos veces, igual que en el campo.','Random yardages between 50 and 120, never repeating. You never hit the same shot twice, like on the course.']},
+{id:'i1',a:'hierros',min:20,b:24,tg:[14,21],u:['de 24 tocando el tee','of 24 catching the tee'],vid:'QxDKLWUGYeE',
+ nm:['Ventana de contacto','Strike window'],
+ d:['Un tee clavado una pulgada delante de la bola. Si le pegas al tee, tu punto bajo está donde debe.','A tee one inch ahead of the ball. Catch it and your low point is where it belongs.']},
+{id:'i2',a:'hierros',min:25,b:27,tg:[14,22],u:['de 27 en línea','of 27 on line'],vid:null,
+ nm:['Nueve bolas, tres objetivos','Nine balls, three targets'],
+ d:['Tres objetivos a distancias distintas. Cambias palo y objetivo cada bola, con rutina completa antes de cada golpe.','Three targets at different yardages. Change club and target every ball, full routine each time.']},
+{id:'i3',a:'hierros',min:30,b:25,tg:[10,20],u:['de 25 sin repetir forma','of 25 without repeating a shape'],vid:null,pro:['Scheffler y Randy Smith','Scheffler and Randy Smith'],
+ nm:['Nunca el mismo golpe dos veces','Never the same shot twice'],
+ d:['Alta, baja, draw, fade, recta — nunca dos golpes iguales seguidos, cambiando palo y objetivo. Es como Scheffler practica con Randy Smith: variedad y creatividad en vez de repetir cien veces lo mismo.','High, low, draw, fade, straight — never two identical shots in a row. This is how Scheffler practises with Randy Smith: variety over repetition.']},
+{id:'d1',a:'driver',min:20,b:20,tg:[10,16],u:['de 20 en calle','of 20 in the fairway'],vid:null,
+ nm:['Calle imaginaria','Imaginary fairway'],
+ d:['Dos palos en el suelo marcando una calle de 30 yardas de ancho a tu distancia de carry.','Two clubs marking a 30-yard-wide fairway at your carry distance.']},
+{id:'d2',a:'driver',min:15,b:18,tg:[9,15],u:['de 18 con curva a la izquierda','of 18 curving left'],vid:'ziKwS6Dve0M',pro:['Hank Haney','Hank Haney'],
+ nm:['Círculo de Haney','Haney circle'],
+ d:['Un círculo en sentido horario con el palo antes de subir, que reencamina el swing desde adentro. Haney lo publicó como el arreglo más rápido para el slice.','A clockwise circle before you take it back, re-routing the swing from the inside. Haney published it as the fastest slice fix.']},
+{id:'d3',a:'driver',min:20,b:18,tg:[8,14],u:['de 18 con la forma pedida','of 18 with the shape called'],vid:'xG66WXfnCTg',
+ nm:['Curva a pedido','Curve on demand'],
+ d:['Seis bolas curvando a la derecha a propósito, seis a la izquierda, seis rectas.','Six curving right on purpose, six left, six straight.']},
+{id:'d4',a:'driver',min:15,b:20,tg:[11,17],u:['de 20 sin tocar el palo','of 20 without hitting the stick'],vid:'N6X8bgHziLs',pro:['Randy Smith','Randy Smith'],
+ nm:['Palo de alineación anti-slice','Anti-slice alignment stick'],
+ d:['Un palo de alineación clavado por fuera de la línea de bola. Si vienes de afuera lo tocas. Smith lo describe como su arreglo de siempre: crea la memoria muscular de cuadrar la cara sin rehacer el swing.','An alignment stick outside the ball line. Come over the top and you hit it. Smith calls it his go-to fix: it builds the memory of squaring the face without a rebuild.']}
+];
+
+/* ============ TIPS ============ */
+const TIPS={
+driver:{n:['Driver','Driver'],i:[
+ {q:['Estoy pegando slice','I\'m slicing it'],vid:'xG66WXfnCTg',pro:['Rick Shiels','Rick Shiels'],l:[
+  ['<strong>Gira el agarre.</strong> Dos nudillos y medio de la mano izquierda al mirar hacia abajo. La mitad de los slices se acaban aquí.','<strong>Rotate the grip.</strong> Two and a half knuckles on the lead hand. Half of all slices end here.'],
+  ['<strong>Cierra el stance.</strong> Retrasa el pie derecho dos pulgadas y atacas desde adentro sin pensarlo.','<strong>Close the stance.</strong> Trail foot back two inches and you attack from inside without thinking.'],
+  ['<strong>Termina cruzado.</strong> Antebrazo derecho por encima del izquierdo. Brazos separados al final significa que la cara nunca cerró.','<strong>Finish crossed.</strong> Trail forearm over lead. Arms apart means the face never closed.']]},
+ {q:['No pego lejos','I have no distance'],vid:null,pro:['Randy Smith','Randy Smith'],l:[
+  ['<strong>Ángulo de ataque.</strong> Con driver quieres pegar en subida. Tee alto y bola adelante valen más que cualquier gimnasio.','<strong>Angle of attack.</strong> With driver you hit up. High tee and forward ball beat any gym session.'],
+  ['<strong>Martillo y clavo.</strong> Smith describe el talón del palo como la cabeza de un martillo que baja a clavar. La potencia sale de la pierna izquierda.','<strong>Hammer and nail.</strong> Smith describes the club heel as a hammer head driving a nail. Power comes from the lead leg.'],
+  ['<strong>Centro de la cara.</strong> Una pulgada fuera del centro cuesta unas 15 yardas.','<strong>Centre of the face.</strong> An inch off centre costs about 15 yards.']]},
+ {q:['Se me va a la izquierda','I\'m hooking it'],vid:null,pro:null,l:[
+  ['<strong>Agarre más neutro.</strong> Tres nudillos o más y la cara llega cerrada.','<strong>Neutral grip.</strong> Three knuckles or more and the face arrives shut.'],
+  ['<strong>Sigue girando.</strong> El hook es cuerpo que se frena y manos que toman el control.','<strong>Keep rotating.</strong> A hook is a body that stalls and hands taking over.'],
+  ['<strong>Revisa alineación.</strong> Si apuntas a la derecha, tu instinto cierra la cara.','<strong>Check alignment.</strong> Aim right and instinct shuts the face.']]},
+ {q:['La bola sale muy baja','My flight is too low'],vid:null,pro:null,l:[
+  ['<strong>Sube el tee.</strong> Media bola por encima de la corona, mínimo.','<strong>Tee it up.</strong> Half the ball above the crown.'],
+  ['<strong>Bola adelante.</strong> Alineada con el talón izquierdo.','<strong>Ball forward.</strong> Off the lead heel.'],
+  ['<strong>Hombro derecho abajo.</strong> Columna inclinada atrás en el setup.','<strong>Trail shoulder low.</strong> Spine tilted away at setup.']]}]},
+hierros:{n:['Hierros','Irons'],i:[
+ {q:['Le pego gordo','I\'m hitting it fat'],vid:'QxDKLWUGYeE',pro:['Rob Cheney','Rob Cheney'],l:[
+  ['<strong>Peso adelante.</strong> 60% en el pie izquierdo desde el setup y ahí se queda.','<strong>Weight forward.</strong> 60% on the lead foot at setup and it stays.'],
+  ['<strong>Mango adelante.</strong> Manos por delante de la cabeza en el impacto, siempre.','<strong>Handle ahead.</strong> Hands ahead of the head at impact, always.'],
+  ['<strong>El tee delante.</strong> Una pulgada delante de la bola y trata de tocarlo.','<strong>Tee ahead.</strong> One inch in front of the ball, try to catch it.']]},
+ {q:['Le pego filo','I\'m thinning it'],vid:null,pro:null,l:[
+  ['<strong>Deja de ayudarle.</strong> El loft levanta la bola, tú no.','<strong>Stop helping it up.</strong> Loft lifts it, you do not.'],
+  ['<strong>Altura de cabeza constante.</strong> Si te levantas en la bajada, el filazo es seguro.','<strong>Constant head height.</strong> Rise in the downswing and the thin is guaranteed.'],
+  ['<strong>Bola y luego pasto.</strong> Tu divot empieza después de donde estaba la bola.','<strong>Ball then turf.</strong> Your divot starts after where the ball was.']]},
+ {q:['Estoy pegando shanks','I\'m shanking it'],vid:null,pro:null,l:[
+  ['<strong>Aléjate un poco.</strong> El shank es cuerpo que se acerca a la bola en la transición.','<strong>Stand further away.</strong> A shank is the body moving toward the ball.'],
+  ['<strong>Peso en talones.</strong> Si te vas a las puntas, el cuello llega primero.','<strong>Weight in the heels.</strong> Fall to your toes and the hosel arrives first.'],
+  ['<strong>Algo por fuera.</strong> Pon una caja por fuera de la bola que no puedas tocar.','<strong>Something outside.</strong> Put a box outside the ball you cannot touch.']]},
+ {q:['No controlo la distancia','I can\'t control distance'],vid:null,pro:['Scottie Scheffler','Scottie Scheffler'],l:[
+  ['<strong>Mide vuelo, no total.</strong> Tu número útil es donde cae, no donde para.','<strong>Measure carry.</strong> Your usable number is where it lands.'],
+  ['<strong>Usa el golpe que repites.</strong> No el mejor de tu vida.','<strong>Use the shot you repeat.</strong> Not your best ever.'],
+  ['<strong>Ranuras limpias.</strong> Scheffler limpia la cara entre cada bola en el rango. Una ranura sucia cambia giro y trayectoria.','<strong>Clean grooves.</strong> Scheffler cleans the face between every range ball. A dirty groove changes spin and flight.']]}]},
+wedges:{n:['Wedges','Wedges'],i:[
+ {q:['Me como las distancias','My yardages are guesswork'],vid:'jpN1VuiAwPc',pro:['Dave Pelz','Dave Pelz'],l:[
+  ['<strong>Tres largos por palo.</strong> Cadera, pecho, hombro. Tres wedges por tres largos son nueve números fijos.','<strong>Three lengths per club.</strong> Hip, chest, shoulder. Nine fixed numbers.'],
+  ['<strong>Mismo ritmo siempre.</strong> Cambia el largo del swing, nunca la velocidad.','<strong>Same tempo.</strong> Change swing length, never speed.'],
+  ['<strong>Anótalas.</strong> Una distancia que no está escrita no existe bajo presión.','<strong>Write them down.</strong> An unwritten number does not exist under pressure.']]},
+ {q:['Me quedo corto','I come up short'],vid:'uq9YjxVBnZk',pro:null,l:[
+  ['<strong>Resta cinco yardas.</strong> Estás usando tu mejor golpe como referencia.','<strong>Subtract five yards.</strong> You are using your best-ever number.'],
+  ['<strong>Acelera pasando la bola.</strong> Desacelerar es la causa número uno.','<strong>Accelerate past the ball.</strong> Deceleration is cause number one.'],
+  ['<strong>Bandera trasera, un palo más.</strong> Los greens perdonan largo mejor que corto.','<strong>Back pin, one more club.</strong> Greens forgive long better than short.']]},
+ {q:['No le doy giro','I get no spin'],vid:null,pro:null,l:[
+  ['<strong>Ranuras y bola limpias.</strong> Una ranura sucia pierde la mitad del giro.','<strong>Clean grooves and ball.</strong> A dirty groove loses half the spin.'],
+  ['<strong>El giro sale del strike.</strong> No de la técnica.','<strong>Spin comes from the strike.</strong> Not from technique.'],
+  ['<strong>De rough no esperes giro.</strong> Planea el bote en vez de la frenada.','<strong>No spin from rough.</strong> Plan the bounce, not the check.']]}]},
+chipping:{n:['Juego corto','Short game'],i:[
+ {q:['Chuleo o filo los chips','I chunk or blade chips'],vid:'6fM6BLLjXJs',pro:null,l:[
+  ['<strong>Peso adelante y ahí se queda.</strong> No transfieras peso en un chip.','<strong>Weight forward and it stays.</strong> Do not shift weight on a chip.'],
+  ['<strong>Muñecas quietas.</strong> Si la cabeza rebasa las manos, viene el chuleo.','<strong>Quiet wrists.</strong> If the head passes the hands, the chunk is coming.'],
+  ['<strong>Usa el rebote.</strong> Que la suela se deslice en vez de clavarse.','<strong>Use the bounce.</strong> Let the sole slide instead of digging.']]},
+ {q:['No calculo dónde cae','I can\'t judge the landing spot'],vid:'bA1U-HRHt1M',pro:null,l:[
+  ['<strong>Elige un punto, no el hoyo.</strong> Un punto concreto del green.','<strong>Pick a spot, not the hole.</strong> An actual point on the green.'],
+  ['<strong>Menos loft rueda más.</strong> Un chip de hierro 8 es más fiable que un flop.','<strong>Less loft rolls more.</strong> An 8-iron chip beats a flop.'],
+  ['<strong>Un tercio vuelo, dos tercios rodada.</strong> Regla base.','<strong>One third carry, two thirds roll.</strong> Baseline rule.']]},
+ {q:['Lie apretado','Tight lies'],vid:'_KXfki-tvkU',pro:null,l:[
+  ['<strong>Cara cuadrada.</strong> Abrirla expone el filo y viene el filazo.','<strong>Square face.</strong> Opening it exposes the leading edge.'],
+  ['<strong>Bola atrás, mango adelante.</strong> Golpe descendente y pequeño.','<strong>Ball back, handle forward.</strong> A small descending strike.'],
+  ['<strong>Si dudas, putea.</strong> Tu peor putt gana a tu chip fallado.','<strong>When in doubt, putt.</strong> Your worst putt beats your mishit chip.']]}]},
+bunker:{n:['Bunker','Bunker'],i:[
+ {q:['No salgo','I can\'t get out'],vid:'eCPndwLPSug',pro:['Danny Maude','Danny Maude'],l:[
+  ['<strong>Abre la cara antes de agarrar.</strong> Primero abres, después tomas el mango.','<strong>Open the face before gripping.</strong> Open first, then grip.'],
+  ['<strong>Pega a la arena.</strong> Dos pulgadas detrás, y no cambies de idea a media bajada.','<strong>Hit the sand.</strong> Two inches behind, and commit.'],
+  ['<strong>Acelera y termina.</strong> Ocho de cada diez bunkers fallados son swings frenados.','<strong>Accelerate and finish.</strong> Eight in ten failures are decelerated swings.']]},
+ {q:['La bola sale disparada','I\'m blading it'],vid:'0nf2-iL89ok',pro:null,l:[
+  ['<strong>Le pegas primero a la bola.</strong> Practica la línea sin bola hasta que sea automático.','<strong>You are hitting ball first.</strong> Practise the line with no ball.'],
+  ['<strong>Enraiza los pies.</strong> Bajas un poco y eso corrige el punto de entrada.','<strong>Dig your feet in.</strong> It lowers you and fixes the entry.'],
+  ['<strong>No te eches atrás.</strong> Si buscas levantarla, le pegas al ecuador.','<strong>Do not lean back.</strong> Try to lift it and you catch the equator.']]},
+ {q:['Bunker de calle','Fairway bunker'],vid:null,pro:null,l:[
+  ['<strong>Bola primero, arena después.</strong> Al revés que en el de green.','<strong>Ball first, sand after.</strong> Opposite of greenside.'],
+  ['<strong>Un palo más y agarra corto.</strong> Compensa la pérdida y da control.','<strong>One more club, choke down.</strong> Covers the loss, adds control.'],
+  ['<strong>Pies quietos.</strong> Aquí quieres estabilidad, no profundidad.','<strong>Quiet feet.</strong> Stability, not depth.']]}]},
+putt:{n:['Putt','Putting'],i:[
+ {q:['Fallo los cortos','I miss the short ones'],vid:'BOKnL5zos74',pro:null,l:[
+  ['<strong>Cabeza quieta.</strong> Escucha la bola caer en vez de verla.','<strong>Head still.</strong> Listen for it instead of watching.'],
+  ['<strong>Acelera pasando.</strong> Vuelta más larga que ida, nunca al revés.','<strong>Accelerate through.</strong> Follow-through longer than backswing.'],
+  ['<strong>Apunta a un punto cercano.</strong> Más fácil rodar sobre una marca a 12 pulgadas.','<strong>Aim at a near point.</strong> Easier to roll over a mark 12 inches away.']]},
+ {q:['Dejo los largos cortos','I leave lag putts short'],vid:'MducFYxKUmQ',pro:['Dave Pelz','Dave Pelz'],l:[
+  ['<strong>Apunta a la zona segura.</strong> Un círculo del largo de un putter, no el hoyo.','<strong>Aim at the safe zone.</strong> A putter-length circle, not the cup.'],
+  ['<strong>Mira el hoyo al golpear.</strong> El cerebro calibra distancia mejor viendo el objetivo.','<strong>Look at the hole as you stroke.</strong> The brain calibrates distance better watching the target.'],
+  ['<strong>Deja el segundo cuesta arriba.</strong> Vale más que meter el primero.','<strong>Leave the second uphill.</strong> Worth more than holing the first.']]},
+ {q:['Tres putts constantes','Constant three-putts'],vid:'PgHFOE3vuMU',pro:null,l:[
+  ['<strong>Es distancia, no línea.</strong> La dispersión es mucho mayor de largo que de lado.','<strong>It is distance, not line.</strong> Dispersion is bigger front-to-back.'],
+  ['<strong>Practica solo de 30 pies para arriba.</strong> Ahí pierdes golpes, no en los de 4 pies.','<strong>Practise from 30 feet out.</strong> That is where you lose strokes.'],
+  ['<strong>Decide la velocidad primero.</strong> La línea depende de la velocidad.','<strong>Decide speed first.</strong> Line depends on speed.']]},
+ {q:['No leo bien los greens','I can\'t read greens'],vid:'BvIQKOxvK3s',pro:null,l:[
+  ['<strong>Lee desde abajo del hoyo.</strong> La pendiente se ve mejor desde el lado bajo.','<strong>Read from below the hole.</strong> Slope reads better from the low side.'],
+  ['<strong>Camina el putt.</strong> Tus pies sienten pendientes que tus ojos no ven.','<strong>Walk the putt.</strong> Your feet feel slopes your eyes miss.'],
+  ['<strong>Confía en la primera lectura.</strong> La segunda casi siempre es peor.','<strong>Trust the first read.</strong> The second is usually worse.']]}]},
+mental:{n:['Mental','Mental'],i:[
+ {q:['Me desmorono tras un mal hoyo','I fall apart after a bad hole'],vid:null,pro:null,l:[
+  ['<strong>Regla de los diez pasos.</strong> Diez pasos para enojarte. Al once se acabó.','<strong>Ten-step rule.</strong> Ten steps to be angry. At eleven it is over.'],
+  ['<strong>Un objetivo por golpe.</strong> No el score: este golpe.','<strong>One target per shot.</strong> Not the score — this shot.'],
+  ['<strong>Rutina idéntica.</strong> Es lo único que controlas cuando nada sale.','<strong>Identical routine.</strong> The only thing you control.']]},
+ {q:['Nervios en el primer tee','First tee nerves'],vid:null,pro:null,l:[
+  ['<strong>El palo con el fallo más chico.</strong> No tiene que ser driver.','<strong>The club with the smallest miss.</strong> It need not be driver.'],
+  ['<strong>Respira cuatro y seis.</strong> Cuatro adentro, seis afuera.','<strong>Breathe four and six.</strong> Four in, six out.'],
+  ['<strong>Objetivo pequeño.</strong> Menos espacio para la duda.','<strong>Small target.</strong> Less room for doubt.']]},
+ {q:['No visualizo el golpe','I can\'t see the shot'],vid:null,pro:['Jack Nicklaus','Jack Nicklaus'],l:[
+  ['<strong>La película antes del golpe.</strong> Nicklaus describió ver vuelo, bote y parada antes de cada tiro. Te fuerza a decidir.','<strong>The movie before the shot.</strong> Nicklaus described seeing flight, bounce and stop before every shot.'],
+  ['<strong>Si no la ves, no pegues.</strong> Sepárate y reinicia la rutina.','<strong>If you cannot see it, do not hit.</strong> Step off and restart.'],
+  ['<strong>El swing de práctica es el golpe.</strong> No uno genérico.','<strong>The practice swing is the shot.</strong> Not a generic one.']]}]},
+estrategia:{n:['Estrategia','Strategy'],i:[
+ {q:['Qué palo del tee','Club off the tee'],vid:null,pro:null,l:[
+  ['<strong>Mide dónde está el problema.</strong> Si el peligro está a tu distancia de driver, no es el palo.','<strong>Measure where the trouble is.</strong> If the hazard sits at your driver number, it is not the club.'],
+  ['<strong>La calle vale más que 20 yardas.</strong> Desde rough pierdes más de lo que ganas.','<strong>The fairway beats 20 yards.</strong> You lose more from rough than you gain.'],
+  ['<strong>Apunta al lado ancho.</strong> Donde tu fallo no te mata.','<strong>Aim at the wide side.</strong> Where your miss survives.']]},
+ {q:['Estoy en problemas','I\'m in trouble'],vid:null,pro:null,l:[
+  ['<strong>Un golpe para salir.</strong> El error caro es el segundo, no el primero.','<strong>One shot to get out.</strong> The expensive mistake is the second.'],
+  ['<strong>Al punto más ancho.</strong> Aunque sea hacia atrás.','<strong>To the widest point.</strong> Even backwards.'],
+  ['<strong>Cuenta el peor caso.</strong> Si puede acabar en doble, no es plan.','<strong>Count the worst case.</strong> If it can end in a double, it is not a plan.']]},
+ {q:['Cómo jugar un par 5','How to play a par 5'],vid:null,pro:null,l:[
+  ['<strong>Decide en el tee.</strong> Si vas en dos, ya lo sabías antes de pegar.','<strong>Decide on the tee.</strong> If you are going in two, you knew before you hit.'],
+  ['<strong>Deja tu distancia favorita.</strong> No pegues el máximo.','<strong>Lay up to your number.</strong> Do not max out.'],
+  ['<strong>Birdie se acepta, no se busca.</strong> Los par 5 se ganan evitando el 6.','<strong>Birdie is accepted, not chased.</strong> Par 5s are won by avoiding six.']]}]}
+};
+
+/* ============ DIAG ============ */
+function diagnose(st,cu,co){
+const M={
+'LR':{nm:['Pull slice','Pull slice'],p:['camino cruzado a la izquierda','path cutting left'],f:['cara abierta a ese camino','face open to that path'],
+ w:['El patrón más común del amateur. El palo entra desde afuera cruzando a la izquierda, pero la cara queda abierta a ese camino: arranca izquierda y se escapa derecha.','The most common amateur pattern. The club comes from outside cutting left while the face stays open — starts left, escapes right.'],
+ x:[['Siente que el mango baja hacia tu cadera derecha, no hacia la bola.','Feel the handle drop toward your trail hip.'],['Deja el hombro derecho abajo al empezar la bajada.','Keep the trail shoulder down starting down.'],['Palo de alineación por fuera: no lo puedes tocar.','Alignment stick outside — you cannot touch it.']],dr:['d4','d2'],vid:'ziKwS6Dve0M'},
+'SR':{nm:['Slice','Slice'],p:['camino recto','square path'],f:['cara abierta al objetivo','face open to target'],
+ w:['La cara llega abierta. Casi siempre agarre débil o muñecas que no rotan a tiempo, no falta de fuerza.','The face arrives open. Usually a weak grip or wrists that do not rotate in time.'],
+ x:[['Gira el agarre hasta ver dos nudillos y medio.','Rotate the grip to two and a half knuckles.'],['El logo del guante apunta al suelo después del impacto.','Glove logo points at the ground after impact.'],['Termina con los antebrazos cruzados.','Finish with forearms crossed.']],dr:['d2','i1'],vid:'xG66WXfnCTg'},
+'RR':{nm:['Push slice','Push slice'],p:['camino a la derecha','path right'],f:['cara todavía más abierta','face even more open'],
+ w:['Todo se va a la derecha: cuerpo bloqueado, sin rotación, brazos empujando en vez de soltar el palo.','Everything goes right: body blocked, arms pushing instead of releasing.'],
+ x:[['Empieza la bajada con la cadera izquierda.','Start down with the lead hip.'],['Termina con todo el peso en el pie izquierdo.','Finish with all weight on the lead foot.'],['Revisa alineación: probablemente apuntas a la derecha.','Check alignment — probably aimed right.']],dr:['d1','i2'],vid:'N6X8bgHziLs'},
+'LL':{nm:['Pull hook','Pull hook'],p:['camino cruzado a la izquierda','path cutting left'],f:['cara cerrada al camino','face closed to path'],
+ w:['Sale a la izquierda y sigue yéndose. Agarre fuerte, cuerpo que deja de girar y manos que se adelantan.','Starts left and keeps going. Strong grip, body stalling, hands taking over.'],
+ x:[['Suaviza el agarre hasta ver dos nudillos.','Weaken the grip to two knuckles.'],['Sigue girando el pecho después del impacto.','Keep turning the chest past impact.'],['Alinea un poco a la derecha y pega hacia allá.','Aim slightly right and hit out there.']],dr:['d3','i1'],vid:null},
+'SL':{nm:['Hook','Hook'],p:['camino recto','square path'],f:['cara cerrada','face closed'],
+ w:['La cara llega cerrada. Sale bien y se muere a la izquierda, casi siempre con vuelo bajo.','The face arrives closed. Starts fine and dies left, usually low.'],
+ x:[['Pulgar izquierdo más al centro del mango.','Lead thumb more on top of the handle.'],['Retrasa la rotación de muñecas hasta después del impacto.','Delay wrist rotation past impact.'],['Que el hombro izquierdo suba, no que se abra.','Lead shoulder up, not out.']],dr:['d3','i3'],vid:null},
+'RL':{nm:['Push draw','Push draw'],p:['camino a la derecha','path right'],f:['cara ligeramente cerrada a ese camino','face slightly closed to that path'],
+ w:['Es un buen patrón, no un defecto. Si sale demasiado, es cuestión de grado, no de reconstrucción.','A good pattern, not a fault. If it overdoes it, that is degree, not a rebuild.'],
+ x:[['Reduce la apertura del stance un par de pulgadas.','Reduce the closed stance a couple of inches.'],['Alineación antes que técnica.','Alignment before technique.'],['Revisa que el agarre no se haya vuelto fuerte.','Check the grip has not crept strong.']],dr:['i3','w3'],vid:null},
+'SS':{nm:['Golpe sólido','Solid strike'],p:['camino recto','square path'],f:['cara cuadrada','square face'],
+ w:['No hay nada que corregir en dirección. Si algo falla está en distancia o consistencia de contacto.','Nothing to fix in direction. If something is off it is distance or strike consistency.'],
+ x:[['Mide dispersión en vez de dirección.','Measure dispersion instead of direction.'],['Trabaja control de distancia.','Work distance control.'],['No toques nada que funcione.','Do not touch what works.']],dr:['i3','w3'],vid:null},
+'LS':{nm:['Pull recto','Straight pull'],p:['camino a la izquierda','path left'],f:['cara cuadrada a ese camino','face square to that path'],
+ w:['Golpe sólido, apuntado mal. Casi siempre alineación: los hombros están abiertos al objetivo.','Solid strike, wrong aim. Usually alignment — shoulders open to the target.'],
+ x:[['Palo en el suelo en la línea de pies antes de cada golpe.','Club along your feet before every shot.'],['Hombros paralelos, no apuntando al objetivo.','Shoulders parallel, not aimed at the target.'],['La bola probablemente está muy adelante.','The ball is probably too far forward.']],dr:['i2','d1'],vid:null},
+'RS':{nm:['Push recto','Straight push'],p:['camino a la derecha','path right'],f:['cara cuadrada a ese camino','face square to that path'],
+ w:['Contacto sólido, dirección equivocada. Bola muy atrás o cuerpo que no termina de girar.','Solid contact, wrong direction. Ball too far back or a body that does not finish turning.'],
+ x:[['Adelanta la bola un par de pulgadas.','Move the ball forward a couple of inches.'],['Termina con el pecho al objetivo.','Finish with the chest at the target.'],['La cadera no se debe quedar atrás en el impacto.','Hips should not hang back at impact.']],dr:['i2','i1'],vid:null}};
+const base=M[st+cu]||M['SS'];let extra=null;
+if(co==='fat')extra={t:['Además, contacto gordo','Also, fat contact'],d:['Tu punto bajo está detrás de la bola, casi siempre por peso que se queda atrás. 60% en el pie izquierdo al empezar la bajada.','Your low point is behind the ball, usually from weight hanging back. 60% on the lead foot starting down.'],vid:'QxDKLWUGYeE'};
+if(co==='thin')extra={t:['Además, filazo','Also, thin contact'],d:['Estás pegando en subida cuando deberías pegar en bajada. Bola primero, pasto después.','You are hitting up when you should hit down. Ball first, turf second.'],vid:null};
+return {...base,extra}}
+
+/* ============ RENDER ============ */
+const $=s=>document.querySelector(s),$$=s=>Array.from(document.querySelectorAll(s));
+function toast(x){const e=$('#toast');e.textContent=x;e.classList.add('show');clearTimeout(e._t);e._t=setTimeout(()=>e.classList.remove('show'),2400)}
+function go(v){$$('.view').forEach(x=>x.classList.toggle('on',x.id==='v-'+v));$$('.navbtn').forEach(b=>b.classList.toggle('on',b.dataset.go===v));window.scrollTo({top:0,behavior:'smooth'})}
+const num=v=>(v>0?'+':'')+v.toFixed(1);
+const vById=id=>VIDEOS.find(v=>v.id===id);
+function vidTag(id){const v=vById(id);return v?`<a class="vid" href="${vurl(v)}" target="_blank" rel="noopener">▶ ${t('pr.video')}</a>`:`<span class="tag slot">${t('pr.slot')}</span>`}
+
+function weekKey(d){const x=new Date(d);const day=(x.getDay()+6)%7;x.setDate(x.getDate()-day);return x.toISOString().slice(0,10)}
+function renderStreak(){
+ const set=new Set([...S.acts,...S.rounds.map(r=>r.dt)].map(weekKey));
+ const thisW=weekKey(new Date(NOW).toISOString().slice(0,10));
+ let n=0,cur=new Date(thisW);
+ if(!set.has(thisW))cur=new Date(new Date(thisW).getTime()-7*DAY);
+ while(set.has(cur.toISOString().slice(0,10))){n++;cur=new Date(cur.getTime()-7*DAY)}
+ $('#streak-n').textContent=n;
+ $('#streak-u').textContent=n===0?t('st.none'):(n===1?t('st.w1'):t('st.w'));
+ const cells=[];for(let i=11;i>=0;i--){const k=weekKey(new Date(NOW-i*7*DAY).toISOString().slice(0,10));cells.push(set.has(k))}
+ $('#weeks').innerHTML=cells.map(a=>`<div style="flex:1;height:20px;border-radius:2px;background:${a?'var(--good)':'rgba(242,237,225,.09)'}"></div>`).join('');
+}
+function renderMoM(){
+ const cut1=NOW-30*DAY,cut2=NOW-60*DAY;
+ const A=S.rounds.filter(r=>new Date(r.dt).getTime()>=cut1);
+ const B=S.rounds.filter(r=>{const x=new Date(r.dt).getTime();return x<cut1&&x>=cut2});
+ const avg=(l,k)=>l.length?l.reduce((a,r)=>a+(+r[k]||0),0)/l.length:null;
+ const el=$('#mom');
+ if(!A.length||!B.length){el.innerHTML=`<h3>${t('mom.h')}</h3><div class="muted">${t('mom.need')}</div>`;return}
+ const sA=avg(A,'score'),sB=avg(B,'score'),lA=avg(A,'total'),lB=avg(B,'total');
+ const ds=sB-sA,dl=lB-lA;
+ const verdict=Math.abs(ds)<0.6?t('mom.same'):(ds>0?t('mom.better').replace('{s}',ds.toFixed(1)).replace('{l}',dl.toFixed(1)):t('mom.worse').replace('{s}',Math.abs(ds).toFixed(1)));
+ const ord=AREAS.slice().sort((a,b)=>S.sg[b]-S.sg[a]);
+ el.innerHTML=`<h3>${t('mom.h')}</h3>
+ <div class="hero" style="margin:10px 0 2px"><div class="n ${ds>0?'good':''}" style="font-size:52px">${ds>0?'−':'+'}${Math.abs(ds).toFixed(1)}</div>
+ <div class="u">${verdict}</div></div>
+ <div class="hr" style="background:rgba(17,40,56,.12)"></div>
+ <table class="cmp" style="color:#112838">
+ <tr><th style="color:#5C6874"></th><th style="color:#5C6874">${L==='es'?'30 días':'30 days'}</th><th style="color:#5C6874">${L==='es'?'30 previos':'Prior 30'}</th></tr>
+ <tr><td style="color:#112838">${t('mom.rounds')}</td><td>${A.length}</td><td>${B.length}</td></tr>
+ <tr><td style="color:#112838">${t('mom.avg')}</td><td>${sA.toFixed(1)}</td><td>${sB.toFixed(1)}</td></tr>
+ <tr><td style="color:#112838">${t('mom.lost')}</td><td>${lA.toFixed(1)}</td><td>${lB.toFixed(1)}</td></tr></table>
+ <div class="hr" style="background:rgba(17,40,56,.12)"></div>
+ <div style="font-size:11px;letter-spacing:.1em;color:#5C6874">${t('mom.report').toUpperCase()}</div>
+ <p style="font-size:14px;line-height:1.65;margin-top:8px;max-width:64ch">${L==='es'
+  ?`Jugaste ${A.length} ${A.length===1?'ronda':'rondas'} en los últimos 30 días con promedio de ${sA.toFixed(1)}. Tu mejor vuelta fue ${Math.min(...A.map(r=>+r.score||999))}. Hoy dejas ${totalSG().toFixed(1)} golpes por vuelta contra tu objetivo de hándicap ${S.goal}, y ${an(ord[0])} sigue siendo el área que más te cuesta con ${S.sg[ord[0]].toFixed(1)}. Si el próximo mes trabajas eso y ${an(ord[1])}, ahí está la mayor parte de lo que puedes recuperar.`
+  :`You played ${A.length} ${A.length===1?'round':'rounds'} in the last 30 days averaging ${sA.toFixed(1)}. Your best was ${Math.min(...A.map(r=>+r.score||999))}. You currently leave ${totalSG().toFixed(1)} strokes per round against your ${S.goal} handicap target, and ${an(ord[0])} is still the costliest area at ${S.sg[ord[0]].toFixed(1)}. Work that and ${an(ord[1])} next month and that is where most of your recoverable strokes sit.`}</p>`;
+}
+function renderToday(){
+ renderStreak();renderMoM();
+ const tot=totalSG();
+ $('#hero-label').textContent=t('hero.lost');
+ $('#hero-n').textContent=num(tot);$('#hero-n').className='n'+(tot<=0?' good':'');
+ $('#hero-u').textContent=(tot<=0?t('hero.ug'):t('hero.u')).replace('{g}',S.goal);
+ const mx=Math.max(1.2,...AREAS.map(a=>Math.abs(S.sg[a])));
+ $('#sg-sub').textContent=L==='es'?`Golpes por vuelta contra un hándicap ${S.goal}. Positivo es lo que te cuesta.`:`Strokes per round against a ${S.goal} handicap. Positive is what it costs you.`;
+ $('#sgbars').innerHTML=AREAS.slice().sort((a,b)=>S.sg[b]-S.sg[a]).map(a=>{
+  const v=S.sg[a],g=v<=0,w=Math.min(50,Math.abs(v)/mx*50);
+  return `<div class="sg"><div class="l"><span>${an(a)}</span><span class="v ${g?'good':''}">${num(v)}</span></div>
+  <div class="track"><div class="mid"></div><i class="${g?'good':''}" style="${g?`right:50%;width:${w}%`:`left:50%;width:${w}%`}"></i></div></div>`}).join('');
+ /* trend */
+ const rs=S.rounds.slice(0,8).reverse();
+ $('#trend-sub').textContent=rs.length>1?t('trend.sub'):t('trend.need');
+ if(rs.length>1){
+  const W=300,H=110,vals=rs.map(r=>r.total),mn=Math.min(...vals,0),mxv=Math.max(...vals,1);
+  const px=(i)=>20+i*(W-30)/(rs.length-1), py=v=>H-14-((v-mn)/((mxv-mn)||1))*(H-34);
+  const pts=vals.map((v,i)=>`${px(i)},${py(v)}`).join(' ');
+  $('#trend').innerHTML=`<svg viewBox="0 0 ${W} ${H}" style="width:100%;height:auto">
+   <polyline points="${pts}" fill="none" stroke="var(--teal)" stroke-width="2"/>
+   ${vals.map((v,i)=>`<circle cx="${px(i)}" cy="${py(v)}" r="3.5" fill="var(--teal)"/>`).join('')}
+   ${vals.map((v,i)=>`<text x="${px(i)}" y="${py(v)-9}" fill="var(--cream-dim)" font-size="9" text-anchor="middle" font-family="Montserrat">${v.toFixed(1)}</text>`).join('')}
+  </svg><div class="muted" style="font-size:11.5px;margin-top:6px">${rs.map((r,i)=>`R${i+1}: ${r.score||'—'}`).join(' · ')}</div>`;
+ } else $('#trend').innerHTML=`<div class="muted">${t('noround')}</div>`;
+ const w=worst();
+ $('#priority').textContent=L==='es'
+  ?`${an(w)}. Te cuesta ${S.sg[w].toFixed(1)} golpes por vuelta — más que cualquier otra área. Arreglar eso vale más que todo lo demás junto.`
+  :`${an(w)}. It costs you ${S.sg[w].toFixed(1)} strokes per round — more than any other area. Fixing it beats everything else combined.`;
+ $('#priority-why').textContent=L==='es'
+  ?`Si lo llevaras al nivel de un hándicap ${S.goal}, tu score bajaría alrededor de ${S.sg[w].toFixed(1)} golpes.`
+  :`Bring it to ${S.goal}-handicap level and your score drops about ${S.sg[w].toFixed(1)} strokes.`;
+ const seed=daySeed();
+ const pool=vFor(w).filter(v=>!S.seen.includes(v.id));
+ const vd=(pool.length?pool[seed%pool.length]:vFor(w)[seed%Math.max(1,vFor(w).length)])||VIDEOS[seed%VIDEOS.length];
+ $('#vday').innerHTML=vcardHTML(vd,true);
+ $('#feed').innerHTML=S.feed.length?S.feed.map(f=>`<li><span class="when">${P(f.w)}</span><span>${P(f.x)}</span></li>`).join('')
+  :`<li><span class="muted">${t('noround')}</span></li>`;
+}
+function vcardHTML(v,ctl){
+ if(!v)return '';
+ const seen=S.seen.includes(v.id),nw=isNew(v,weekSeed());
+ return `<div class="vcard" style="${seen?'opacity:.5':''}"><a class="thumb" href="${vurl(v)}" target="_blank" rel="noopener" style="background-image:url(${vthumb(v)})" aria-label="${P(v.ti)}"></a>
+ <div class="vb"><div class="vt">${P(v.ti)}</div><div class="vm">${an(v.a)}${v.pro?' · '+v.pro:''}</div>
+ <div>${v.short?`<span class="tag short">${t('vid.short2')}</span>`:''}${nw&&!seen?`<span class="tag">${t('vid.new')}</span>`:''}</div>
+ ${ctl?`<div style="margin-top:8px"><button class="btn ghost sm" data-seen="${v.id}">${seen?t('vid.unseen'):t('vid.markseen')}</button></div>`:''}</div></div>`;
+}
+/* ===== MOTOR DE ROTACIÓN =====
+   weekSeed cambia cada lunes. Rota qué videos salen y en qué orden, marca los
+   nuevos de la semana, y esconde los que el socio ya marcó como vistos.
+   En producción, fetchTopic() llama a la API de YouTube (cuota gratuita)
+   restringida a CHANNELS y devuelve resultados frescos por tema. */
+const weekSeed=()=>Math.floor(NOW/(7*DAY));
+const daySeed=()=>Math.floor(NOW/DAY);
+function rotate(list,seed){const n=list.length;if(!n)return [];const k=seed%n;return list.slice(k).concat(list.slice(0,k))}
+function isNew(v,seed){return (v.id.charCodeAt(0)+v.id.charCodeAt(3)+seed)%4===0}
+function ytSearch(topic,ch){
+ const q=encodeURIComponent(`${topic} golf ${ch||''}`.trim());
+ return `https://www.youtube.com/results?search_query=${q}&sp=CAMSAhAB`;
+}
+function renderVideos(){
+ const f=window._vf||'all',len=window._vl||'all',ws=weekSeed();
+ $('#vfilter').innerHTML=`<button class="chip ${f==='all'?'on':''}" data-vf="all">${t('vid.all')}</button>`+AREAS.map(a=>`<button class="chip ${f===a?'on':''}" data-vf="${a}">${an(a)}</button>`).join('');
+ $('#vlen').innerHTML=[['all',t('vid.all')],['short',t('vid.short')],['long',t('vid.long')]].map(([k,lb])=>`<button class="chip ${len===k?'on':''}" data-vl="${k}">${lb}</button>`).join('')
+  +`<button class="chip ${window._vs?'on':''}" data-vs="1">${t('vid.hideseen')}</button>`;
+ let l=VIDEOS.filter(v=>(f==='all'||v.a===f)&&(len==='all'||(len==='short'?v.short:!v.short)));
+ if(window._vs)l=l.filter(v=>!S.seen.includes(v.id));
+ const ord=AREAS.slice().sort((a,b)=>S.sg[b]-S.sg[a]);
+ l=rotate(l,ws).sort((a,b)=>ord.indexOf(a.a)-ord.indexOf(b.a));
+ $('#vgrid').innerHTML=l.length?l.map(v=>vcardHTML(v,true)).join(''):`<div class="muted">${t('vid.empty')}</div>`;
+ /* temas en vivo */
+ const tp=f==='all'?Object.entries(TOPICS).flatMap(([a,xs])=>xs.map(x=>[a,x])):TOPICS[f].map(x=>[f,x]);
+ const rt=rotate(tp,ws);
+ $('#vtopics').innerHTML=rt.map(([a,x],i)=>{
+  const ch=CHANNELS[(ws+i)%CHANNELS.length].n;
+  return `<a class="tag" style="text-transform:none;text-decoration:none;cursor:pointer" href="${ytSearch(x,ch)}" target="_blank" rel="noopener" title="${ch}">${x} ↗</a>`}).join('');
+ $('#vtcount').textContent=L==='es'
+  ?`${tp.length} temas × ${CHANNELS.length} canales = ${tp.length*CHANNELS.length} consultas distintas. La combinación rota cada semana, así que nunca ves la misma lista dos meses seguidos.`
+  :`${tp.length} topics × ${CHANNELS.length} channels = ${tp.length*CHANNELS.length} distinct queries. The pairing rotates weekly, so you never see the same list two months running.`;
+ $('#vchan').innerHTML=CHANNELS.map(c=>`<div style="padding:9px 0;border-bottom:1px solid var(--line)"><div style="font-size:13.5px;font-weight:500">${c.n}</div><div class="muted" style="font-size:12px">${P(c.d)}</div></div>`).join('');
+}
+function renderGuide(){
+ const INCL=[['◈',['Tu número','Your number'],['Cuántos golpes por vuelta te separan de tu objetivo, y de qué área salen.','How many strokes per round separate you from your target, and which areas they come from.']],
+ ['▤',['Práctica que se ajusta','Practice that adapts'],['Ejercicios con metas calculadas a tu hándicap. La sesión se arma según el tiempo que tengas.','Drills with targets scaled to your handicap. The session builds around the time you have.']],
+ ['▶',['Videos que rotan','Rotating videos'],['Catálogo vivo de canales aprobados. Cada semana cambia lo que te sale.','A live catalogue from approved channels. What you see changes every week.']],
+ ['◇',['Diagnóstico','Diagnosis'],['Cuatro preguntas sobre el vuelo de tu bola y sabes qué hizo la cara y el camino.','Four questions about ball flight and you know what the face and path did.']],
+ ['✻',['Brain','Brain'],['Pregunta qué palo, qué practicar o dónde pierdes golpes. Contesta con tus datos.','Ask what club, what to practise, where you lose strokes. It answers with your data.']],
+ ['✦',['Tips de campo','On-course tips'],['Treinta problemas con tres arreglos cada uno, para consultar entre golpe y golpe.','Thirty problems with three fixes each, to check between shots.']]];
+ $('#gd-incl').innerHTML=INCL.map(([i,ti,d])=>`<div style="padding:14px 0"><div style="font-size:20px;color:var(--teal-dim)">${i}</div><div style="font-size:14.5px;font-weight:600;margin-top:6px;color:#112838">${P(ti)}</div><div style="font-size:13px;color:#5C6874;margin-top:4px;line-height:1.5">${P(d)}</div></div>`).join('');
+ const STEPS=[[['Pon tu hándicap y tus distancias','Set your handicap and distances'],['Ve a Mi juego. Lo más importante es el hándicap objetivo: contra ese número se mide todo y con ese número se calculan las metas de los ejercicios. Las distancias son de vuelo, no tu mejor golpe de la vida.','Go to My game. The key field is your target handicap: everything is measured against it and every drill target is calculated from it. Distances are carry, not your best ever shot.']],
+ [['Registra tu primera ronda','Log your first round'],['En Hoy tienes el registro rápido: score y putts, dos toques. Con eso ya sabes cuántos golpes dejas y en qué área. Si llevas tarjeta completa, usa el registro detallado de Mi juego y el desglose sale más fino.','Today has the quick log: score and putts, two taps. That already tells you how many strokes you leave and where. If you keep a full card, use the detailed log in My game for a sharper breakdown.']],
+ [['Arma tu sesión','Build your session'],['En Práctica dices cuánto tiempo tienes y eliges ejercicios de la biblioteca — se van sumando abajo. O le das a que elija Brain y te llena la sesión según dónde estés perdiendo golpes.','In Practice you say how long you have and pick drills from the library — they add up at the bottom. Or hit let Brain choose and it fills the session from where you are losing strokes.']],
+ [['Registra los resultados','Log the results'],['Al terminar, Registrar resultados te pregunta ejercicio por ejercicio si cumpliste la meta. Eso mueve tus números y hace que la próxima sesión sea distinta.','When you finish, Log results asks drill by drill whether you hit the target. That moves your numbers and makes the next session different.']],
+ [['Vuelve cada semana','Come back weekly'],['La racha cuenta semanas con al menos una ronda o una sesión. El reporte de 30 días se regenera solo y te dice si vas mejorando o para atrás.','The streak counts weeks with at least one round or session. The 30-day report regenerates itself and tells you whether you are improving or slipping.']]];
+ $('#gd-steps').innerHTML=STEPS.map(([ti,d],i)=>`<div style="display:flex;gap:16px;padding:14px 0;border-bottom:${i<STEPS.length-1?'1px solid var(--line)':'0'}">
+ <div style="font-family:'Cormorant Garamond',serif;font-size:30px;color:var(--teal);line-height:1;flex:0 0 30px">${i+1}</div>
+ <div><div style="font-size:15px;font-weight:500">${P(ti)}</div><div class="muted" style="margin-top:5px;line-height:1.6">${P(d)}</div></div></div>`).join('');
+ const WEEK=[[['Después de jugar','After you play'],['Registro rápido. Dos números.','Quick log. Two numbers.']],
+ [['Antes de practicar','Before you practise'],['Mira tu prioridad en Hoy y arma la sesión.','Check your priority on Today and build the session.']],
+ [['En el campo','On the course'],['Tips rápidos y Brain para dudas de palo.','Quick tips and Brain for club questions.']],
+ [['Cuando tengas 10 minutos','When you have 10 minutes'],['Tu video de hoy. Cambia todos los días.','Your video of the day. Changes daily.']],
+ [['El día 1 de cada mes','First of every month'],['Tu reporte de 30 días con lo que mejoró.','Your 30-day report with what improved.']]];
+ $('#gd-week').innerHTML=WEEK.map(([ti,d])=>`<div style="padding:10px 0;border-bottom:1px solid var(--line)"><div style="font-size:13.5px;font-weight:500">${P(ti)}</div><div class="muted" style="font-size:12.5px">${P(d)}</div></div>`).join('');
+ const FAQ=[[['¿Mi información es privada?','Is my data private?'],['Sí. Cada cuenta está aislada: tus rondas, tus distancias y tus números solo los ves tú. Nadie más — ni otro socio, ni otro jugador de tu club — tiene acceso a lo que registras.','Yes. Every account is isolated: your rounds, your distances and your numbers are visible only to you. No one else — not another member, not another player at your club — can see what you log.']],
+ [['¿Qué pasa si no llevo estadísticas detalladas?','What if I do not keep detailed stats?'],['No pasa nada. El registro rápido solo pide score y putts, y el sistema estima el resto con tu hándicap. Entre más datos des, más fino el desglose, pero funciona desde el primer día con dos números.','Nothing. The quick log only asks for score and putts and the system estimates the rest from your handicap. More data means a sharper breakdown, but it works from day one with two numbers.']],
+ [['¿Esto sirve si juego bajo hándicap?','Does this work if I am a low handicap?'],['Sí, y es la razón del hándicap objetivo. Ponlo en 0 y las metas de todos los ejercicios pasan a nivel scratch. Un reloj de 3 pies te pide 23 de 24, no 17. La medición en golpes perdidos es la misma que usan los profesionales.','Yes, and that is what the target handicap is for. Set it to 0 and every drill target becomes scratch level. The 3-foot clock asks for 23 of 24, not 17. The strokes-lost measurement is the same one professionals use.']],
+ [['¿Los videos son de ustedes?','Are the videos yours?'],['No. Son de canales de instrucción que aprobamos uno por uno y se abren en YouTube. Lo nuestro es el criterio: qué video te toca a ti, en qué momento y por qué.','No. They come from instruction channels we approve one by one and they open on YouTube. What is ours is the judgement: which video you get, when, and why.']],
+ [['¿Brain analiza mi swing en video?','Does Brain analyse my swing on video?'],['No, y no queremos prometerlo. Nadie diagnostica un swing sin verlo. Lo que sí hace el diagnóstico es leer el vuelo de tu bola, que es física y no opinión, y de ahí sale el patrón real.','No, and we will not pretend otherwise. Nobody diagnoses a swing without seeing it. What the diagnosis does is read your ball flight, which is physics and not opinion, and the real pattern comes from that.']],
+ [['¿Y si quiero un coach de verdad?','What if I want a real coach?'],['Para eso está HAMER Consult: llamadas, plan personal, calendario de torneos y estrategia de campo hoyo por hoyo. Brain es el sistema automatizado; Consult somos nosotros.','That is what HAMER Consult is for: calls, a personal plan, tournament calendar and hole-by-hole course strategy. Brain is the automated system; Consult is us.']],
+ [['¿Puedo cancelar cuando quiera?','Can I cancel any time?'],['Sí, la suscripción es mensual y se cancela desde tu cuenta. Tus datos se quedan guardados por si regresas.','Yes, the subscription is monthly and cancels from your account. Your data stays saved in case you come back.']]];
+ $('#gd-faq').innerHTML=FAQ.map(([q,a])=>`<div style="padding:12px 0;border-bottom:1px solid var(--line)"><div style="font-size:14px;font-weight:500">${P(q)}</div><div class="muted" style="margin-top:5px;line-height:1.6">${P(a)}</div></div>`).join('');
+}
+function renderGame(){
+ $('#clubs').innerHTML=Object.entries(S.clubs).map(([k,v])=>`<div><label class="f">${k.toUpperCase()}</label><input value="${v}" data-club="${k}"></div>`).join('');
+ const SELF=[['putt',['Meto casi todo dentro de 5 pies','I hole almost everything inside 5 ft'],-.6],
+ ['putt',['Dejo los putts largos muy cortos','I leave long putts short'],.8],
+ ['chipping',['Salvo bien alrededor del green','I get up and down well'],-.6],
+ ['chipping',['Me como los chips fáciles','I mess up easy chips'],.8],
+ ['bunker',['Salgo siempre a la primera','I always get out first try'],-.5],
+ ['bunker',['Le tengo miedo al bunker','Bunkers scare me'],.8],
+ ['wedges',['Controlo mis distancias','I control my yardages'],-.5],
+ ['wedges',['Nunca sé cuánto pego con el SW','I never know my SW number'],.7],
+ ['hierros',['Le pego sólido a los hierros','I strike my irons solidly'],-.6],
+ ['hierros',['Le pego gordo seguido','I hit it fat a lot'],.9],
+ ['driver',['Pego derecho del tee','I drive it straight'],-.6],
+ ['driver',['Me voy fuera de calle seguido','I miss fairways a lot'],.9]];
+ $('#selfchips').innerHTML=SELF.map((s,i)=>`<button class="chip" data-self="${i}" data-area="${s[0]}" data-d="${s[2]}">${P(s[1])}</button>`).join('');
+ $('#hist').innerHTML=S.rounds.length?`<tr><th>#</th><th>Score</th><th>${t('row.fw')}</th><th>${t('row.gir')}</th><th>${t('row.putts')}</th><th>${t('col.d')}</th></tr>`+
+  S.rounds.map((r,i)=>`<tr><td>${S.rounds.length-i}</td><td>${r.score||'—'}</td><td>${r.fw}</td><td>${r.gir}</td><td>${r.putts}</td><td>${num(r.total)}</td></tr>`).join('')
+  :`<tr><td class="muted">${t('noround')}</td></tr>`;
+}
+function dHTML(d){
+ const inc=S.cart.some(x=>x.id===d.id);
+ return `<div class="drill ${inc?'inc':''}"><div class="dh"><div>
+ <div class="nm">${P(d.nm)}</div>
+ <div class="meta">${an(d.a)} · ${d.min} ${t('pr.min')} · ${d.b} ${t('pr.balls')}</div>
+ </div><div style="white-space:nowrap">${inc?`<button class="btn ghost sm" data-rm="${d.id}">${t('pr.rm')}</button>`:`<button class="btn sm" data-add="${d.id}">${t('pr.add')}</button>`}</div></div>
+ <p>${P(d.d)}</p>
+ <div><span class="tag">${t('pr.goal')} · ${target(d)} ${P(d.u)}</span>${d.pro?`<span class="tag pro">${P(d.pro)}</span>`:''}${vidTag(d.vid)}</div></div>`;
+}
+function renderPr(){
+ $('#dur').innerHTML=[30,45,60,90,120,180].map(m=>`<button class="chip ${m===S.dur?'on':''}" data-dur="${m}">${m>=60?(m/60)+' h':m+' min'}</button>`).join('');
+ $('#libfilter').innerHTML=`<button class="chip ${(window._lf||'all')==='all'?'on':''}" data-lib="all">${t('vid.all')}</button>`+AREAS.map(k=>`<button class="chip ${window._lf===k?'on':''}" data-lib="${k}">${an(k)}</button>`).join('');
+ renderLib(window._lf||'all');renderCart();
+}
+function renderLib(f){window._lf=f;
+ let l=f==='all'?DRILLS.slice():DRILLS.filter(d=>d.a===f);
+ const ord=AREAS.slice().sort((a,b)=>S.sg[b]-S.sg[a]);
+ l.sort((a,b)=>ord.indexOf(a.a)-ord.indexOf(b.a));
+ $('#library').innerHTML=l.map(dHTML).join('')}
+function renderCart(){const c=$('#cart');
+ if(!S.cart.length){c.classList.add('hide');return}
+ c.classList.remove('hide');
+ const m=S.cart.reduce((a,d)=>a+d.min,0);
+ $('#cart1').textContent=t('cart.n').replace('{n}',S.cart.length).replace('{m}',m);
+ $('#cart2').textContent=m<=S.dur?t('cart.fit').replace('{d}',S.dur):t('cart.over').replace('{x}',m-S.dur).replace('{d}',S.dur);
+ $('#cart2').style.color=m<=S.dur?'var(--cream-dim)':'var(--alert)'}
+function renderTips(cat){const ks=Object.keys(TIPS);cat=cat||window._tc||ks[0];window._tc=cat;
+ $('#tipcat').innerHTML=ks.map(k=>`<button class="chip ${k===cat?'on':''}" data-cat="${k}">${P(TIPS[k].n)}</button>`).join('');
+ $('#tipgrid').innerHTML=TIPS[cat].i.map((x,i)=>`<div class="tipcard" data-tip="${cat}|${i}"><div class="t">${P(x.q)}</div><div class="c">${P(TIPS[cat].n)} · ${t('tips.three')}</div></div>`).join('');
+ $('#tipout').innerHTML=''}
+function openTip(c,i){const x=TIPS[c].i[i];
+ $('#tipout').innerHTML=`<div class="panel"><h2>${P(x.q)}</h2>
+ <div class="muted" style="margin-bottom:6px">${P(TIPS[c].n)}</div>
+ <div style="margin-bottom:18px">${x.pro?`<span class="tag pro">${P(x.pro)}</span>`:''}${vidTag(x.vid)}</div>
+ <ul class="tiplist">${x.l.map(a=>`<li>${P(a)}</li>`).join('')}</ul>
+ <div class="hr"></div>
+ <button class="btn ghost sm" data-go="diag">${t('tips.deep')}</button>
+ <button class="btn ghost sm" data-go="practice" style="margin-left:8px">${t('tips.ex')}</button>
+ <button class="btn ghost sm" data-askq="${encodeURIComponent(P(x.q))}" style="margin-left:8px">${t('diag.ask')}</button></div>`;
+ $('#tipout').scrollIntoView({behavior:'smooth',block:'start'})}
+function renderDiagQ(){
+ const Q={club:[['Driver','Driver'],['Maderas','Woods'],['Hierros','Irons'],['Wedges','Wedges']],
+ start:[['A la izquierda','Left'],['Al objetivo','At target'],['A la derecha','Right']],
+ curve:[['Se curva izquierda','Curves left'],['Sigue derecho','Straight'],['Se curva derecha','Curves right']],
+ contact:[['Limpio','Clean'],['Gordo','Fat'],['Filazo','Thin']]};
+ const VV={club:['D','W','I','Wg'],start:['L','S','R'],curve:['L','S','R'],contact:['clean','fat','thin']};
+ Object.keys(Q).forEach(k=>{document.querySelector(`[data-q="${k}"]`).innerHTML=Q[k].map((o,i)=>`<button class="chip" data-v="${VV[k][i]}">${P(o)}</button>`).join('')})}
+
+/* ============ BRAIN (IA real) ============ */
+let CHAT=[],busy=false;
+function ctx(){
+ const ord=AREAS.slice().sort((a,b)=>S.sg[b]-S.sg[a]);
+ return `Eres "Brain", el coach de golf automatizado de HAMER Golf Consulting. Respondes en ${L==='es'?'español de México, tuteando':'English'}.
+
+DATOS DEL JUGADOR (úsalos siempre, son reales):
+- Hándicap actual: ${S.hcp} · Hándicap objetivo: ${S.goal} · Edad: ${S.age} · Zona: ${S.zone}
+- Distancias de carry en YARDAS: ${Object.entries(S.clubs).map(([k,v])=>k+' '+v).join(', ')}
+- Golpes perdidos por vuelta contra hándicap ${S.goal} (positivo = le cuesta): ${AREAS.map(a=>an(a)+' '+S.sg[a].toFixed(1)).join(', ')}. Total ${totalSG()}.
+- Área más débil: ${an(ord[0])}. Orden de prioridad: ${ord.map(an).join(' > ')}.
+- Última ronda: ${S.last?`score ${S.last.score||'?'}, ${S.last.fw} calles, ${S.last.gir} greens, ${S.last.putts} putts`:'sin registrar'}.
+
+BIBLIOTECA DISPONIBLE (puedes recomendar por nombre):
+Ejercicios: ${DRILLS.map(d=>P(d.nm)+' ('+an(d.a)+', '+d.min+'min, meta '+target(d)+' '+P(d.u)+')').join('; ')}.
+Tips: ${Object.keys(TIPS).map(k=>P(TIPS[k].n)+': '+TIPS[k].i.map(x=>P(x.q)).join(', ')).join(' | ')}.
+Videos curados por área: ${AREAS.map(a=>an(a)+' ('+vFor(a).length+')').join(', ')}.
+
+REGLAS:
+- Usa sus números reales. Si dice "qué palo desde X yardas", contesta con su tabla concreta.
+- Sé específico y breve: 2-5 frases o una lista corta. Nada de rellenos.
+- Habla como un jugador D1 que entrena a otro, no como folleto. Nada de "¡excelente pregunta!".
+- Si te preguntan por selección de torneos o estrategia hoyo por hoyo de un campo específico, di que eso es HAMER Consult (servicio uno a uno) y ofrece lo que sí puedes hacer aquí.
+- No inventes datos que no tengas. Si algo depende de ver el swing, dilo.
+- Nunca prometas análisis de video automático.
+- Usa <strong> para resaltar, <br> para saltos. Nada de markdown.`;
+}
+function renderChat(){
+ $('#chat').innerHTML=CHAT.map(m=>`<div class="msg ${m.r}"><div class="who">${m.r==='you'?(L==='es'?'TÚ':'YOU'):'BRAIN'}</div><div class="bub">${m.t}</div></div>`).join('')
+ +(busy?`<div class="msg bot"><div class="who">BRAIN</div><div class="bub"><span class="dots"><span></span><span></span><span></span></span></div></div>`:'');
+ $('#chat').scrollTop=99999}
+/* --- Motor gratuito: sin API, sin costo --- */
+function localAnswer(q){
+ const s=q.toLowerCase(),w=worst(),ord=AREAS.slice().sort((a,b)=>S.sg[b]-S.sg[a]);
+ const es=L==='es';
+ const dfor=a=>DRILLS.filter(d=>d.a===a);
+ const vfor=a=>vFor(a).slice(0,2).map(v=>`<a href="${vurl(v)}" target="_blank" rel="noopener">${P(v.ti)}</a>`).join(' · ');
+ const yards=(()=>{const m=s.match(/(\d{2,3})\s*(yardas|yards|y\b|yd)/);return m?+m[1]:null})();
+ if(yards){
+  const e=Object.entries(S.clubs).sort((a,b)=>Math.abs(a[1]-yards)-Math.abs(b[1]-yards));
+  const [c1,d1]=e[0],[c2,d2]=e[1];
+  return es?`Desde <strong>${yards} yardas</strong> tu palo es el <strong>${c1}</strong> (${d1} de carry). El siguiente más cercano es el ${c2} a ${d2}.<br><br>Si es cuesta arriba, con viento en contra o a bandera trasera, sube un palo y pega más suave: casi siempre gana al swing forzado.`
+   :`From <strong>${yards} yards</strong> your club is the <strong>${c1}</strong> (${d1} carry). Next closest is the ${c2} at ${d2}.<br><br>Uphill, into wind, or to a back pin: take one more and swing easier. That almost always beats forcing it.`;
+ }
+ if(/pierdo|perdiendo|losing|lose|dónde|donde|where|prioridad|priority/.test(s))
+  return es?`Tu peor área es <strong>${an(w)}</strong>: ${S.sg[w].toFixed(1)} golpes por vuelta contra un hándicap ${S.goal}. En total dejas ${totalSG().toFixed(1)} golpes.<br><br>Orden real de prioridad: ${ord.map(an).join(' › ')}.<br><br>Empieza por ${P(dfor(w)[0].nm)}, meta ${target(dfor(w)[0])} ${P(dfor(w)[0].u)}.<br><br><a data-link="practice">Ver ejercicios</a>`
+   :`Your worst area is <strong>${an(w)}</strong>: ${S.sg[w].toFixed(1)} strokes per round against a ${S.goal} handicap. Total ${totalSG().toFixed(1)} strokes left out there.<br><br>Priority order: ${ord.map(an).join(' › ')}.<br><br>Start with ${P(dfor(w)[0].nm)}, target ${target(dfor(w)[0])} ${P(dfor(w)[0].u)}.<br><br><a data-link="practice">See drills</a>`;
+ const mins=(()=>{const m=s.match(/(\d{2,3})\s*(min|minutos|minutes)/);return m?+m[1]:(/hora|hour/.test(s)?60:null)})();
+ if(mins){
+  const l=dfor(w).slice(0,mins>=60?3:2);
+  return es?`Con ${mins} minutos no repartas. Todo a <strong>${an(w)}</strong>, donde pierdes ${S.sg[w].toFixed(1)} golpes:<br><br>${l.map(d=>'· '+P(d.nm)+' — '+d.min+' min, meta '+target(d)+' '+P(d.u)).join('<br>')}<br><br><a data-link="practice">Armar sesión</a>`
+   :`With ${mins} minutes do not spread it. All into <strong>${an(w)}</strong>, where you lose ${S.sg[w].toFixed(1)} strokes:<br><br>${l.map(d=>'· '+P(d.nm)+' — '+d.min+' min, target '+target(d)+' '+P(d.u)).join('<br>')}<br><br><a data-link="practice">Build session</a>`;
+ }
+ for(const a of AREAS){
+  const kw={driver:/driver|tee|slice|hook|lejos|distancia|far/,hierros:/hierro|iron|gordo|fat|filo|thin|shank|compres/,
+   wedges:/wedge|100 yard|pitch/,chipping:/chip|juego corto|short game|alrededor/,bunker:/bunker|arena|sand/,putt:/putt|green|tres putt|three putt/}[a];
+  if(kw&&kw.test(s)){
+   const d=dfor(a)[0];
+   return es?`En <strong>${an(a)}</strong> estás ${S.sg[a]>0?'perdiendo':'ganando'} ${Math.abs(S.sg[a]).toFixed(1)} golpes por vuelta.<br><br>El ejercicio que te toca es <strong>${P(d.nm)}</strong> — ${d.min} min, meta ${target(d)} ${P(d.u)} para tu objetivo de hándicap ${S.goal}.<br><br>Videos: ${vfor(a)}<br><br><a data-link="diag">Diagnosticar el patrón</a> · <a data-link="tips">Tips rápidos</a>`
+    :`In <strong>${an(a)}</strong> you are ${S.sg[a]>0?'losing':'gaining'} ${Math.abs(S.sg[a]).toFixed(1)} strokes per round.<br><br>Your drill is <strong>${P(d.nm)}</strong> — ${d.min} min, target ${target(d)} ${P(d.u)} for your ${S.goal} handicap goal.<br><br>Videos: ${vfor(a)}<br><br><a data-link="diag">Diagnose the pattern</a> · <a data-link="tips">Quick tips</a>`;
+  }
+ }
+ if(/torneo|tournament|campo|course|estrategia|strategy/.test(s))
+  return es?`Selección de torneos y estrategia hoyo por hoyo son parte de <strong>HAMER Consult</strong>, el servicio uno a uno.<br><br>Aquí sí puedo darte estrategia general y prepararte para el torneo que ya tengas.<br><br><a data-link="tips">Tips de estrategia</a>`
+   :`Tournament selection and hole-by-hole strategy belong to <strong>HAMER Consult</strong>, the one-to-one service.<br><br>Here I can give you general strategy and prepare you for the event you already have.<br><br><a data-link="tips">Strategy tips</a>`;
+ if(/mes|meses|month|esperar|expect|meta|goal/.test(s))
+  return es?`Hoy dejas ${totalSG().toFixed(1)} golpes por vuelta contra tu objetivo de ${S.goal}. La mayor parte está en ${an(ord[0])} y ${an(ord[1])}.<br><br>Trabajando esas dos áreas de forma consistente, esos golpes son lo primero que se recupera. Registra tus rondas y la gráfica de seguimiento te lo va a mostrar.<br><br><a data-link="today">Ver seguimiento</a>`
+   :`Right now you leave ${totalSG().toFixed(1)} strokes per round against your ${S.goal} target. Most of it sits in ${an(ord[0])} and ${an(ord[1])}.<br><br>Work those two consistently and those are the first strokes to come back. Log your rounds and the tracking chart will show it.<br><br><a data-link="today">See tracking</a>`;
+ return es?`Puedo darte tu desglose de golpes perdidos, decirte qué palo desde una distancia, armarte la práctica según el tiempo que tengas, y mandarte al ejercicio, tip o video que te toca.<br><br>Prueba con "dónde pierdo golpes", "qué palo desde 150 yardas" o "tengo 45 minutos".`
+  :`I can give you your strokes-lost breakdown, tell you what club from a yardage, build your practice around the time you have, and point you to the right drill, tip or video.<br><br>Try "where do I lose strokes", "what club from 150 yards" or "I have 45 minutes".`;
+}
+async function send(q){
+ if(!q.trim())return;
+ CHAT.push({r:'you',t:q});renderChat();
+ setTimeout(()=>{CHAT.push({r:'bot',t:localAnswer(q)});renderChat()},260);
+}
+async function _unusedAI(q){
+ busy=true;renderChat();$('#ask-send').disabled=true;
+ try{
+  const res=await fetch("https://api.anthropic.com/v1/messages",{method:"POST",headers:{"Content-Type":"application/json"},
+   body:JSON.stringify({model:"claude-sonnet-4-6",max_tokens:1000,system:ctx(),
+    messages:CHAT.slice(-8).map(m=>({role:m.r==='you'?'user':'assistant',content:m.t.replace(/<[^>]+>/g,' ')}))})});
+  const data=await res.json();
+  const txt=(data.content||[]).filter(c=>c.type==='text').map(c=>c.text).join('\n').trim();
+  CHAT.push({r:'bot',t:txt||t('brain.err')});
+ }catch(e){CHAT.push({r:'bot',t:t('brain.err')})}
+ busy=false;$('#ask-send').disabled=false;renderChat();
+}
+function applyLang(){
+ document.documentElement.lang=L;
+ $$('[data-t]').forEach(e=>e.textContent=t(e.dataset.t));
+ $$('[data-ph]').forEach(e=>e.placeholder=t(e.dataset.ph));
+ $('#sugs').innerHTML=['q1','q2','q3','q4'].map(k=>`<button class="chip sug">${t(k)}</button>`).join('');
+ renderToday();renderGame();renderPr();renderTips();renderDiagQ();renderVideos();
+ renderGuide();
+ CHAT=[{r:'bot',t:t('brain.hi').replace(/\n/g,'<br>')}];renderChat();$('#diag-out').innerHTML='';
+}
+/* ============ EVENTOS ============ */
+document.addEventListener('click',e=>{
+ const X=e.target;
+ const lg=X.closest('[data-lang]');
+ if(lg){L=lg.dataset.lang;$$('[data-lang]').forEach(b=>b.classList.toggle('on',b===lg));applyLang();return}
+ const g=X.closest('[data-go]');if(g)go(g.dataset.go);
+ const aq=X.closest('[data-askq]');if(aq){go('brain');send(decodeURIComponent(aq.dataset.askq))}
+ const im=X.closest('[data-input]');
+ if(im){$$('[data-input]').forEach(x=>x.classList.toggle('on',x===im));
+  $('#in-round').style.display=im.dataset.input==='round'?'block':'none';
+  $('#in-self').style.display=im.dataset.input==='self'?'block':'none'}
+ const sc=X.closest('[data-self]');if(sc)sc.classList.toggle('on');
+ const dq=X.closest('[data-q] .chip');if(dq)dq.parentElement.querySelectorAll('.chip').forEach(c=>c.classList.toggle('on',c===dq));
+ const du=X.closest('[data-dur]');if(du){S.dur=+du.dataset.dur;renderPr()}
+ const lf=X.closest('[data-lib]');if(lf){renderPr._f=lf.dataset.lib;window._lf=lf.dataset.lib;renderPr()}
+ const vf=X.closest('[data-vf]');if(vf){window._vf=vf.dataset.vf;renderVideos()}
+ const vl=X.closest('[data-vl]');if(vl){window._vl=vl.dataset.vl;renderVideos()}
+ const ad=X.closest('[data-add]');
+ if(ad){const d=DRILLS.find(x=>x.id===ad.dataset.add);
+  if(!S.cart.some(x=>x.id===d.id)){S.cart.push(d);renderLib(window._lf);renderCart();toast(t('ok.add'))}}
+ const rm=X.closest('[data-rm]');
+ if(rm){S.cart=S.cart.filter(x=>x.id!==rm.dataset.rm);renderLib(window._lf);renderCart()}
+ const tc=X.closest('[data-cat]');if(tc)renderTips(tc.dataset.cat);
+ const tp=X.closest('[data-tip]');if(tp){const[c,i]=tp.dataset.tip.split('|');openTip(c,+i)}
+ if(X.classList.contains('sug')){go('brain');send(X.textContent)}
+});
+$('#cart-clear').onclick=()=>{S.cart=[];renderLib(window._lf);renderCart()};
+$('#cart-start').onclick=()=>{let done=0;const n=S.cart.length;
+ S.cart.forEach(d=>{const ok=confirm(`${P(d.nm)}\n\n${t('pr.goal')}: ${target(d)} ${P(d.u)}\n\n${L==='es'?'¿La cumpliste?':'Did you hit it?'}`);
+  S.sg[d.a]=+Math.max(-2,Math.min(6,S.sg[d.a]+(ok?-0.25:0.15))).toFixed(2);if(ok)done++});
+ S.feed.unshift({w:['ahora','now'],x:[`Sesión registrada: ${done} de ${n} metas cumplidas.`,`Session logged: ${done} of ${n} targets hit.`]});
+ S.acts.push(new Date(NOW).toISOString().slice(0,10));
+ S.cart=[];renderLib(window._lf);renderCart();renderToday();renderVideos();go('today');
+ toast(L==='es'?'Sesión registrada':'Session logged')};
+$('#build').onclick=()=>{
+ const ord=AREAS.slice().sort((a,b)=>S.sg[b]-S.sg[a]);
+ const pool=DRILLS.slice().sort((a,b)=>ord.indexOf(a.a)-ord.indexOf(b.a));
+ S.cart=[];let m=0;const u={};
+ for(const d of pool){if(m+d.min>S.dur)continue;if((u[d.a]||0)>=2)continue;S.cart.push(d);m+=d.min;u[d.a]=(u[d.a]||0)+1;if(m>=S.dur-10)break}
+ renderLib(window._lf);renderCart();toast(L==='es'?'Sesión lista abajo':'Session ready below')};
+$('#save-prof').onclick=()=>{
+ S.hcp=parseFloat($('#p-hcp').value)||S.hcp;
+ const gg=parseFloat($('#p-goal').value);S.goal=isNaN(gg)?0:gg;
+ S.age=$('#p-age').value;S.zone=$('#p-zone').value;
+ $$('[data-club]').forEach(i=>{const v=parseFloat(i.value);if(!isNaN(v))S.clubs[i.dataset.club]=v});
+ if(S.last){const g=computeRound(S.last);AREAS.forEach(a=>S.sg[a]=g[a])}
+ renderToday();renderPr();renderVideos();toast(L==='es'?'Perfil aplicado':'Profile applied')};
+$('#save-round').onclick=()=>{
+ const gv=id=>{const v=parseFloat($(id).value);return isNaN(v)?null:v};
+ const e=expect(S.goal);
+ const r={score:gv('#r-score'),fw:gv('#r-fw')??+e.fw.toFixed(1),gir:gv('#r-gir')??+e.gir.toFixed(1),
+  putts:gv('#r-putts')??+e.putts.toFixed(1),ud:gv('#r-ud')||0,uda:gv('#r-uda')||0,
+  bk:gv('#r-bk')||0,bka:gv('#r-bka')||0,w:gv('#r-w')||0,wa:gv('#r-wa')||0,pen:gv('#r-pen')||0};
+ if(r.score===null&&gv('#r-putts')===null){toast(L==='es'?'Pon al menos score o putts':'Enter at least score or putts');return}
+ const g=computeRound(r);AREAS.forEach(a=>S.sg[a]=g[a]);S.last=r;r.total=totalSG();
+ r.dt=new Date(NOW).toISOString().slice(0,10);S.acts.push(r.dt);
+ S.rounds.unshift(r);
+ S.feed.unshift({w:['ahora','now'],x:[`Ronda de ${r.score||'—'}. Peor área: ${an(worst())} (${num(S.sg[worst()])}).`,`Round of ${r.score||'—'}. Worst area: ${an(worst())} (${num(S.sg[worst()])}).`]});
+ renderToday();renderGame();renderLib(window._lf);renderVideos();toast(t('ok.saved'));go('today')};
+$('#save-self').onclick=()=>{
+ $$('[data-self].on').forEach(c=>{const a=c.dataset.area,d=parseFloat(c.dataset.d);
+  S.sg[a]=+Math.max(-2,Math.min(6,S.sg[a]+d)).toFixed(2)});
+ S.feed.unshift({w:['ahora','now'],x:['Autoevaluación aplicada.','Self-assessment applied.']});
+ renderToday();renderLib(window._lf);renderVideos();toast(t('ok.saved'));go('today')};
+$('#run-diag').onclick=()=>{
+ const get=q=>{const el=document.querySelector(`[data-q="${q}"] .chip.on`);return el?el.dataset.v:null};
+ const cl=get('club'),st=get('start'),cu=get('curve'),co=get('contact')||'clean';
+ if(!cl||!st||!cu){toast(L==='es'?'Contesta las tres primeras':'Answer the first three');return}
+ const r=diagnose(st,cu,co);
+ const dr=r.dr.map(i=>DRILLS.find(d=>d.id===i)).filter(Boolean);
+ const q=L==='es'?`Mi patrón es ${P(r.nm)} con ${cl==='D'?'driver':cl==='I'?'hierros':cl==='W'?'maderas':'wedges'}. ¿Cómo lo corrijo y qué practico esta semana?`
+  :`My pattern is ${P(r.nm)} with ${cl==='D'?'driver':cl==='I'?'irons':cl==='W'?'woods':'wedges'}. How do I fix it and what should I practise this week?`;
+ $('#diag-out').innerHTML=`
+ <div class="panel cream"><div class="big">${P(r.nm)}</div>
+ <p style="font-size:14.5px;line-height:1.65;max-width:62ch">${P(r.w)}</p>
+ <div class="hr" style="background:rgba(17,40,56,.12)"></div>
+ <div style="font-size:13.5px;color:#5C6874">${t('diag.path')}: ${P(r.p)} · ${t('diag.face')}: ${P(r.f)}</div>
+ ${r.extra?`<div style="margin-top:16px;padding-top:16px;border-top:1px solid rgba(17,40,56,.12)"><strong style="font-weight:600">${P(r.extra.t)}</strong><p style="font-size:14px;margin-top:6px;max-width:62ch">${P(r.extra.d)}</p></div>`:''}</div>
+ <div class="panel"><h3>${t('diag.now')}</h3><div style="margin-bottom:14px">${vidTag(r.vid)}</div>
+ <ul class="tiplist">${r.x.map(f=>`<li>${P(f)}</li>`).join('')}</ul>
+ <button class="btn ghost sm" data-askq="${encodeURIComponent(q)}">${t('diag.ask')}</button></div>
+ <div class="panel"><h3>${t('diag.dr')}</h3>${dr.map(dHTML).join('')}</div>`;
+ $('#diag-out').scrollIntoView({behavior:'smooth',block:'start'})};
+$('#q-save').onclick=()=>{
+ const sc=parseFloat($('#q-score').value),pu=parseFloat($('#q-putts').value);
+ if(isNaN(sc)&&isNaN(pu)){toast(L==='es'?'Pon el score o los putts':'Enter score or putts');return}
+ const e=expect(S.goal);
+ const gap=isNaN(sc)?0:(sc-e.score);
+ const r={dt:new Date(NOW).toISOString().slice(0,10),score:isNaN(sc)?null:sc,
+  fw:+Math.max(0,Math.min(14,e.fw-gap*.28)).toFixed(1),
+  gir:+Math.max(0,Math.min(18,e.gir-gap*.42)).toFixed(1),
+  putts:isNaN(pu)?+Math.max(24,e.putts+gap*.30).toFixed(1):pu,
+  ud:0,uda:0,bk:0,bka:0,w:0,wa:0,pen:Math.max(0,Math.round(e.pen+gap*.12))};
+ const g=computeRound(r);AREAS.forEach(a=>S.sg[a]=g[a]);S.last=r;r.total=totalSG();
+ S.rounds.unshift(r);S.acts.push(r.dt);
+ S.feed.unshift({w:['ahora','now'],x:[`Registro rápido: ${r.score||'—'}. Peor área: ${an(worst())} (${num(S.sg[worst()])}).`,`Quick log: ${r.score||'—'}. Worst area: ${an(worst())} (${num(S.sg[worst()])}).`]});
+ $('#q-score').value='';$('#q-putts').value='';
+ renderToday();renderGame();renderLib(window._lf);renderVideos();toast(t('ok.saved'))};
+/* ===== SUPABASE ======================================================
+   Pega aquí tu Project URL y anon key (Supabase → Project Settings → API).
+   El anon key es público, está bien que quede visible en el navegador. */
+const SUPABASE_URL='https://zdpyvbdbalmyglifnfka.supabase.co';
+const SUPABASE_ANON_KEY='sb_publishable_SexERmc0-DT3JQoJSvSe0A_mZANkcPm';
+const sb=(SUPABASE_URL.includes('TUPROYECTO'))?null:supabase.createClient(SUPABASE_URL,SUPABASE_ANON_KEY);
+
+/* ===== PUERTA DE ACCESO =====
+   Estados: login · signup. Cuentas reales via Supabase Auth. Sin cobro por ahora. */
+let gateMode='login';
+function renderGate(){
+ const es=L==='es';
+ $('#gate-tabs').innerHTML=[['login',es?'Iniciar sesión':'Sign in'],['signup',es?'Crear cuenta':'Create account']]
+  .map(([k,lb])=>`<button class="chip ${gateMode===k?'on':''}" data-gate="${k}">${lb}</button>`).join('');
+ const B=$('#gate-body');
+ const isUp=gateMode==='signup';
+ B.innerHTML=`
+ <div style="margin-bottom:14px"><label class="f">${es?'CORREO':'EMAIL'}</label><input id="g-mail" type="email" placeholder="tu@correo.com" autocomplete="email"></div>
+ <div style="margin-bottom:18px"><label class="f">${es?'CONTRASEÑA':'PASSWORD'}</label><input id="g-pass" type="password" placeholder="••••••••" autocomplete="${isUp?'new-password':'current-password'}"></div>
+ <button class="btn" style="width:100%" id="g-go">${isUp?(es?'Crear cuenta':'Create account'):(es?'Entrar':'Sign in')}</button>
+ ${!isUp?`<div style="text-align:center;margin-top:12px"><a class="muted" style="font-size:12.5px;cursor:pointer" id="g-forgot">${es?'Olvidé mi contraseña':'Forgot my password'}</a></div>`:''}`;
+ $('#gate-foot').textContent=es?'Tus datos son privados y solo tú los ves':'Your data is private, only you can see it';
+ const go=$('#g-go');
+ go.onclick=async()=>{
+  if(!sb){toast(es?'Falta conectar Supabase (SUPABASE_URL/ANON_KEY)':'Supabase not connected yet (SUPABASE_URL/ANON_KEY)');return}
+  const m=($('#g-mail')||{}).value||'';
+  const p=($('#g-pass')||{}).value||'';
+  if(!m.includes('@')){toast(es?'Pon un correo válido':'Enter a valid email');return}
+  if(p.length<6){toast(es?'La contraseña debe tener 6 caracteres o más':'Password must be 6+ characters');return}
+  go.disabled=true;
+  if(isUp){
+   const{error}=await sb.auth.signUp({email:m,password:p});
+   go.disabled=false;
+   if(error){toast(error.message);return}
+   toast(es?'Cuenta creada. Revisa tu correo si se pide confirmarlo.':'Account created. Check your email if confirmation is required.');
+   const{data:{session}}=await sb.auth.getSession();
+   if(session){await afterLogin()}else{gateMode='login';renderGate()}
+  }else{
+   const{error}=await sb.auth.signInWithPassword({email:m,password:p});
+   go.disabled=false;
+   if(error){toast(error.message);return}
+   await afterLogin();
+  }
+ };
+ const fg=$('#g-forgot');
+ if(fg)fg.onclick=async()=>{
+  if(!sb){toast(es?'Falta conectar Supabase':'Supabase not connected yet');return}
+  const m=($('#g-mail')||{}).value||'';
+  if(!m.includes('@')){toast(es?'Pon tu correo arriba primero':'Enter your email above first');return}
+  await sb.auth.resetPasswordForEmail(m);
+  toast(es?'Te mandamos un correo para recuperarla':'We sent you a reset email');
+ };
+}
+document.addEventListener('click',e=>{
+ const g=e.target.closest('[data-gate]');
+ if(g){gateMode=g.dataset.gate;renderGate()}
+});
+async function afterLogin(){
+ await loadState();
+ applyLang();renderToday();renderGame();renderVideos();
+ $('#gate').style.display='none';
+ $('#nav-logout').style.display='flex';
+}
+const logoutBtn=document.getElementById('nav-logout');
+if(logoutBtn)logoutBtn.onclick=async()=>{
+ if(sb)await sb.auth.signOut();
+ location.reload();
+};
+
+/* ===== GUARDADO POR CUENTA =====
+   Cada socio ve solo sus datos: la tabla player_data tiene RLS en Supabase,
+   así que aunque alguien manipule el navegador, la base de datos no entrega
+   filas que no sean suyas. Ver GUIA-LOGIN-Y-PAGOS.md, Paso 1. */
+async function saveState(){
+ if(!sb)return;
+ try{
+  const{data:{user}}=await sb.auth.getUser();
+  if(!user)return;
+  await sb.from('player_data').upsert({
+   user_id:user.id,
+   data:{hcp:S.hcp,goal:S.goal,age:S.age,zone:S.zone,clubs:S.clubs,
+         rounds:S.rounds,acts:S.acts,sg:S.sg,seen:S.seen,feed:S.feed.slice(0,20)},
+   updated_at:new Date().toISOString()
+  });
+ }catch(e){}
+}
+async function loadState(){
+ if(!sb)return false;
+ try{
+  const{data:{user}}=await sb.auth.getUser();
+  if(!user)return false;
+  const{data}=await sb.from('player_data').select('data').eq('user_id',user.id).single();
+  if(data&&data.data){Object.assign(S,data.data);S.last=S.rounds[0]||null;return true}
+ }catch(e){}
+ return false;
+}
+document.addEventListener('click',e=>{
+ const sn=e.target.closest('[data-seen]');
+ if(sn){const id=sn.dataset.seen;
+  S.seen=S.seen.includes(id)?S.seen.filter(x=>x!==id):S.seen.concat(id);
+  renderVideos();renderToday();saveState();
+  toast(S.seen.includes(id)?(L==='es'?'Marcado como visto':'Marked as seen'):(L==='es'?'Vuelto a la rotación':'Back in rotation'))}
+ const vs=e.target.closest('[data-vs]');
+ if(vs){window._vs=!window._vs;renderVideos()}
+});
+$('#ask-send').onclick=()=>{const v=$('#ask-in').value;$('#ask-in').value='';send(v)};
+$('#ask-in').addEventListener('keydown',e=>{if(e.key==='Enter'){const v=e.target.value;e.target.value='';send(v)}});
+(async()=>{
+ applyLang();
+ if(sb){
+  const{data:{session}}=await sb.auth.getSession();
+  if(session){await afterLogin()}else{renderGate()}
+ }else{
+  renderGate();
+ }
+ ['#q-save','#save-round','#save-self','#save-prof','#cart-start'].forEach(sel=>{
+  const el=document.querySelector(sel); if(!el) return;
+  const prev=el.onclick;
+  el.onclick=function(ev){ if(prev) prev.call(this,ev); saveState(); };
+ });
+})();
+</script>
+</body>
+</html>
