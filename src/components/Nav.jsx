@@ -19,8 +19,8 @@ const LINKS = [
   { to: '/inquire',  label: 'Inquire'  },
 ]
 
-// ─── BRAIN — external link, opens the subscription app on its own subdomain ─
-const BRAIN = { href: 'https://brain.hamergolfconsulting.com', label: 'Brain' }
+// ─── BRAIN — vive dentro del mismo repo, en public/brain/index.html ────────
+const BRAIN = { href: '/brain/', label: 'Brain' }
 
 // ─── CTA — the gold button on the far right ───────────────────────────────
 const CTA = { to: '/join-now', label: 'Join Now' }
