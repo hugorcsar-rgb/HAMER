@@ -196,6 +196,66 @@ export const campsPackages = [
   },
 ];
 
+// ─── BOARDING SCHOOLS ───────────────────────────────────────────────────────
+export const boardingSchoolsPackages = [
+  {
+    id: 'audit',
+    tier: 'Program Audit',
+    price: '$1,500',
+    priceAmount: 1500,
+    period: 'one-time',
+    stripeBuyButtonId: 'buy_btn_PEGA_AQUI', // crear en Stripe → Payment Links → Buy Buttons
+    services: [
+      { name: 'On-site or remote program review', desc: 'End-to-end assessment of your current golf program — structure, coaching staff, facilities, college-placement pipeline.' },
+      { name: 'Full written audit report', desc: "A detailed document with findings — what works, what doesn't, and why." },
+      { name: 'Benchmarking vs leading boarding-school programs', desc: 'Your program compared against peer institutions so you see exactly where you stand.' },
+      { name: 'Priority action list', desc: 'A short, prioritized list of quick wins for the next term — without rebuilding from scratch.' },
+    ],
+    details: {
+      tagline: 'A diagnostic. Where your program stands and what to do next.',
+      description: 'Audit gives you a clear, prioritized assessment of your current program in under three weeks of kickoff. One-time fee.',
+    },
+  },
+  {
+    id: 'build',
+    tier: 'Program Build',
+    price: '$9,000',
+    priceAmount: 9000,
+    period: 'one-time',
+    stripeBuyButtonId: 'buy_btn_PEGA_AQUI',
+    services: [
+      { name: 'Everything in Program Audit' },
+      { name: 'Complete program from scratch', desc: 'Golf program designed ground-up — daily structure, skill progression by age and level, term-by-term calendar aligned to the academic year.' },
+      { name: 'Equipment & facilities shopping list', desc: 'What to buy, which brands deliver at the right price, where to source it, what to avoid.' },
+      { name: 'Curriculum & drill library', desc: 'Term-by-term session plans with specific drills, games, and skill challenges — built for mixed-ability squads.' },
+      { name: 'Coaching-staff hiring & training guide', desc: 'Briefing materials, coaching cues, safety protocols. Staff can deliver confidently within days.' },
+    ],
+    details: {
+      tagline: 'The full architecture — a complete program built for your academic year.',
+      description: 'Build delivers an entire program from scratch — curriculum, drills, equipment, staff training — aligned to the school calendar. One-time fee.',
+    },
+  },
+  {
+    id: 'retainer',
+    tier: 'Program Retainer',
+    price: '$1,125',
+    priceAmount: 1125,
+    period: 'per month',
+    stripeBuyButtonId: 'buy_btn_PEGA_AQUI',
+    services: [
+      { name: 'Ongoing program management', desc: "HAMER stays engaged term after term — your golf program isn't a one-off project." },
+      { name: 'Termly curriculum refreshes', desc: 'New drills, adjusted progressions, and fresh content so the program never goes stale.' },
+      { name: 'Termly parent & admissions update', desc: 'A professionally written update for parents and admissions — highlights, learnings, and college-placement notes.' },
+      { name: 'Dedicated point of contact', desc: 'One named person on the HAMER team — fast answers, no ticket queue.' },
+      { name: 'Termly program review call', desc: "Every term a working call to review what's working, what to evolve, what to add next." },
+    ],
+    details: {
+      tagline: 'For boarding schools that want HAMER as a permanent part of the athletic department.',
+      description: 'Retainer is the ongoing relationship — refreshes, parent/admissions communications, dedicated contact, termly reviews. $1,125 per month.',
+    },
+  },
+];
+
 // Trusted programs (used on Home + Partners)
 export const trustedPrograms = [
   'Hacienda San Gaspar Golf',
@@ -209,7 +269,7 @@ export const trustedPrograms = [
 
 // Quick lookup
 export function getPackage(programId, packageId) {
-  const map = { recruit: recruitPackages, consult: consultPackages, camps: campsPackages };
+  const map = { recruit: recruitPackages, consult: consultPackages, camps: campsPackages, boardingSchools: boardingSchoolsPackages };
   return (map[programId] || []).find((p) => p.id === packageId);
 }
 
@@ -241,5 +301,14 @@ export const programs = {
     description: 'For camp operators: curriculum design, equipment strategy, staff training. For golf programs that want HAMER as a permanent part of the team.',
     packages: campsPackages,
     termsRoute: '/terms/camps',
+  },
+  boardingSchools: {
+    id: 'boardingSchools',
+    name: 'Boarding Schools',
+    label: 'BOARDING SCHOOLS — PROGRAM ARCHITECTURE',
+    tagline: 'Audit, build, and operate golf programs to the standard boarding schools expect, term after term.',
+    description: 'For boarding-school athletic departments: curriculum design, coaching-staff strategy, college-placement pipeline. For schools that want HAMER as a permanent part of the department.',
+    packages: boardingSchoolsPackages,
+    termsRoute: '/terms/boarding-schools',
   },
 };
