@@ -19,6 +19,9 @@ const LINKS = [
   { to: '/inquire',  label: 'Inquire'  },
 ]
 
+// ─── BRAIN — external link, opens the subscription app on its own subdomain ─
+const BRAIN = { href: 'https://brain.hamergolfconsulting.com', label: 'Brain' }
+
 // ─── CTA — the gold button on the far right ───────────────────────────────
 const CTA = { to: '/join-now', label: 'Join Now' }
 
@@ -65,6 +68,14 @@ export default function Nav() {
               {label}
             </NavLink>
           ))}
+          <a
+            href={BRAIN.href}
+            target="_blank"
+            rel="noreferrer"
+            className="relative px-4 py-2 font-data text-[13px] tracking-[0.3em] uppercase text-accent/85 hover:text-foreground transition-colors duration-300"
+          >
+            {BRAIN.label}
+          </a>
           <Link
             to={CTA.to}
             className="ml-3 inline-flex items-center px-5 py-2.5 bg-accent text-accent-foreground font-data text-[12px] font-medium tracking-[0.22em] uppercase border border-accent hover:bg-transparent hover:text-accent transition-colors duration-300"
@@ -114,6 +125,15 @@ export default function Nav() {
                 {label}
               </NavLink>
             ))}
+            <a
+              href={BRAIN.href}
+              target="_blank"
+              rel="noreferrer"
+              onClick={() => setOpen(false)}
+              className="py-3 font-data text-[13px] font-medium tracking-[0.3em] uppercase text-accent"
+            >
+              {BRAIN.label}
+            </a>
             <Link
               to={CTA.to}
               onClick={() => setOpen(false)}
