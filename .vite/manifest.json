@@ -1,6 +1,6 @@
 {
-  "_client-DPO1aWJb.js": {
-    "file": "assets/client-DPO1aWJb.js",
+  "_client-DAKS4faB.js": {
+    "file": "assets/client-DAKS4faB.js",
     "name": "client",
     "isDynamicEntry": true,
     "imports": [
@@ -8,13 +8,13 @@
     ]
   },
   "index.html": {
-    "file": "assets/app-DxJFrHPC.js",
+    "file": "assets/app-DKlCeX7L.js",
     "name": "app",
     "src": "index.html",
     "isEntry": true,
     "dynamicImports": [
-      "_client-DPO1aWJb.js",
-      "_client-DPO1aWJb.js"
+      "_client-DAKS4faB.js",
+      "_client-DAKS4faB.js"
     ],
     "css": [
       "assets/app-CiM-m_PF.css"
